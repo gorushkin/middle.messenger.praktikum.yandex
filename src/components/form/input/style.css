@@ -1,0 +1,11 @@
+.input {
+  border: none;
+  padding: 4px 2px;
+  color: var(--input-primary);
+  border-bottom: 2px solid var(--input-border);
+  width: 100%;
+}
+
+.input::placeholder {
+  color: var(--input-secondary);
+}

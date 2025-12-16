@@ -1,0 +1,32 @@
+.login-page {
+  min-height: 400px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00000020;
+}
+
+.login_title {
+  margin-bottom: 40px;
+  padding: 0;
+  margin-top: 0;
+}
+
+.form_fields_wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+.login_btn-wrapper {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+}
