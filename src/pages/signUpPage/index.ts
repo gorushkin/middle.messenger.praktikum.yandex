@@ -1,0 +1,1 @@
+export { renderSignUpPage } from "./signUpPage";

@@ -1,0 +1,1 @@
+export { renderLoginPage } from "./loginPage";

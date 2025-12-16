@@ -1,6 +1,5 @@
-<div class="login-page">
-    <h2 class="login_title">Вход</h2>
-    {{#> form classname="login-form"}}
+{{#> formLayout title="Вход"}}
+        {{#> form classname="login-form"}}
         <div class="form_fields_wrapper">
             {{#> formField label="Логин" errorMessage="Неверный логин"}}
             {{> input type="text" name="login" placeholder="Введите логин"}}
@@ -14,4 +13,4 @@
         {{> button classname="secondary" type="button" text="Нет аккаунта?"}}
        </div>
      {{/form}}
-</div> 
+{{/formLayout}}
