@@ -1,11 +1,17 @@
 .form-layout {
-  min-height: 400px;
+  display: grid;
+  place-items: center;
+}
+
+.form-layout__container {
+  max-width: 340px;
+  margin: 0 auto;
   display: grid;
   grid-template-rows: auto 1fr;
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 0 10px #00000020;
-  min-width: 340px;
+  min-height: 400px;
 }
 
 .form-layout__title {

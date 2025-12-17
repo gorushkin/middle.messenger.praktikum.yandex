@@ -10,11 +10,11 @@
       {{/formField}}
 
       {{#> formField label="Имя" errorMessage="Неверное имя"}}
-        {{> input type="text" name="firstName" placeholder="Введите имя"}}
+        {{> input type="text" name="first_name" placeholder="Введите имя"}}
       {{/formField}}
 
       {{#> formField label="Фамилия" errorMessage="Неверная фамилия"}}
-        {{> input type="text" name="lastName" placeholder="Введите фамилию"}}
+        {{> input type="text" name="second_name" placeholder="Введите фамилию"}}
       {{/formField}}
 
       {{#> formField label="Телефон" errorMessage="Неверный телефон"}}
@@ -26,7 +26,7 @@
       {{/formField}}
 
       {{#> formField label="Пароль (ещё раз)" errorMessage="Пароли не совпадают"}}
-        {{> input type="password" name="password" placeholder="Пароль"}}
+        {{> input type="password" name="password_confirm" placeholder="Пароль"}}
       {{/formField}}
     </div>
     <div class="form__actions">
