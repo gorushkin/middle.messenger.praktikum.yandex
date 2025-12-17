@@ -29,6 +29,15 @@ const RoutesMap: Record<Route, string> = {
   error: "/error",
 };
 
+const pathnameToRouteMap: Record<string, Route> = {
+  "/": "root",
+  "/login": "login",
+  "/signup": "signUp",
+  "/chat": "chat",
+  "/not-found": "notFound",
+  "/error": "error",
+};
+
 const pages: Record<Route, () => string> = {
   login: renderLoginPage,
   signUp: renderSignUpPage,
@@ -39,21 +48,17 @@ const pages: Record<Route, () => string> = {
 };
 
 export class Router {
-  route: keyof typeof RoutesMap = "root";
   root = document.getElementById("app") as HTMLElement;
 
-  updateRoute(newRoute: keyof typeof RoutesMap) {
-    this.route = newRoute;
-    this.render();
-  }
-
-  render() {
-    this.root.innerHTML = pages[this.route]();
+  route() {
+    const route = pathnameToRouteMap[location.pathname] || "notFound";
+    this.root.innerHTML = pages[route]();
   }
 
   updateRouteByPath(path?: string) {
     const newRoute = this.getRouteByPath(path);
-    this.updateRoute(newRoute);
+    history.pushState({ spa: true }, "", RoutesMap[newRoute]);
+    this.route();
   }
 
   private getRouteByPath(path?: string): Route {

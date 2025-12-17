@@ -12,8 +12,14 @@ import "./widgets/chat-window/chat-window";
 
 import "./style.scss";
 import "./variables.scss";
-import { application } from "./app";
+import { application } from "./router";
 
 document.addEventListener("DOMContentLoaded", () => {
-  application.render();
+  history.replaceState({ spa: true }, "", location.pathname);
+
+  application.route();
+});
+
+window.addEventListener("popstate", () => {
+  application.route();
 });

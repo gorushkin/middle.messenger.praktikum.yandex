@@ -1,6 +1,6 @@
 import Handlebars from "handlebars";
 
-import { application } from "../../app";
+import { application } from "../../router";
 
 import Link from "./link.hbs?raw";
 
