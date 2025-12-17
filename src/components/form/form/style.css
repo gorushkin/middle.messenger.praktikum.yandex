@@ -1,4 +1,23 @@
 .form {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
   width: 100%;
+}
+
+.form__fields {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
   width: 100%;
+}
+
+.form__fields--spaced {
+  margin-bottom: 45px;
+}
+
+.form__actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
 }

@@ -1,38 +1,37 @@
 {{#> formLayout title="Регистрация"}}
-    {{#> form classname="sign-up-form"}}
-        <div class="form_fields_wrapper">
-        {{#> formField label="Почта" errorMessage="Неверная почта"}}
-            {{> input type="text" name="email" placeholder="Введите почту"}}
-        {{/formField}}
+  {{#> form classname="sign-up-form"}}
+    <div class="form__fields form__fields--spaced">
+      {{#> formField label="Почта" errorMessage="Неверная почта"}}
+        {{> input type="text" name="email" placeholder="Введите почту"}}
+      {{/formField}}
 
-        {{#> formField label="Логин" errorMessage="Неверный логин"}}
-            {{> input type="text" name="login" placeholder="Введите логин"}}
-        {{/formField}}
+      {{#> formField label="Логин" errorMessage="Неверный логин"}}
+        {{> input type="text" name="login" placeholder="Введите логин"}}
+      {{/formField}}
 
-        {{#> formField label="Имя" errorMessage="Неверное имя"}}
-            {{> input type="text" name="firstName" placeholder="Введите имя"}}
-        {{/formField}}
+      {{#> formField label="Имя" errorMessage="Неверное имя"}}
+        {{> input type="text" name="firstName" placeholder="Введите имя"}}
+      {{/formField}}
 
-        {{#> formField label="Фамилия" errorMessage="Неверная фамилия"}}
-            {{> input type="text" name="lastName" placeholder="Введите фамилию"}}
-        {{/formField}}
+      {{#> formField label="Фамилия" errorMessage="Неверная фамилия"}}
+        {{> input type="text" name="lastName" placeholder="Введите фамилию"}}
+      {{/formField}}
 
-        {{#> formField label="Телефон" errorMessage="Неверный телефон"}}
-            {{> input type="phone" name="phone" placeholder="Введите телефон"}}
-        {{/formField}}
+      {{#> formField label="Телефон" errorMessage="Неверный телефон"}}
+        {{> input type="phone" name="phone" placeholder="Введите телефон"}}
+      {{/formField}}
 
-        {{#> formField label="Пароль" errorMessage="Неверный пароль"}}
-            {{> input type="password" name="password" placeholder="Пароль"}}
-        {{/formField}}
+      {{#> formField label="Пароль" errorMessage="Неверный пароль"}}
+        {{> input type="password" name="password" placeholder="Пароль"}}
+      {{/formField}}
 
-        {{#> formField label="Пароль (ещё раз)" errorMessage="Пароли не совпадают"}}
-            {{> input type="password" name="password" placeholder="Пароль"}}
-        {{/formField}}
-
-        </div>
-       <div class="login_btn-wrapper">
-        {{> button classname="primary" type="submit" text="Зарегистрироваться"}}
-        {{> button classname="secondary" type="button" text="Войти"}}
-       </div>
-     {{/form}}
+      {{#> formField label="Пароль (ещё раз)" errorMessage="Пароли не совпадают"}}
+        {{> input type="password" name="password" placeholder="Пароль"}}
+      {{/formField}}
+    </div>
+    <div class="form__actions">
+      {{> button classname="primary" type="submit" text="Зарегистрироваться"}}
+      {{> button classname="secondary" type="button" text="Войти"}}
+    </div>
+  {{/form}}
 {{/formLayout}}

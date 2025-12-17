@@ -1,16 +1,16 @@
 {{#> formLayout title="Вход"}}
-        {{#> form classname="login-form"}}
-        <div class="form_fields_wrapper">
-            {{#> formField label="Логин" errorMessage="Неверный логин"}}
-            {{> input type="text" name="login" placeholder="Введите логин"}}
-        {{/formField}}
-        {{#> formField label="Пароль" errorMessage="Неверный пароль"}}
-            {{> input type="password" name="password" placeholder="Пароль"}}
-        {{/formField}}
-        </div>
-       <div class="login_btn-wrapper">
-        {{> button classname="primary" type="submit" text="Войти"}}
-        {{> button classname="secondary" type="button" text="Нет аккаунта?"}}
-       </div>
-     {{/form}}
+  {{#> form classname="login-form"}}
+    <div class="form__fields">
+      {{#> formField label="Логин" errorMessage="Неверный логин"}}
+        {{> input type="text" name="login" placeholder="Введите логин"}}
+      {{/formField}}
+      {{#> formField label="Пароль" errorMessage="Неверный пароль"}}
+        {{> input type="password" name="password" placeholder="Пароль"}}
+      {{/formField}}
+    </div>
+    <div class="form__actions">
+      {{> button classname="primary" type="submit" text="Войти"}}
+      {{> button classname="secondary" type="button" text="Нет аккаунта?"}}
+    </div>
+  {{/form}}
 {{/formLayout}}
