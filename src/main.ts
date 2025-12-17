@@ -11,7 +11,7 @@ import "./widgets/chat-window/chat-window";
 import { renderLoginPage } from "./pages/loginPage";
 import { renderSignUpPage } from "./pages/signUpPage";
 
-import "./style.css";
+import "./style.scss";
 import { renderChatsPage } from "./pages/chats";
 
 const pages = {
@@ -19,16 +19,6 @@ const pages = {
   signup: renderSignUpPage,
   chat: renderChatsPage,
 };
-
-// const ROUTES = {
-//   "/login": pages.login,
-//   "/signup": pages.signup,
-//   "/": pages.login,
-// };
-
-// class Router {
-//   private routes: { [key: string]: () => string } = {};
-// }
 
 document.addEventListener("urlchange", (e) => {
   console.log("e: ", e);
@@ -38,6 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const app = document.getElementById("app");
 
   if (app) {
-    app.innerHTML = pages.login();
+    app.innerHTML = pages.chat();
   }
 });

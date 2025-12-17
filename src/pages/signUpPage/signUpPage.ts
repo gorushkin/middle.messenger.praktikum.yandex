@@ -1,6 +1,6 @@
 import Handlebars from "handlebars";
 import SignUpPageTemplate from "./signUpPage.hbs?raw";
-import "./style.css";
+import "./style.scss";
 
 export const renderSignUpPage = (): string => {
   const template = Handlebars.compile(SignUpPageTemplate);
