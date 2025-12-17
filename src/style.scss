@@ -4,31 +4,26 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgb(255, 255, 255, 0.87);
   background-color: #242424;
 
   font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   --text-primary: #1e1e1e;
-  --text-secondary: #999999;
-
+  --text-secondary: #999;
   --input-primary: #1e1e1e;
-  --input-secondary: #999999;
+  --input-secondary: #999;
   --input-border: #3369f3;
   --alert-color: #ff2f2f;
-
   --border-color: #eaeaea;
-
   --input-background: #efefef;
-
-  --button-primary-color: #ffffff;
+  --button-primary-color: #fff;
   --button-primary-background: #3369f3;
-
   --button-secondary-color: #3369f3;
-  --button-secondary-background: #ffffff;
+  --button-secondary-background: #fff;
 }
 
 a {
@@ -46,7 +41,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   height: 100%;
-  background: #ffffff;
+  background: #fff;
   color: var(--text-primary);
 }
 

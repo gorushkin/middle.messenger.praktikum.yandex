@@ -1,4 +1,5 @@
 import Handlebars from "handlebars";
+
 import ChatsPageTemplate from "./chats.hbs?raw";
 import "./style.scss";
 

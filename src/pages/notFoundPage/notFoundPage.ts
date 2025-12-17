@@ -1,4 +1,5 @@
 import Handlebars from "handlebars";
+
 import NotFoundPageTemplate from "./notFoundPage.hbs?raw";
 
 export const renderNotFoundPage = (): string => {

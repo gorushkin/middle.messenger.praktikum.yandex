@@ -1,4 +1,5 @@
 import Handlebars from "handlebars";
+
 import SignUpPageTemplate from "./signUpPage.hbs?raw";
 import "./style.scss";
 

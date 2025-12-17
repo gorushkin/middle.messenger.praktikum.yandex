@@ -1,4 +1,5 @@
 import Handlebars from "handlebars";
+
 import LoginPageTemplate from "./loginPage.hbs?raw";
 import "./style.scss";
 

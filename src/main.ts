@@ -10,13 +10,12 @@ import "./widgets/chat-list/chat-item/chat-item";
 import "./widgets/chat-list/chat-list-items/chat-list-items";
 import "./widgets/chat-window/chat-window";
 
-import { renderLoginPage } from "./pages/loginPage";
-import { renderSignUpPage } from "./pages/signUpPage";
-import { renderNotFoundPage } from "./pages/notFoundPage";
-import { renderErrorPage } from "./pages/errorPage";
-
-import "./style.scss";
 import { renderChatsPage } from "./pages/chats";
+import { renderErrorPage } from "./pages/errorPage";
+import { renderLoginPage } from "./pages/loginPage";
+import { renderNotFoundPage } from "./pages/notFoundPage";
+import { renderSignUpPage } from "./pages/signUpPage";
+import "./style.scss";
 
 const pages = {
   login: renderLoginPage,
@@ -25,10 +24,6 @@ const pages = {
   notFound: renderNotFoundPage,
   error: renderErrorPage,
 };
-
-document.addEventListener("urlchange", (e) => {
-  console.log("e: ", e);
-});
 
 document.addEventListener("DOMContentLoaded", () => {
   const app = document.getElementById("app");
