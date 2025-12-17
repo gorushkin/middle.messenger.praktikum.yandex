@@ -1,0 +1,10 @@
+.chat-window {
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.chat-window__placeholder-text {
+  color: var(--text-primary);
+  font-size: 12px;
+}

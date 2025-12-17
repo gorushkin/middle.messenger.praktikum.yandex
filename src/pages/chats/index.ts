@@ -1,0 +1,1 @@
+export { renderChatsPage } from "./chats";
