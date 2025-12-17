@@ -1,0 +1,1 @@
+export { renderErrorPage } from "./errorPage";

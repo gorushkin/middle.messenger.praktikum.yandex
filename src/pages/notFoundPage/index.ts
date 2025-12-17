@@ -1,0 +1,1 @@
+export { renderNotFoundPage } from "./notFoundPage";
