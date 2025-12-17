@@ -1,3 +1,5 @@
+@use "/src/variables.scss" as *;
+
 .chat-list {
   width: 100%;
   display: grid;
@@ -15,16 +17,16 @@
 
 .chat-list__add-chat-button {
   margin-left: auto;
-  color: var(--text-secondary);
+  color: $text-secondary;
   font-size: 13px;
 }
 
 .chat-list__search {
   margin-bottom: 14px;
-  color: var(--text-secondary);
+  color: $text-secondary;
   font-size: 12px;
   border-radius: 10px;
-  background: var(--input-background);
+  background: $input-background;
   padding: 10px 14px;
   border: none;
 }

@@ -1,3 +1,5 @@
+@use "/src/variables.scss" as *;
+
 .button {
   padding: 10px 20px;
   border: none;
@@ -7,11 +9,11 @@
 }
 
 .primary {
-  color: var(--button-primary-color);
-  background-color: var(--button-primary-background);
+  color: $button-primary-color;
+  background-color: $button-primary-background;
 }
 
 .secondary {
-  color: var(--button-secondary-color);
-  background-color: var(--button-secondary-background);
+  color: $button-secondary-color;
+  background-color: $button-secondary-background;
 }

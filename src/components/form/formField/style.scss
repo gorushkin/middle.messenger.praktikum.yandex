@@ -1,3 +1,5 @@
+@use "/src/variables.scss" as *;
+
 .form-field {
   display: flex;
   flex-direction: column;
@@ -11,6 +13,6 @@
 }
 
 .form-field_error-message {
-  color: var(--alert-color);
+  color: $alert-color;
   font-size: 8px;
 }

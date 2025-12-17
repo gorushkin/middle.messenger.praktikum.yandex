@@ -1,11 +1,13 @@
+@use "/src/variables.scss" as *;
+
 .input {
   border: none;
   padding: 4px 2px;
-  color: var(--input-primary);
-  border-bottom: 1px solid var(--input-border);
+  color: $input-primary;
+  border-bottom: 1px solid $input-border;
   width: 100%;
 }
 
 .input::placeholder {
-  color: var(--input-secondary);
+  color: $input-secondary;
 }

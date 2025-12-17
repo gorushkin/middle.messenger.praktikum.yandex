@@ -1,4 +1,6 @@
+@use "/src/variables.scss" as *;
+
 .link {
-  color: var(--button-secondary-color);
+  color: $button-secondary-color;
   font-size: 11px;
 }

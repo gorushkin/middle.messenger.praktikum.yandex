@@ -1,3 +1,5 @@
+@use "/src/variables.scss" as *;
+
 .error {
   display: grid;
   place-items: center;
@@ -11,14 +13,14 @@
 .error__title {
   font-size: 40px;
   margin: 0;
-  color: var(--text-primary);
+  color: $text-primary;
   font-weight: 400;
 }
 
 .error__description {
   font-size: 20px;
   margin: 0;
-  color: var(--text-primary);
+  color: $text-primary;
   font-weight: 400;
 }
 

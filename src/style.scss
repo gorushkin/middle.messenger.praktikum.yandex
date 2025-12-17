@@ -1,3 +1,5 @@
+@use "/src/variables.scss" as *;
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -11,19 +13,6 @@
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  --text-primary: #1e1e1e;
-  --text-secondary: #999;
-  --input-primary: #1e1e1e;
-  --input-secondary: #999;
-  --input-border: #3369f3;
-  --alert-color: #ff2f2f;
-  --border-color: #eaeaea;
-  --input-background: #efefef;
-  --button-primary-color: #fff;
-  --button-primary-background: #3369f3;
-  --button-secondary-color: #3369f3;
-  --button-secondary-background: #fff;
 }
 
 a {
@@ -42,7 +31,14 @@ body {
   min-height: 100vh;
   height: 100%;
   background: #fff;
-  color: var(--text-primary);
+  color: $text-primary;
+}
+
+ul,
+ol {
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
 }
 
 #app {

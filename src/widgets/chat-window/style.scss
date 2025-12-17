@@ -1,3 +1,5 @@
+@use "/src/variables.scss" as *;
+
 .chat-window {
   width: 100%;
   display: grid;
@@ -5,6 +7,6 @@
 }
 
 .chat-window__placeholder-text {
-  color: var(--text-primary);
+  color: $text-primary;
   font-size: 12px;
 }

@@ -1,15 +1,17 @@
+@use "/src/variables.scss" as *;
+
 .chat-item {
   display: flex;
   padding: 12px 0;
   gap: 8px;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid $border-color;
 }
 
 .chat-item__avatar {
   width: 47px;
   height: 47px;
   border-radius: 50%;
-  background: var(--input-background);
+  background: $input-background;
   flex-shrink: 0;
 }
 
@@ -23,13 +25,13 @@
 
 .chat-item__title {
   font-weight: 600;
-  color: var(--text-primary);
+  color: $text-primary;
   font-size: 13px;
 }
 
 .chat-item__last-message {
   font-size: 12px;
-  color: var(--text-secondary);
+  color: $text-secondary;
 }
 
 .chat-item__info {
@@ -42,15 +44,15 @@
 
 .chat-item__time {
   font-size: 9px;
-  color: var(--text-secondary);
+  color: $text-secondary;
 }
 
 .chat-item__unread-count {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: var(--button-primary-background);
-  color: var(--button-primary-color);
+  background-color: $button-primary-background;
+  color: $button-primary-color;
   font-size: 12px;
   display: flex;
   justify-content: center;
