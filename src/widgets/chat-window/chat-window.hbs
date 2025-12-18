@@ -1,5 +1,11 @@
 <div class="chat-window">
-  <span class="chat-window__placeholder-text">
-    Выберите чат чтобы отправить сообщение
-  </span>
+  <div class="chat-window__header">
+    {{> chatHeader chat=chat }}
+  </div>
+  <div class="chat-window__messages">
+    {{> messageList messages=messages }}
+  </div>
+  <div class="chat-window__input">
+    {{> chatInput }}
+  </div>
 </div>

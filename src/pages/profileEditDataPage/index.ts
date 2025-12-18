@@ -1,0 +1,1 @@
+export { renderProfileEditDataPage } from "./profileEditDataPage";

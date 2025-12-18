@@ -14,9 +14,12 @@ import { renderChatsPage } from "./pages/chats";
 import { renderErrorPage } from "./pages/errorPage";
 import { renderLoginPage } from "./pages/loginPage";
 import { renderNotFoundPage } from "./pages/notFoundPage";
+import { renderProfileEditDataPage } from "./pages/profileEditDataPage";
+import { renderProfileEditPasswordPage } from "./pages/profileEditPasswordPage";
 import { renderProfilePage } from "./pages/profilePage";
 import { renderRootPage } from "./pages/rootPage";
 import { renderSignUpPage } from "./pages/signUpPage";
+
 import "./style.scss";
 
 const ROUTES = {
@@ -48,6 +51,14 @@ const ROUTES = {
     path: "/profile",
     title: "Profile Page",
   },
+  profileEditData: {
+    path: "/profile-edit",
+    title: "Profile Edit Page",
+  },
+  profileEditPassword: {
+    path: "/profile-edit-password",
+    title: "Profile Edit Password Page",
+  },
 } as const;
 
 export const routesConfig = Object.entries(ROUTES).map(([name, config]) => ({
@@ -72,6 +83,8 @@ const pages: Record<RouteName, () => string> = {
   error: renderErrorPage,
   root: renderRootPage,
   profile: renderProfilePage,
+  profileEditData: renderProfileEditDataPage,
+  profileEditPassword: renderProfileEditPasswordPage,
 };
 
 export class Router {

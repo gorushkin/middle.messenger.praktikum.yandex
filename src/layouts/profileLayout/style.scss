@@ -1,0 +1,28 @@
+@use "/src/variables.scss" as *;
+
+.profile {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.profile__sidebar {
+  width: 65px;
+  background: $side-bar-background;
+  display: grid;
+  place-items: center;
+}
+
+.profile__back-link {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: $input-background;
+}
+
+.profile__back-icon {
+  display: grid;
+  place-items: center;
+}

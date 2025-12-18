@@ -3,10 +3,23 @@
 .chat-window {
   width: 100%;
   display: grid;
-  place-items: center;
+  grid-template-rows: auto 1fr auto;
+  padding: 0 20px;
 }
 
-.chat-window__placeholder-text {
-  color: $text-primary;
-  font-size: 12px;
+.chat-window__header {
+  border-bottom: 1px solid $border-color;
+  padding: 10px 0;
+}
+
+.chat-window__messages {
+  padding: 10px 0;
+  overflow-y: auto;
+  display: grid;
+  grid-template-rows: auto;
+}
+
+.chat-window__input {
+  border-top: 1px solid $border-color;
+  padding: 10px 0;
 }

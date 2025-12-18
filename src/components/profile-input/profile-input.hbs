@@ -1,0 +1,19 @@
+<div class="profile-item">
+  <span class="profile-item__info-label">
+    {{this.label}}
+  </span>
+  {{#if isEditing}}
+    <span>
+      <input
+        class="profile-item__input"
+        type="{{this.type}}"
+        name="{{this.label}}"
+        value="{{this.value}}"
+        autocomplete="off"
+      />
+  {{else}}
+    <span class="profile-item__info-label">
+      {{this.value}}
+    </span>
+  {{/if}}
+</div>

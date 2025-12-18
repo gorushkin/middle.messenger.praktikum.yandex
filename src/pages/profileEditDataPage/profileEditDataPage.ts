@@ -3,11 +3,12 @@ import Handlebars from "handlebars";
 import { mockUserProfile } from "../../entities/user";
 import { mapProfileToTemplateData } from "../../libs/mapProfileToTemplateData";
 
-import ProfilePageTemplate from "./profilePage.hbs?raw";
+import ProfileEditDataPageTemplate from "./profileEditDataPage.hbs?raw";
+
 import "./style.scss";
 
-export const renderProfilePage = (): string => {
-  const template = Handlebars.compile(ProfilePageTemplate);
+export const renderProfileEditDataPage = (): string => {
+  const template = Handlebars.compile(ProfileEditDataPageTemplate);
   const mappedData = mapProfileToTemplateData(mockUserProfile);
   return template({ userFields: mappedData, user: mockUserProfile });
 };
