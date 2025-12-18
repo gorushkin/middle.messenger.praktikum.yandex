@@ -22,14 +22,10 @@ import "./components/profile-input/profile-input";
 
 import "./style.scss";
 import "./variables.scss";
-import { application } from "./router";
+import { application } from "./app";
 
 document.addEventListener("DOMContentLoaded", () => {
   history.replaceState({ spa: true }, "", location.pathname);
 
-  application.route();
-});
-
-window.addEventListener("popstate", () => {
-  application.route();
+  application.render();
 });

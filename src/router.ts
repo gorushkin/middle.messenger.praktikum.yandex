@@ -87,7 +87,7 @@ const pages: Record<RouteName, () => string> = {
   profileEditPassword: renderProfileEditPasswordPage,
 };
 
-export class Router {
+class Router {
   root = document.getElementById("app") as HTMLElement;
 
   route() {
@@ -100,6 +100,37 @@ export class Router {
     history.pushState({ spa: true }, "", ROUTES[newRoute].path);
     this.route();
   }
+
+  render() {
+    this.route();
+  }
 }
 
-export const application = new Router();
+export const router = new Router();
+
+const LINK_DATA_ATTR = "link";
+
+document.addEventListener("click", (e) => {
+  const link = (e.target as HTMLElement).closest("a");
+
+  if (!link) {
+    return;
+  }
+
+  e.preventDefault();
+
+  if (link.getAttribute("data") === LINK_DATA_ATTR) {
+    const href = link.getAttribute("href");
+
+    if (!href) {
+      return;
+    }
+
+    router.updateRouteByPath(href);
+    return;
+  }
+});
+
+window.addEventListener("popstate", () => {
+  router.route();
+});
