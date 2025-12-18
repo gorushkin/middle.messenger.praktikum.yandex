@@ -52,11 +52,11 @@ const ROUTES = {
     title: "Profile Page",
   },
   profileEditData: {
-    path: "/profile-edit",
+    path: "/profile/edit",
     title: "Profile Edit Page",
   },
   profileEditPassword: {
-    path: "/profile-edit-password",
+    path: "/profile/edit-password",
     title: "Profile Edit Password Page",
   },
 } as const;
