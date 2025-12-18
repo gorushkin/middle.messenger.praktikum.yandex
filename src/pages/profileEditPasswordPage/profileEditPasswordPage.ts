@@ -5,8 +5,6 @@ import { mapPasswordToTemplateData } from "../../libs/mapProfileToTemplateData";
 
 import ProfileEditPasswordTemplate from "./profileEditPassword.hbs?raw";
 
-import "./style.scss";
-
 export const renderProfileEditPasswordPage = (): string => {
   const template = Handlebars.compile(ProfileEditPasswordTemplate);
   const mappedData = mapPasswordToTemplateData(mockPassword);
