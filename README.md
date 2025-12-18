@@ -15,14 +15,14 @@
 ## Страницы
 
 - [Главная (список страниц и ссылок на них)](/)
-- [Авторизация](/login)
-- [Регистрация](/signup)
-- [Список чатов](/chat)
-- [Профиль пользователя](/profile)
-- [Редактирование профиля](/profile/edit)
-- [Изменение пароля](/profile/edit-password)
-- [Страница 404](/not-found)
-- [Страница 500](/error)
+- [Авторизация](https://messenger202512.netlify.app/login)
+- [Регистрация](https://messenger202512.netlify.app/signup)
+- [Список чатов](https://messenger202512.netlify.app/chat)
+- [Профиль пользователя](https://messenger202512.netlify.app/profile)
+- [Редактирование профиля](https://messenger202512.netlify.app/profile/edit)
+- [Изменение пароля](https://messenger202512.netlify.app/profile/edit-password)
+- [Страница 404](https://messenger202512.netlify.app/not-found)
+- [Страница 500](https://messenger202512.netlify.app/error)
 
 ## Технологии
 
