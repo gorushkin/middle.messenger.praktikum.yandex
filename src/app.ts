@@ -1,8 +1,17 @@
-import { router } from "./router";
+import { Router } from "./router";
 
 class App {
-  router = router;
+  router: Router;
   root = document.getElementById("app") as HTMLElement;
+
+  onRoute = (html: string) => {
+    this.root.innerHTML = html;
+  };
+
+  constructor() {
+    this.router = new Router(this.onRoute);
+    this.router.addListeners();
+  }
 
   render() {
     this.router.render();
