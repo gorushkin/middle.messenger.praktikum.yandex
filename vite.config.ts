@@ -1,5 +1,5 @@
 export default {
-  server: {
+  preview: {
     port: 3000,
   },
 };
