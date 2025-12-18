@@ -9,6 +9,9 @@
 
 Ссылка на [макеты](https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0%3A1)
 
+
+## Сылка на за [запдеплоенный проект](https://messenger202512.netlify.app/)
+
 ## Страницы
 
 - [Главная (список страниц и ссылок на них)](/)
@@ -33,4 +36,16 @@
 Установка зависимостей:
 ```bash
 npm install
+```
+
+
+Запуск в режиме разработки
+```bash
+npm run dev
+```
+
+
+Сборка проекта
+```bash
+npm run build
 ```

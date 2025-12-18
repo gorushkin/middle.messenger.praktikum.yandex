@@ -22,6 +22,8 @@ import { renderSignUpPage } from "./pages/signUpPage";
 
 import "./style.scss";
 
+export const LINK_DATA_ATTR = "spa-link";
+
 const ROUTES = {
   root: {
     path: "/",
@@ -87,12 +89,18 @@ const pages: Record<RouteName, () => string> = {
   profileEditPassword: renderProfileEditPasswordPage,
 };
 
-class Router {
-  root = document.getElementById("app") as HTMLElement;
+// eslint-disable-next-line no-unused-vars
+type onRoute = (html: string) => void;
+
+export class Router {
+  onRouteChange: onRoute;
+  constructor(onRender: onRoute) {
+    this.onRouteChange = onRender;
+  }
 
   route() {
     const route = getRouteByUrl(location.pathname);
-    this.root.innerHTML = pages[route]();
+    this.onRouteChange(pages[route]());
   }
 
   updateRouteByPath(path?: string) {
@@ -104,33 +112,33 @@ class Router {
   render() {
     this.route();
   }
+
+  addListeners() {
+    document.addEventListener("click", (e) => {
+      const link = (e.target as HTMLElement).closest(
+        `a[data=${LINK_DATA_ATTR}]`
+      );
+
+      if (!link) {
+        return;
+      }
+
+      e.preventDefault();
+
+      if (link.getAttribute("data") === LINK_DATA_ATTR) {
+        const href = link.getAttribute("href");
+
+        if (!href) {
+          return;
+        }
+
+        this.updateRouteByPath(href);
+        return;
+      }
+    });
+
+    window.addEventListener("popstate", () => {
+      this.route();
+    });
+  }
 }
-
-export const router = new Router();
-
-const LINK_DATA_ATTR = "link";
-
-document.addEventListener("click", (e) => {
-  const link = (e.target as HTMLElement).closest("a");
-
-  if (!link) {
-    return;
-  }
-
-  e.preventDefault();
-
-  if (link.getAttribute("data") === LINK_DATA_ATTR) {
-    const href = link.getAttribute("href");
-
-    if (!href) {
-      return;
-    }
-
-    router.updateRouteByPath(href);
-    return;
-  }
-});
-
-window.addEventListener("popstate", () => {
-  router.route();
-});
