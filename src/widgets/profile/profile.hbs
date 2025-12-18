@@ -1,35 +1,36 @@
-<div class="profile_content">
-  <div class="profile_avatar-section">
-    <div class="profile_avatar-wrapper">
+<div class="profile__content">
+  <div class="profile__avatar-section">
+    <div class="profile__avatar-wrapper">
       <img src="/profile_default.svg" alt="Arrow Icon" />
     </div>
   </div>
-  <h2 class="profile_info-name">
+  <h2 class="profile__info-name">
       {{user.first_name}} {{user.second_name}}
   </h2>
-  <div class="profile_info-section">
-    <ul class="profile_info-list">
+  <div class="profile__info-section">
+    <ul class="profile__info-list">
       {{#each userFields}}
-       <li class="profile_info-item">
+       <li class="profile__info-item">
           {{> profileInput}}
         </li>
       {{/each}}
+    </ul>
   </div>
-  <ul class="profile_info-actions">
- <li class="profile_info-item">
-     {{#> link className="profile_info-link" }}  
+  <ul class="profile__info-actions">
+ <li class="profile__info-item">
+     {{#> link className="profile__info-link" }}  
      Изменить данные
     {{/link}}
  </li>
- <li class="profile_info-item">
+ <li class="profile__info-item">
 
-          {{#> link className="profile_info-link" }}
+          {{#> link className="profile__info-link" }}
     Изменить пароль
     {{/link}}
 </li>
- <li class="profile_info-item">
+ <li class="profile__info-item">
 
-          {{#> link className="profile_info-link profile_info-link--red" href="/login" }}
+          {{#> link className="profile__info-link profile__info-link--danger" href="/login" }}
     Выйти
     {{/link}}
 </li>

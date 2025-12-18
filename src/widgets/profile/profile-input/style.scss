@@ -1,11 +1,11 @@
 @use "/src/variables.scss" as *;
 
-.profile_info-label {
+.profile__info-label {
   color: $text-primary;
   font-size: 14px;
 }
 
-.profile_info-value {
+.profile__info-value {
   color: $text-secondary;
   font-size: 14px;
 }

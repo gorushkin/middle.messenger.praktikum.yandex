@@ -1,6 +1,6 @@
 @use "/src/variables.scss" as *;
 
-.profile_info-item {
+.profile__info-item {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -8,20 +8,20 @@
   padding: 4px 0;
 }
 
-.profile_content {
+.profile__content {
   padding: 60px;
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.profile_avatar-section {
+.profile__avatar-section {
   display: grid;
   place-items: center;
   width: 100%;
 }
 
-.profile_avatar-wrapper {
+.profile__avatar-wrapper {
   display: grid;
   place-items: center;
   width: 130px;
@@ -30,11 +30,15 @@
   border-radius: 50%;
 }
 
-.profile_info-name {
+.profile__info-name {
   margin-bottom: 60px;
 }
 
-.profile_info-list {
+.profile__info-section {
+  width: 100%;
+}
+
+.profile__info-list {
   display: flex;
   flex-direction: column;
   max-width: 800px;
@@ -43,7 +47,7 @@
   width: 100%;
 }
 
-.profile_info-actions {
+.profile__info-actions {
   display: flex;
   flex-direction: column;
   max-width: 800px;
@@ -51,12 +55,12 @@
   width: 100%;
 }
 
-.profile_info-link {
+.profile__info-link {
   color: $link-color;
   text-decoration: none;
   font-size: 14px;
 
-  &--red {
+  &--danger {
     color: $alert-color;
   }
 }

@@ -1,6 +1,6 @@
 {{#> mainLayout}}
 {{#> formLayout title="Вход"}}
-  {{#> form classname="login-form"}}
+  {{#> form className="login-form"}}
     <div class="form__fields">
       {{#> formField label="Логин" errorMessage="Неверный логин"}}
         {{> input type="text" name="login" placeholder="Введите логин"}}
@@ -10,7 +10,7 @@
       {{/formField}}
     </div>
     <div class="form__actions">
-      {{> button classname="primary login-form__button" type="submit" text="Войти"}}
+      {{> button className="primary login-form__button" type="submit" text="Войти"}}
       {{#> link href="/signup" className="form__link"}}
         Нет аккаунта?
       {{/link}}

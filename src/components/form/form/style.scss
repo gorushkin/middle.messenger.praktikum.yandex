@@ -1,3 +1,5 @@
+@use "/src/variables.scss" as *;
+
 .form {
   display: flex;
   flex-direction: column;
@@ -20,4 +22,11 @@
   margin-top: auto;
   display: flex;
   flex-direction: column;
+}
+
+.form__link {
+  color: $link-color;
+  font-size: 11px;
+  text-decoration: none;
+  text-align: center;
 }

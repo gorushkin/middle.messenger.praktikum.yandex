@@ -11,9 +11,16 @@ Handlebars.registerPartial("link", Link);
 const LINK_DATA_ATTR = "link";
 
 document.addEventListener("click", (e) => {
-  if ((e.target as HTMLElement).getAttribute("data") === LINK_DATA_ATTR) {
-    const href = (e.target as HTMLAnchorElement).getAttribute("href");
-    e.preventDefault();
+  const link = (e.target as HTMLElement).closest("a");
+
+  if (!link) {
+    return;
+  }
+
+  e.preventDefault();
+
+  if (link.getAttribute("data") === LINK_DATA_ATTR) {
+    const href = link.getAttribute("href");
 
     if (!href) {
       return;
