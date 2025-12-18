@@ -14,62 +14,78 @@ import { renderChatsPage } from "./pages/chats";
 import { renderErrorPage } from "./pages/errorPage";
 import { renderLoginPage } from "./pages/loginPage";
 import { renderNotFoundPage } from "./pages/notFoundPage";
+import { renderProfilePage } from "./pages/profilePage";
 import { renderRootPage } from "./pages/rootPage";
 import { renderSignUpPage } from "./pages/signUpPage";
 import "./style.scss";
 
-type Route = "login" | "signUp" | "chat" | "notFound" | "error" | "root";
+const ROUTES = {
+  root: {
+    path: "/",
+    title: "Demo Page",
+  },
+  login: {
+    path: "/login",
+    title: "Login Page",
+  },
+  signUp: {
+    path: "/signup",
+    title: "Sign Up Page",
+  },
+  chat: {
+    path: "/chat",
+    title: "Chat Page",
+  },
+  notFound: {
+    path: "/not-found",
+    title: "Not Found Page",
+  },
+  error: {
+    path: "/error",
+    title: "Error Page",
+  },
+  profile: {
+    path: "/profile",
+    title: "Profile Page",
+  },
+} as const;
 
-const RoutesMap: Record<Route, string> = {
-  root: "/",
-  login: "/login",
-  signUp: "/signup",
-  chat: "/chat",
-  notFound: "/not-found",
-  error: "/error",
+export const routesConfig = Object.entries(ROUTES).map(([name, config]) => ({
+  name,
+  ...config,
+}));
+
+type RouteName = keyof typeof ROUTES;
+
+const getRouteByUrl = (url: string): RouteName => {
+  const routeEntry = Object.entries(ROUTES).find(
+    ([, config]) => config.path === url
+  );
+  return routeEntry ? (routeEntry[0] as RouteName) : "notFound";
 };
 
-const pathnameToRouteMap: Record<string, Route> = {
-  "/": "root",
-  "/login": "login",
-  "/signup": "signUp",
-  "/chat": "chat",
-  "/not-found": "notFound",
-  "/error": "error",
-};
-
-const pages: Record<Route, () => string> = {
+const pages: Record<RouteName, () => string> = {
   login: renderLoginPage,
   signUp: renderSignUpPage,
   chat: renderChatsPage,
   notFound: renderNotFoundPage,
   error: renderErrorPage,
   root: renderRootPage,
+  profile: renderProfilePage,
 };
 
 export class Router {
   root = document.getElementById("app") as HTMLElement;
 
   route() {
-    const route = pathnameToRouteMap[location.pathname] || "notFound";
+    const route = getRouteByUrl(location.pathname);
     this.root.innerHTML = pages[route]();
   }
 
   updateRouteByPath(path?: string) {
-    const newRoute = this.getRouteByPath(path);
-    history.pushState({ spa: true }, "", RoutesMap[newRoute]);
+    const newRoute = path ? getRouteByUrl(path) : "notFound";
+    history.pushState({ spa: true }, "", ROUTES[newRoute].path);
     this.route();
-  }
-
-  private getRouteByPath(path?: string): Route {
-    const routeEntry = Object.entries(RoutesMap).find(
-      ([, routePath]) => routePath === path
-    );
-
-    if (routeEntry) {
-      return routeEntry[0] as Route;
-    }
-    return "notFound";
   }
 }
 

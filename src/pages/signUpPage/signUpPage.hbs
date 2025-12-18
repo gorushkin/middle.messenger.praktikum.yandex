@@ -1,3 +1,4 @@
+{{#> mainLayout}}
 {{#> formLayout title="Регистрация"}}
   {{#> form classname="sign-up-form"}}
     <div class="form__fields form__fields--spaced">
@@ -31,7 +32,10 @@
     </div>
     <div class="form__actions">
       {{> button classname="primary signup-form__button" type="submit" text="Зарегистрироваться"}}
-      {{> link href="/login" className="form__link" text="Войти?"}}
+      {{#> link href="/login" className="form__link"}}
+        Войти
+      {{/link}}
     </div>
   {{/form}}
 {{/formLayout}}
+{{/mainLayout}}

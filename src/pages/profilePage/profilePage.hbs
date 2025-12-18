@@ -1,0 +1,12 @@
+{{#> mainLayout}}
+<div class="profile">
+  <div class="profile_side-bar">
+    {{#> link href="/chat" className="form__link"}}
+    <div class="profile_avatar">
+      <img src="/back_arrow.svg" alt="Arrow Icon" />
+    </div>
+    {{/link}}
+  </div>
+  {{> profile user=user userFields=userFields }}
+</div>
+{{/mainLayout}}

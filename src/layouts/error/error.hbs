@@ -6,6 +6,8 @@
     <h3 class="error__description">
       {{errorDescription}}
     </h3>
-    {{> link href=errorBackLinkHref className="error__link" text=errorBackLinkText}}
+    {{#> link href=errorBackLinkHref className="error__link"}}
+      {{errorBackLinkText}}
+    {{/link}}
   </div>
 </div>

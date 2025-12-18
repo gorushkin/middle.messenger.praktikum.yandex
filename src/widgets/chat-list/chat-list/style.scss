@@ -17,8 +17,8 @@
 
 .chat-list__add-chat-button {
   margin-left: auto;
-  color: $text-secondary;
-  font-size: 13px;
+  color: $text-secondary !important;
+  font-size: 14px !important;
 }
 
 .chat-list__search {

@@ -1,0 +1,14 @@
+@use "/src/variables.scss" as *;
+
+.profile {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.profile_side-bar {
+  width: 65px;
+  background: $side-bar-background;
+  display: grid;
+  place-items: center;
+}

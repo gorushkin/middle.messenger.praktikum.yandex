@@ -1,3 +1,4 @@
+{{#> mainLayout}}
 {{#> formLayout title="Вход"}}
   {{#> form classname="login-form"}}
     <div class="form__fields">
@@ -10,7 +11,10 @@
     </div>
     <div class="form__actions">
       {{> button classname="primary login-form__button" type="submit" text="Войти"}}
-      {{> link href="/signup" className="form__link" text="Нет аккаунта?"}}
+      {{#> link href="/signup" className="form__link"}}
+        Нет аккаунта?
+      {{/link}}
     </div>
   {{/form}}
 {{/formLayout}}
+{{/mainLayout}}
