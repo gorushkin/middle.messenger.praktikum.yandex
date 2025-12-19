@@ -1,0 +1,17 @@
+{{#> mainLayout}}
+<div class="root">
+  <h1>
+    Demo page
+  </h1>
+  <ul>
+    {{#each routes}}
+      <li>
+        {{#> link href=this.path className="form__link"}}
+          {{this.title}}
+        {{/link}}
+      </li>
+    {{/each}}
+  </ul>
+</div>
+{{/mainLayout}}
+  

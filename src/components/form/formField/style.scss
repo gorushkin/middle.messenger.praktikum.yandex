@@ -1,0 +1,18 @@
+@use "/src/variables.scss" as *;
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+  justify-content: start;
+  align-items: flex-start;
+}
+
+.form-label {
+  font-size: 12px;
+}
+
+.form-field_error-message {
+  color: $alert-color;
+  font-size: 12px;
+}

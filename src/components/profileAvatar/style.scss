@@ -1,0 +1,16 @@
+@use "/src/variables.scss" as *;
+
+.profile__avatar-section {
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+.profile__avatar-wrapper {
+  display: grid;
+  place-items: center;
+  width: 130px;
+  height: 130px;
+  background: $input-background;
+  border-radius: 50%;
+}

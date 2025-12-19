@@ -1,0 +1,1 @@
+export { renderProfilePage } from "./profilePage";

@@ -1,0 +1,32 @@
+@use "/src/variables.scss" as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  width: 100%;
+}
+
+.form__fields {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  width: 100%;
+}
+
+.form__fields--spaced {
+  margin-bottom: 45px;
+}
+
+.form__actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.form__link {
+  color: $link-color;
+  font-size: 11px;
+  text-decoration: none;
+  text-align: center;
+}

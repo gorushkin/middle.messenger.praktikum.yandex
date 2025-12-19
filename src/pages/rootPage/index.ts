@@ -1,0 +1,1 @@
+export { renderRootPage } from "./rootPage";

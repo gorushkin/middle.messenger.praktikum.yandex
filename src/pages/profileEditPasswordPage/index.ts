@@ -1,0 +1,1 @@
+export { renderProfileEditPasswordPage } from "./profileEditPasswordPage";

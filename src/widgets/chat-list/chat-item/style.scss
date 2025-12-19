@@ -1,0 +1,60 @@
+@use "/src/variables.scss" as *;
+
+.chat-item {
+  display: flex;
+  padding: 12px 0;
+  gap: 8px;
+  border-top: 1px solid $border-color;
+}
+
+.chat-item__avatar {
+  width: 47px;
+  height: 47px;
+  border-radius: 50%;
+  background: $input-background;
+  flex-shrink: 0;
+}
+
+.chat-item__content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-grow: 1;
+  align-items: flex-start;
+}
+
+.chat-item__title {
+  font-weight: 600;
+  color: $text-primary;
+  font-size: 13px;
+}
+
+.chat-item__last-message {
+  font-size: 12px;
+  color: $text-secondary;
+}
+
+.chat-item__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.chat-item__time {
+  font-size: 9px;
+  color: $text-secondary;
+}
+
+.chat-item__unread-count {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: $button-primary-background;
+  color: $button-primary-color;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
