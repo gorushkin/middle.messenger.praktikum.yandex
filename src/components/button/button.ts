@@ -1,6 +1,10 @@
-import Handlebars from "handlebars";
+import { Block, type PropsAndChildren } from "../../libs/block";
 
-import Button from "./button.hbs?raw";
+import template from "./button.hbs?raw";
 import "./style.scss";
 
-Handlebars.registerPartial("button", Button);
+export class Button extends Block {
+  constructor(propsAndChildren: PropsAndChildren) {
+    super(template, propsAndChildren, true);
+  }
+}

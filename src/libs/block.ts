@@ -11,7 +11,7 @@ type Children = {
   [key: string]: Block | Block[];
 };
 
-type PropsAndChildren = {
+export type PropsAndChildren = {
   [key: string]: Block | unknown;
 };
 
@@ -38,22 +38,17 @@ export class Block {
 
   _id: string | null;
 
-  debug: boolean = false;
   children: Children = {};
 
   constructor(
-    propsAndChildren: PropsAndChildren = { props: {}, children: {} },
-    withInternalID = false,
     template: string = "",
-    debug = false
+    propsAndChildren: PropsAndChildren = { props: {}, children: {} },
+    withInternalID = false
   ) {
     const eventBus = new EventBus();
-    this.debug = debug;
     this.template = template;
 
     const { children, props } = this._getChildren(propsAndChildren);
-    this.log("propsAndChildren: ", propsAndChildren);
-    this.log("children: ", children);
 
     this._meta = {
       props: propsAndChildren,
@@ -89,13 +84,6 @@ export class Block {
     });
 
     return { children, props };
-  }
-
-  // TODO: remove before finish
-  log(...args: unknown[]) {
-    if (this.debug) {
-      console.info(...args);
-    }
   }
 
   _registerEvents(eventBus: EventBus) {
@@ -204,26 +192,21 @@ export class Block {
         propsAndStubs[key] = child.map(
           (item: Block) => `<div data-id="${item._id}"></div>`
         );
-        return;
+      } else {
+        propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
       }
-
-      propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
     });
 
     const fragment = this._createDocumentElement() as HTMLTemplateElement;
 
-    this.log("propsAndStubs: ", propsAndStubs);
     fragment.innerHTML = Handlebars.compile(this.template)(propsAndStubs);
-    this.log("fragment.innerHTML: ", fragment.innerHTML);
 
     Object.values(this.children).forEach((child) => {
       if (Array.isArray(child)) {
         child.forEach((ch) => {
           const stub = fragment.content.querySelector(`[data-id="${ch._id}"]`);
-          this.log("stub: ", stub);
 
           const childContent = ch.getContent();
-          this.log("childContent: ", childContent);
 
           if (stub === null) {
             return;
@@ -231,20 +214,17 @@ export class Block {
 
           stub.replaceWith(childContent);
         });
-        return;
+      } else {
+        const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
+
+        const childContent = child.getContent();
+
+        if (stub === null) {
+          return;
+        }
+
+        stub.replaceWith(childContent);
       }
-
-      const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
-      this.log("stub: ", stub);
-
-      const childContent = child.getContent();
-      this.log("childContent: ", childContent);
-
-      if (stub === null) {
-        return;
-      }
-
-      stub.replaceWith(childContent);
     });
 
     return fragment.content;

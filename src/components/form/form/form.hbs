@@ -1,3 +1,6 @@
 <form class="{{className}}" id="{{id}}">
-  {{> @partial-block }}
+  {{#each formFields}}{{{this}}}{{/each}}
+  <div class="form__actions">
+    {{#each actions}}{{{this}}}{{/each}}
+  </div>
 </form>

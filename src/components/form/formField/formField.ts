@@ -1,6 +1,10 @@
-import Handlebars from "handlebars";
+import { Block, type PropsAndChildren } from "../../../libs/block";
 
-import FormField from "./formField.hbs?raw";
+import template from "./formField.hbs?raw";
 import "./style.scss";
 
-Handlebars.registerPartial("formField", FormField);
+export class FormField extends Block {
+  constructor(propsAndChildren: PropsAndChildren) {
+    super(template, propsAndChildren, true);
+  }
+}

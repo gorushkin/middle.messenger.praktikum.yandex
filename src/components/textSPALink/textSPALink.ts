@@ -5,15 +5,15 @@ import LinkTemplate from "./textSPALink.hbs?raw";
 import "./style.scss";
 
 export class TextSPALink extends Block {
-  constructor(href = "#", text = "Link", className = "") {
+  constructor(href = "#", content = "Link", className = "") {
     super(
+      LinkTemplate,
       {
         href,
-        text,
+        content,
         className,
       },
-      true,
-      LinkTemplate
+      true
     );
   }
 }
