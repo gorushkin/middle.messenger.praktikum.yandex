@@ -28,7 +28,8 @@
     "vite": "^7.2.4"
   },
   "dependencies": {
-    "handlebars": "^4.7.8"
+    "handlebars": "^4.7.8",
+    "uuid": "^13.0.0"
   },
   "engines": {
     "node": ">=20.19"

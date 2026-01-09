@@ -1,7 +1,9 @@
-import { Router } from "./router";
+// import { Router } from "./router";
+
+import { rootPage } from "./pages/rootPage";
 
 class App {
-  router: Router;
+  // router: Router;
   root = document.getElementById("app") as HTMLElement;
 
   onRoute = (html: string) => {
@@ -9,12 +11,14 @@ class App {
   };
 
   constructor() {
-    this.router = new Router(this.onRoute);
-    this.router.addListeners();
+    // this.router = new Router(this.onRoute);
+    // this.router.addListeners();
   }
 
   render() {
-    this.router.render();
+    this.root.replaceChildren(rootPage.getContent());
+
+    rootPage.dispatchComponentDidMount();
   }
 }
 

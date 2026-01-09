@@ -1,1 +1,1 @@
-export { renderRootPage } from "./rootPage";
+export { rootPage } from "./rootPage";

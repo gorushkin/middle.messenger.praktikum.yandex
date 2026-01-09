@@ -17,7 +17,7 @@ import { renderNotFoundPage } from "./pages/notFoundPage";
 import { renderProfileEditDataPage } from "./pages/profileEditDataPage";
 import { renderProfileEditPasswordPage } from "./pages/profileEditPasswordPage";
 import { renderProfilePage } from "./pages/profilePage";
-import { renderRootPage } from "./pages/rootPage";
+// import { renderRootPage } from "./pages/rootPage";
 import { renderSignUpPage } from "./pages/signUpPage";
 
 import "./style.scss";
@@ -83,7 +83,7 @@ const pages: Record<RouteName, () => string> = {
   chat: renderChatsPage,
   notFound: renderNotFoundPage,
   error: renderErrorPage,
-  root: renderRootPage,
+  // root: renderRootPage,
   profile: renderProfilePage,
   profileEditData: renderProfileEditDataPage,
   profileEditPassword: renderProfileEditPasswordPage,

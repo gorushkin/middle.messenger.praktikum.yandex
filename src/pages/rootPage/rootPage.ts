@@ -1,12 +1,22 @@
-import Handlebars from "handlebars";
-
+import "./style.scss";
+import { TextSPALink } from "../../components/textSPALink/textSPALink";
+import { Block } from "../../libs/block";
 import { routesConfig } from "../../router";
 
-import RootPageTemplate from "./rootPage.hbs?raw";
+import rootPageTemplate from "./rootPage.hbs?raw";
 
-import "./style.scss";
+class RootPage extends Block {
+  constructor() {
+    super(
+      {
+        routes: routesConfig.map(
+          (route) => new TextSPALink(route.path, route.title)
+        ),
+      },
+      true,
+      rootPageTemplate
+    );
+  }
+}
 
-export const renderRootPage = (): string => {
-  const template = Handlebars.compile(RootPageTemplate);
-  return template({ routes: routesConfig });
-};
+export const rootPage = new RootPage();

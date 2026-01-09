@@ -6,12 +6,10 @@
   <ul>
     {{#each routes}}
       <li>
-        {{#> link href=this.path className="form__link"}}
-          {{this.title}}
-        {{/link}}
+        {{{this}}}
       </li>
     {{/each}}
   </ul>
 </div>
 {{/mainLayout}}
-  
+
