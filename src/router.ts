@@ -2,7 +2,6 @@ import "./components/form/input/input";
 import "./components/form/formField/formField";
 import "./components/form/form/form";
 import "./components/button/button";
-import "./components/link/link";
 import "./layouts/formLayout/formLayout";
 import "./layouts/error/error";
 import "./widgets/chat-list/chat-list/chat-list";

@@ -1,7 +1,19 @@
-import Handlebars from "handlebars";
+import { Block } from "../../libs/block";
 
-import Link from "./link.hbs?raw";
+import LinkTemplate from "./link.hbs?raw";
 
 import "./style.scss";
 
-Handlebars.registerPartial("link", Link);
+export class Link extends Block {
+  constructor(href = "#", content = "Link", className = "") {
+    super(
+      LinkTemplate,
+      {
+        href,
+        content,
+        className,
+      },
+      true
+    );
+  }
+}

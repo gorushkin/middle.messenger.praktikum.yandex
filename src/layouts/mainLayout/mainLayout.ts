@@ -1,6 +1,16 @@
-import Handlebars from "handlebars";
+import { Link } from "../../components/link";
+import { Block, type PropsAndChildren } from "../../libs/block";
 
-import MainLayout from "./mainLayout.hbs?raw";
+import template from "./mainLayout.hbs?raw";
+
 import "./style.scss";
 
-Handlebars.registerPartial("mainLayout", MainLayout);
+export class MainLayout extends Block {
+  constructor(propsAndChildren: PropsAndChildren) {
+    const propsWithButton = {
+      ...propsAndChildren,
+      link: new Link("/", "Demo Page", "main-layout__chat-link"),
+    };
+    super(template, propsWithButton, true);
+  }
+}

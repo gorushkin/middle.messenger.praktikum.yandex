@@ -1,5 +1,6 @@
 import type { Block } from "./libs/block";
 import { loginPage } from "./pages/loginPage";
+import { profileEditDataPage } from "./pages/profileEditDataPage";
 import { rootPage } from "./pages/rootPage";
 import { signUpPage } from "./pages/signUpPage";
 import { Router, type Routes } from "./router";
@@ -36,10 +37,11 @@ export const ROUTES: Routes = {
   //   path: "/profile",
   //   title: "Profile Page",
   // },
-  // profileEditData: {
-  //   path: "/profile/edit",
-  //   title: "Profile Edit Page",
-  // },
+  profileEditData: {
+    path: "/profile/edit",
+    title: "Profile Edit Page",
+    component: profileEditDataPage,
+  },
   // profileEditPassword: {
   //   path: "/profile/edit-password",
   //   title: "Profile Edit Password Page",

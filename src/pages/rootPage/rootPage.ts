@@ -1,5 +1,6 @@
 import "./style.scss";
-import { TextSPALink } from "../../components/textSPALink/textSPALink";
+import { Link } from "../../components/link";
+import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
 
 import rootPageTemplate from "./rootPage.hbs?raw";
@@ -22,10 +23,10 @@ export const ROUTES = [
   },
 ];
 
-const routes = ROUTES.map((route) => new TextSPALink(route.path, route.title));
+const routes = ROUTES.map((route) => new Link(route.path, route.title));
 
 class RootPage extends Block {
-  constructor(routes: TextSPALink[]) {
+  constructor(routes: Link[]) {
     super(
       rootPageTemplate,
       {
@@ -36,4 +37,6 @@ class RootPage extends Block {
   }
 }
 
-export const rootPage = new RootPage(routes);
+export const rootPage = new MainLayout({
+  content: new RootPage(routes),
+});

@@ -2,8 +2,9 @@ import { Button } from "../../components/button";
 import { FormBlock } from "../../components/form/form";
 import { FormField } from "../../components/form/formField";
 import { Input } from "../../components/form/input";
-import { TextSPALink } from "../../components/textSPALink/textSPALink";
+import { Link } from "../../components/link";
 import { FormLayoutBlock } from "../../layouts/formLayout";
+import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
 
 import template from "./signUpPage.hbs?raw";
@@ -96,7 +97,7 @@ class SignUpPage extends Block {
                 type: "submit",
                 className: "primary login-form__button",
               }),
-              new TextSPALink("/login", "Войти", "login-form__link"),
+              new Link("/login", "Войти", "login-form__link"),
             ],
           }),
         }),
@@ -106,4 +107,6 @@ class SignUpPage extends Block {
   }
 }
 
-export const signUpPage = new SignUpPage();
+export const signUpPage = new MainLayout({
+  content: new SignUpPage(),
+});
