@@ -25,6 +25,10 @@
   background: $input-background;
   padding: 10px 14px;
   border: none;
+
+  &--invalid {
+    border: 1px solid $alert-color;
+  }
 }
 
 .chat-input__send-button {

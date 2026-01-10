@@ -15,10 +15,6 @@ export type PropsAndChildren = {
   [key: string]: Block | unknown;
 };
 
-type Meta = {
-  props: Props;
-};
-
 export class Block {
   static EVENTS = {
     INIT: "init",
@@ -28,7 +24,7 @@ export class Block {
   };
 
   _element: HTMLElement | null = null;
-  _meta: Meta | null = null;
+  // _meta: Meta | null = null;
   props: Props;
   eventBus: EventBus;
 
@@ -37,22 +33,20 @@ export class Block {
   compiler = Handlebars.compile;
 
   _id: string | null;
+  debug = false;
 
   children: Children = {};
 
   constructor(
     template: string = "",
     propsAndChildren: PropsAndChildren = { props: {}, children: {} },
-    withInternalID = false
+    withInternalID = false,
+    debug = false
   ) {
     const eventBus = new EventBus();
     this.template = template;
 
     const { children, props } = this._getChildren(propsAndChildren);
-
-    this._meta = {
-      props: propsAndChildren,
-    };
 
     this.props = this._makePropsProxy(props);
     this._id = withInternalID ? makeUUID() : null;
@@ -60,9 +54,16 @@ export class Block {
     this.eventBus = eventBus;
 
     this.children = children;
+    this.debug = debug;
 
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
+  }
+
+  log(...args: unknown[]) {
+    if (this.debug) {
+      console.log(...args);
+    }
   }
 
   _getChildren(propsAndChildren: PropsAndChildren): {
@@ -149,10 +150,6 @@ export class Block {
   }
 
   setProps = (nextProps: Props) => {
-    if (!nextProps) {
-      return;
-    }
-
     Object.assign(this.props, nextProps);
   };
 
@@ -161,11 +158,18 @@ export class Block {
   }
 
   _render() {
-    const element = this.render().firstElementChild as HTMLElement;
+    const newElement = this.render().firstElementChild as HTMLElement;
+
+    this.log("Rendered: ", newElement);
+    this.log("Rendered: ", this.props);
 
     this._removeEvents();
 
-    this._element = element;
+    if (this._element) {
+      this._element.replaceWith(newElement);
+    }
+
+    this._element = newElement;
 
     this._addEvents();
   }
@@ -185,6 +189,7 @@ export class Block {
   _makePropsProxy(props: Props): Props {
     const proxy = new Proxy(props, {
       set: (target, prop, value) => {
+        this.log({ value, prop, target });
         const prev = { ...target };
         target[prop as string] = value;
         this.eventBus.emit(Block.EVENTS.FLOW_CDU, prev, target);
