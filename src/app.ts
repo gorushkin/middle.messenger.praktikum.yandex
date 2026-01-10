@@ -5,6 +5,7 @@ import { loginPage } from "./pages/loginPage";
 import { notFoundPage } from "./pages/notFoundPage";
 import { profileEditDataPage } from "./pages/profileEditDataPage";
 import { profileEditPasswordPage } from "./pages/profileEditPasswordPage";
+import { profilePage } from "./pages/profilePage";
 import { rootPage } from "./pages/rootPage";
 import { signUpPage } from "./pages/signUpPage";
 import { Router, type Routes } from "./router";
@@ -40,10 +41,11 @@ export const ROUTES: Routes = {
     title: "Error Page",
     component: errorPage,
   },
-  // profile: {
-  //   path: "/profile",
-  //   title: "Profile Page",
-  // },
+  profile: {
+    path: "/profile",
+    title: "Profile Page",
+    component: profilePage,
+  },
   profileEditData: {
     path: "/profile/edit",
     title: "Profile Edit Page",

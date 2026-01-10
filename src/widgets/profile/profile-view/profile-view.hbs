@@ -1,32 +1,22 @@
 <div class="profile__content profile__content--view">
-  {{> profileAvatar }}
+   {{{profileAvatar}}}
   <h2 class="profile__info-name">
     {{user.first_name}} {{user.second_name}}
   </h2>
   <div class="profile__info-section">
-    <ul class="profile__info-list">
-      {{#each userFields}}
-      <li class="profile__info-item">
-        {{> profileInput isEditing=false}}
-      </li>
-      {{/each}}
-    </ul>
+      <ul class="profile__info-list">
+        {{#each userFields}}
+        <li class="profile__info-item">
+          {{{this}}}
+        </li>
+        {{/each}}
+      </ul>
   </div>
   <ul class="profile__info-actions">
+    {{#each actions}}
     <li class="profile__info-item">
-      {{#> link href="/profile/edit" className="profile__info-link" }}
-      Изменить данные
-      {{/link}}
+        {{{this}}}
     </li>
-    <li class="profile__info-item">
-      {{#> link className="profile__info-link" href="/profile/edit-password" }}
-      Изменить пароль
-      {{/link}}
-    </li>
-    <li class="profile__info-item">
-      {{#> link className="profile__info-link profile__info-link--danger" href="/login" }}
-      Выйти
-      {{/link}}
-    </li>
+    {{/each}}
   </ul>
 </div>
