@@ -1,6 +1,21 @@
-import Handlebars from "handlebars";
+import { Block } from "../../libs/block";
 
-import ChatWindow from "./chat-window.hbs?raw";
+import { ChatHeader } from "./chat-header";
+import { ChatInput } from "./chat-input";
+import template from "./chat-window.hbs?raw";
+import { MessageList } from "./messages-list";
 import "./style.scss";
 
-Handlebars.registerPartial("chatWindow", ChatWindow);
+export class ChatWindow extends Block {
+  constructor() {
+    super(
+      template,
+      {
+        chatHeader: new ChatHeader({}),
+        chatInput: new ChatInput({}),
+        messageList: new MessageList(),
+      },
+      true
+    );
+  }
+}

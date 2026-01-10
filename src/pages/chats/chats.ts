@@ -3,6 +3,7 @@ import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
 import { ChatList } from "../../widgets/chat-list/chat-list";
 import { ChatListItems } from "../../widgets/chat-list/chat-list-items";
+import { ChatWindow } from "../../widgets/chat-window";
 
 import template from "./chats.hbs?raw";
 
@@ -26,6 +27,7 @@ class ChatsPage extends Block {
           chatListHeader,
           chatListItems: new ChatListItems({}),
         }),
+        chatWindow: new ChatWindow(),
       },
       true
     );

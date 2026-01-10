@@ -1,6 +1,10 @@
-import Handlebars from "handlebars";
+import { Block } from "../../../libs/block";
 
-import MessageList from "./messages-list.hbs?raw";
+import template from "./messages-list.hbs?raw";
 import "./style.scss";
 
-Handlebars.registerPartial("messageList", MessageList);
+export class MessageList extends Block {
+  constructor() {
+    super(template, {}, true);
+  }
+}

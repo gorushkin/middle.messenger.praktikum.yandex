@@ -66,7 +66,10 @@ class App {
   };
 
   constructor() {
-    this.router = new Router(ROUTES, this.onRoute);
+    this.router = new Router(ROUTES, this.onRoute, {
+      errorPage: ROUTES.error,
+      notFoundPage: ROUTES.notFound,
+    });
     this.router.addListeners();
   }
 

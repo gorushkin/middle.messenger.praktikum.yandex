@@ -1,14 +1,3 @@
-import "./components/form/input/input";
-import "./components/form/formField/formField";
-import "./components/form/form/form";
-import "./components/button/button";
-import "./layouts/formLayout/formLayout";
-import "./layouts/error/error";
-import "./widgets/chat-list/chat-list/chat-list";
-import "./widgets/chat-list/chat-item/chat-item";
-import "./widgets/chat-list/chat-list-items/chat-list-items";
-import "./widgets/chat-window/chat-window";
-
 import type { Block } from "./libs/block";
 import "./style.scss";
 
@@ -28,9 +17,23 @@ type onRoute = (page: Block) => void;
 export class Router {
   onRouteChange: onRoute;
   routes: Routes;
-  constructor(routes: Routes, onRender: onRoute) {
+  errorRoute: RouteConfig | null = null;
+  notFoundRoute: RouteConfig | null = null;
+  constructor(
+    routes: Routes,
+    onRender: onRoute,
+    {
+      errorPage,
+      notFoundPage,
+    }: {
+      errorPage?: RouteConfig | null;
+      notFoundPage?: RouteConfig | null;
+    } = {}
+  ) {
     this.onRouteChange = onRender;
     this.routes = routes;
+    this.errorRoute = errorPage || null;
+    this.notFoundRoute = notFoundPage || null;
   }
 
   getRouteByUrl(routes: Routes, url: string): RouteConfig {
@@ -38,6 +41,9 @@ export class Router {
       ([, config]) => config.path === url
     );
     if (!routeEntry) {
+      if (this.notFoundRoute) {
+        return this.notFoundRoute;
+      }
       throw new Error(`Route not found for url: ${url}`);
     }
     return routeEntry[1];

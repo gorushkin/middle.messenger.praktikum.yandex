@@ -1,6 +1,10 @@
-import Handlebars from "handlebars";
+import { Block, type PropsAndChildren } from "../../../libs/block";
 
-import ChatInput from "./chat-input.hbs?raw";
+import template from "./chat-input.hbs?raw";
 import "./style.scss";
 
-Handlebars.registerPartial("chatInput", ChatInput);
+export class ChatInput extends Block {
+  constructor(propsAndChildren: PropsAndChildren) {
+    super(template, propsAndChildren, true);
+  }
+}

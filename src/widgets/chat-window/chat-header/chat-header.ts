@@ -1,6 +1,10 @@
-import Handlebars from "handlebars";
+import { Block, type PropsAndChildren } from "../../../libs/block";
 
-import ChatHeader from "./chat-header.hbs?raw";
+import template from "./chat-header.hbs?raw";
 import "./style.scss";
 
-Handlebars.registerPartial("chatHeader", ChatHeader);
+export class ChatHeader extends Block {
+  constructor(propsAndChildren: PropsAndChildren) {
+    super(template, propsAndChildren, true);
+  }
+}
