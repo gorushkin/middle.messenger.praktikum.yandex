@@ -1,4 +1,5 @@
 import type { Block } from "./libs/block";
+import { errorPage } from "./pages/errorPage";
 import { loginPage } from "./pages/loginPage";
 import { notFoundPage } from "./pages/notFoundPage";
 import { profileEditDataPage } from "./pages/profileEditDataPage";
@@ -32,10 +33,11 @@ export const ROUTES: Routes = {
     title: "Not Found Page",
     component: notFoundPage,
   },
-  // error: {
-  //   path: "/error",
-  //   title: "Error Page",
-  // },
+  error: {
+    path: "/error",
+    title: "Error Page",
+    component: errorPage,
+  },
   // profile: {
   //   path: "/profile",
   //   title: "Profile Page",

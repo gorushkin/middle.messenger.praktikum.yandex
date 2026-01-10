@@ -30,6 +30,15 @@ export const ROUTES = [
     path: "/not-found",
     title: "Not Found Page",
   },
+  { path: "/error", title: "Error Page" },
+  {
+    path: "/chat",
+    title: "Chat Page",
+  },
+  {
+    path: "/profile",
+    title: "Profile Page",
+  },
 ];
 
 const routes = ROUTES.map((route) => new Link(route.path, route.title));
