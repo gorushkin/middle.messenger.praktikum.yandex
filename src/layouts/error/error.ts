@@ -1,6 +1,14 @@
-import Handlebars from "handlebars";
+import { Block, type PropsAndChildren } from "../../libs/block";
 
-import Error from "./error.hbs?raw";
+import template from "./error.hbs?raw";
+
 import "./style.scss";
 
-Handlebars.registerPartial("error", Error);
+export class ErrorLayout extends Block {
+  constructor(propsAndChildren: PropsAndChildren) {
+    const propsWithButton = {
+      ...propsAndChildren,
+    };
+    super(template, propsWithButton, true);
+  }
+}

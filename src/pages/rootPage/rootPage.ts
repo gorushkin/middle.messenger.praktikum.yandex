@@ -7,29 +7,28 @@ import rootPageTemplate from "./rootPage.hbs?raw";
 
 export const ROUTES = [
   {
-    name: "root",
     path: "/",
     title: "Demo Page",
   },
   {
-    name: "login",
     path: "/login",
     title: "Login Page",
   },
   {
-    name: "signup",
     path: "/signup",
     title: "Sign Up Page",
   },
   {
-    name: "profileEdit",
     path: "/profile/edit",
     title: "Profile Edit Page",
   },
   {
-    name: "profileEditPassword",
     path: "/profile/edit-password",
     title: "Profile Edit Password Page",
+  },
+  {
+    path: "/not-found",
+    title: "Not Found Page",
   },
 ];
 

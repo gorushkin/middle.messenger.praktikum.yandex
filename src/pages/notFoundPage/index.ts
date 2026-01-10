@@ -1,1 +1,1 @@
-export { renderNotFoundPage } from "./notFoundPage";
+export { notFoundPage } from "./notFoundPage";

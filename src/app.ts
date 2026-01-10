@@ -1,5 +1,6 @@
 import type { Block } from "./libs/block";
 import { loginPage } from "./pages/loginPage";
+import { notFoundPage } from "./pages/notFoundPage";
 import { profileEditDataPage } from "./pages/profileEditDataPage";
 import { profileEditPasswordPage } from "./pages/profileEditPasswordPage";
 import { rootPage } from "./pages/rootPage";
@@ -26,10 +27,11 @@ export const ROUTES: Routes = {
   //   path: "/chat",
   //   title: "Chat Page",
   // },
-  // notFound: {
-  //   path: "/not-found",
-  //   title: "Not Found Page",
-  // },
+  notFound: {
+    path: "/not-found",
+    title: "Not Found Page",
+    component: notFoundPage,
+  },
   // error: {
   //   path: "/error",
   //   title: "Error Page",
