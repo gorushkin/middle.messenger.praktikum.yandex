@@ -1,6 +1,20 @@
-import Handlebars from "handlebars";
+import { Link } from "../../components/link";
+import { Block, type PropsAndChildren } from "../../libs/block";
 
-import ProfileLayout from "./profileLayout.hbs?raw";
+import template from "./profileLayout.hbs?raw";
 import "./style.scss";
 
-Handlebars.registerPartial("profileLayout", ProfileLayout);
+export class ProfileLayout extends Block {
+  constructor(propsAndChildren: PropsAndChildren) {
+    const propsWithButton = {
+      ...propsAndChildren,
+      backButton: new Link(
+        "/",
+        `<div class="profile__back-icon">
+        <img src="/back_arrow.svg" alt="Arrow Icon" />
+      </div>`
+      ),
+    };
+    super(template, propsWithButton, true);
+  }
+}

@@ -1,5 +1,5 @@
-<div class="profile__content profile__content-edit">
-  {{> profileAvatar }}
+<div class="profile__inner-edit">
+  {{{profileAvatar}}}
   <h2 class="profile__info-name">
     {{user.first_name}} {{user.second_name}}
   </h2>
@@ -8,13 +8,13 @@
       <ul class="profile__info-list">
         {{#each userFields}}
         <li class="profile__info-item">
-          {{> profileInput isEditing=true}}
+          {{{this}}}
         </li>
         {{/each}}
       </ul>
     </div>
     <div class="profile__info-actions">
-      {{> button className="primary profile__button" type="submit" text="Сохранить" }}
+      {{{saveButton}}}
     </div>
   </form>
 </div>

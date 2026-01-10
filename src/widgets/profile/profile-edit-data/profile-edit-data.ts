@@ -1,6 +1,15 @@
-import Handlebars from "handlebars";
+import { ProfileAvatar } from "../../../components/profileAvatar";
+import { Block, type PropsAndChildren } from "../../../libs/block";
 
-import ProfileViewEditData from "./profile-edit-data.hbs?raw";
+import template from "./profile-edit-data.hbs?raw";
 import "./style.scss";
 
-Handlebars.registerPartial("profileEditData", ProfileViewEditData);
+export class ProfileViewEditData extends Block {
+  constructor(propsAndChildren: PropsAndChildren) {
+    const propsWithAvatar = {
+      ...propsAndChildren,
+      profileAvatar: new ProfileAvatar(),
+    };
+    super(template, propsWithAvatar, true);
+  }
+}
