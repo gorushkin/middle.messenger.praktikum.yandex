@@ -1,8 +1,9 @@
 import { Button } from "../../components/button";
-import { FormBlock } from "../../components/form/form";
-import { FormField } from "../../components/form/formField";
-import { Input } from "../../components/form/input";
+import { Form } from "../../components/form";
 import { Link } from "../../components/link";
+import { UserForm } from "../../components/userForm/userForm";
+import { FormField } from "../../components/userForm/userFormField";
+import { Input } from "../../components/userForm/userFormInput";
 import { FormLayoutBlock } from "../../layouts/formLayout";
 import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
@@ -37,33 +38,35 @@ class LoginPage extends Block {
       {
         formLayout: new FormLayoutBlock({
           title: "Вход",
-          form: new FormBlock({
-            formFields: fields.map(
-              (field) =>
-                new FormField({
-                  label: field.label,
-                  id: field.id,
-                  errorMessage: field.errorMessage,
-                  input: new Input({
-                    type: field.type,
-                    name: field.name,
-                    placeholder: field.placeholder,
+          form: new Form({
+            formContent: new UserForm({
+              formFields: fields.map(
+                (field) =>
+                  new FormField({
+                    label: field.label,
                     id: field.id,
-                  }),
-                })
-            ),
-            actions: [
-              new Button({
-                text: "Войти",
-                type: "submit",
-                className: "primary login-form__button",
-              }),
-              new Link(
-                "/signup",
-                "Нет аккаунта? Регистрация",
-                "login-form__link"
+                    errorMessage: field.errorMessage,
+                    input: new Input({
+                      type: field.type,
+                      name: field.name,
+                      placeholder: field.placeholder,
+                      id: field.id,
+                    }),
+                  })
               ),
-            ],
+              actions: [
+                new Button({
+                  text: "Войти",
+                  type: "submit",
+                  className: "primary login-form__button",
+                }),
+                new Link(
+                  "/signup",
+                  "Нет аккаунта? Регистрация",
+                  "login-form__link"
+                ),
+              ],
+            }),
           }),
         }),
       },

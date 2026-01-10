@@ -1,3 +1,4 @@
+import { Form } from "../../components/form/";
 import { Block } from "../../libs/block";
 
 import { ChatHeader } from "./chat-header";
@@ -12,7 +13,9 @@ export class ChatWindow extends Block {
       template,
       {
         chatHeader: new ChatHeader({}),
-        chatInput: new ChatInput({}),
+        chatInput: new Form({
+          formContent: new ChatInput({}),
+        }),
         messageList: new MessageList(),
       },
       true

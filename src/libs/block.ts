@@ -97,6 +97,26 @@ export class Block {
     this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
+  _addEvents() {
+    const { events = {} } = this.props as {
+      events?: Record<string, EventListener>;
+    };
+
+    Object.entries(events).forEach(([eventName, handler]) => {
+      this._element?.addEventListener(eventName, handler);
+    });
+  }
+
+  _removeEvents() {
+    const { events = {} } = this.props as {
+      events?: Record<string, EventListener>;
+    };
+
+    Object.entries(events).forEach(([eventName, handler]) => {
+      this._element?.removeEventListener(eventName, handler);
+    });
+  }
+
   _componentDidMount() {
     this.componentDidMount();
 
@@ -143,7 +163,11 @@ export class Block {
   _render() {
     const element = this.render().firstElementChild as HTMLElement;
 
+    this._removeEvents();
+
     this._element = element;
+
+    this._addEvents();
   }
 
   render(): DocumentFragment {
