@@ -26,6 +26,11 @@ export const ROUTES = [
     path: "/profile/edit",
     title: "Profile Edit Page",
   },
+  {
+    name: "profileEditPassword",
+    path: "/profile/edit-password",
+    title: "Profile Edit Password Page",
+  },
 ];
 
 const routes = ROUTES.map((route) => new Link(route.path, route.title));
