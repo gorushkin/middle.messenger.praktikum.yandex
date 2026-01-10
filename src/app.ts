@@ -1,4 +1,5 @@
 import type { Block } from "./libs/block";
+import { chatPage } from "./pages/chats";
 import { errorPage } from "./pages/errorPage";
 import { loginPage } from "./pages/loginPage";
 import { notFoundPage } from "./pages/notFoundPage";
@@ -24,10 +25,11 @@ export const ROUTES: Routes = {
     title: "Sign Up Page",
     component: signUpPage,
   },
-  // chat: {
-  //   path: "/chat",
-  //   title: "Chat Page",
-  // },
+  chat: {
+    path: "/chat",
+    title: "Chat Page",
+    component: chatPage,
+  },
   notFound: {
     path: "/not-found",
     title: "Not Found Page",

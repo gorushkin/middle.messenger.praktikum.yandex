@@ -1,6 +1,20 @@
-import Handlebars from "handlebars";
+import { Block, type PropsAndChildren } from "../../../libs/block";
+import { ChatItem } from "../chat-item";
 
-import ChatListItems from "./chat-list-items.hbs?raw";
+import template from "./chat-list-items.hbs?raw";
 import "./style.scss";
 
-Handlebars.registerPartial("chatListItems", ChatListItems);
+const items = [
+  { count: 3, time: "12:00", name: "Chat 1", lastMessage: "Last message" },
+  { count: 23, time: "12:00", name: "Chat 2", lastMessage: "Hello" },
+].map((item) => new ChatItem(item));
+
+export class ChatListItems extends Block {
+  constructor(propsAndChildren: PropsAndChildren) {
+    const propsWithChildren = {
+      ...propsAndChildren,
+      items,
+    };
+    super(template, propsWithChildren, true);
+  }
+}

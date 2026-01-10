@@ -1,1 +1,1 @@
-export { renderChatsPage } from "./chats";
+export { chatPage } from "./chats";
