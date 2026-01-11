@@ -1,3 +1,4 @@
+import type { FormValidator } from "../../../components/form";
 import { Input } from "../../../components/input";
 import { Block, type PropsAndChildren } from "../../../libs/block";
 
@@ -8,6 +9,7 @@ const inputClassname = "chat-input__field";
 const inputErrorClassname = "chat-input__field chat-input__field--invalid";
 
 export class ChatInput extends Block {
+  formValidator: FormValidator | null = null;
   constructor(
     propsAndChildren: PropsAndChildren,
     params: {
@@ -36,7 +38,18 @@ export class ChatInput extends Block {
           params.onChange?.(e);
         },
         onBlur: (e) => {
-          params?.onBlur?.(e);
+          const target = e.target as HTMLInputElement;
+
+          if (!this.formValidator) {
+            return;
+          }
+
+          const { isValid } = this.formValidator.validateField(
+            "message",
+            target.value
+          );
+
+          this.setProps({ isValid });
         },
       }
     );
@@ -50,6 +63,10 @@ export class ChatInput extends Block {
       true,
       true
     );
+  }
+
+  setValidator(validator: FormValidator) {
+    this.formValidator = validator;
   }
 
   componentDidUpdate(

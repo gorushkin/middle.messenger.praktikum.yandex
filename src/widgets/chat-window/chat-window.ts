@@ -5,25 +5,12 @@ import { ChatHeader } from "./chat-header";
 import { ChatInput } from "./chat-input";
 import template from "./chat-window.hbs?raw";
 import { MessageList } from "./messages-list";
-
 import "./style.scss";
+import { messageValidator } from "./validators";
 
 class ChatForm extends Form {
   constructor() {
-    const formContent = new ChatInput(
-      {},
-      {
-        onBlur: (e) => {
-          const target = e.target as HTMLInputElement;
-
-          const isValid = this.formValidator.validateField(
-            "message",
-            target.value
-          );
-          formContent.setProps({ isValid });
-        },
-      }
-    );
+    const formContent = new ChatInput({});
 
     super({
       propsAndChildren: {
@@ -32,16 +19,17 @@ class ChatForm extends Form {
       onSubmit: () => {
         const errors = this.formValidator.getErrors();
 
-        const isValid = !errors["message"];
+        const { isValid } = errors["message"];
 
         formContent.setProps({ isValid });
       },
     });
 
-    this.formValidator.addValidator(
-      "message",
-      (value: string) => value.trim().length > 0
-    );
+    formContent.setValidator(this.formValidator);
+
+    this.formValidator.addValidators({
+      message: (value: string) => messageValidator(value),
+    });
   }
 }
 

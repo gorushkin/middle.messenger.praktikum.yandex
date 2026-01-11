@@ -2,34 +2,79 @@ import { Button } from "../../components/button";
 import { Form } from "../../components/form";
 import { Link } from "../../components/link";
 import { UserForm } from "../../components/userForm/userForm";
-import { FormField } from "../../components/userForm/userFormField";
-import { Input } from "../../components/userForm/userFormInput";
 import { FormLayoutBlock } from "../../layouts/formLayout";
 import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
 
+import { LoginInput } from "./fields/loginInput";
 import template from "./loginPage.hbs?raw";
-
 import "./style.scss";
+import { loginValidator, passwordValidator } from "./validators";
 
-const fields = [
-  {
-    label: "Логин",
-    id: "login",
-    errorMessage: "Неверный логин",
-    type: "text",
-    name: "login",
-    placeholder: "Введите логин",
-  },
-  {
-    label: "Пароль",
-    id: "password",
-    errorMessage: "Неверный пароль",
-    type: "password",
-    name: "password",
-    placeholder: "Введите пароль",
-  },
-];
+const login = new LoginInput({
+  label: "Логин",
+  id: "login",
+  errorMessage: "",
+  name: "login",
+  type: "text",
+  placeholder: "Введите логин",
+});
+
+const password = new LoginInput({
+  label: "Пароль",
+  id: "password",
+  errorMessage: "",
+  name: "password",
+  type: "password",
+  placeholder: "Введите пароль",
+});
+
+class LoginForm extends Form {
+  constructor() {
+    const formContent = new UserForm({
+      login,
+      password,
+      actions: [
+        new Button({
+          text: "Войти",
+          type: "submit",
+          className: "primary login-form__button",
+        }),
+        new Link("/signup", "Нет аккаунта? Регистрация", "login-form__link"),
+      ],
+    });
+
+    super({
+      propsAndChildren: {
+        formContent,
+      },
+      onSubmit: () => {
+        const errors = this.formValidator.getErrors();
+
+        Object.keys(errors).forEach((key) => {
+          const result = errors[key];
+          const field = this.children.formContent as Block;
+          const inputField = field.children[key] as LoginInput;
+
+          if (inputField) {
+            inputField.setProps({
+              errorMessage: result.isValid ? "" : result.error,
+              isValid: result.isValid,
+            });
+          }
+        });
+      },
+    });
+
+    this.formValidator.addValidators({
+      login: (value: string) => loginValidator(value),
+      password: (value: string) => passwordValidator(value),
+    });
+
+    login.setValidator(this.formValidator);
+    password.setValidator(this.formValidator);
+  }
+}
 
 class LoginPage extends Block {
   constructor() {
@@ -38,36 +83,7 @@ class LoginPage extends Block {
       {
         formLayout: new FormLayoutBlock({
           title: "Вход",
-          form: new Form({
-            formContent: new UserForm({
-              formFields: fields.map(
-                (field) =>
-                  new FormField({
-                    label: field.label,
-                    id: field.id,
-                    errorMessage: field.errorMessage,
-                    input: new Input({
-                      type: field.type,
-                      name: field.name,
-                      placeholder: field.placeholder,
-                      id: field.id,
-                    }),
-                  })
-              ),
-              actions: [
-                new Button({
-                  text: "Войти",
-                  type: "submit",
-                  className: "primary login-form__button",
-                }),
-                new Link(
-                  "/signup",
-                  "Нет аккаунта? Регистрация",
-                  "login-form__link"
-                ),
-              ],
-            }),
-          }),
+          form: new LoginForm(),
         }),
       },
       true
