@@ -2,38 +2,22 @@ import { Button } from "../../components/button";
 import { Form } from "../../components/form";
 import { Link } from "../../components/link";
 import { UserForm } from "../../components/userForm/userForm";
+import { LoginInput } from "../../components/userForm/userFormInput";
 import { FormLayoutBlock } from "../../layouts/formLayout";
 import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
 
-import { LoginInput } from "./fields/loginInput";
+import { LoginFormFields } from "./fields";
 import template from "./loginPage.hbs?raw";
 import "./style.scss";
 import { loginValidator, passwordValidator } from "./validators";
 
-const login = new LoginInput({
-  label: "Логин",
-  id: "login",
-  errorMessage: "",
-  name: "login",
-  type: "text",
-  placeholder: "Введите логин",
-});
-
-const password = new LoginInput({
-  label: "Пароль",
-  id: "password",
-  errorMessage: "",
-  name: "password",
-  type: "password",
-  placeholder: "Введите пароль",
-});
-
 class LoginForm extends Form {
   constructor() {
+    const fields = new LoginFormFields();
+
     const formContent = new UserForm({
-      login,
-      password,
+      fields,
       actions: [
         new Button({
           text: "Войти",
@@ -53,8 +37,11 @@ class LoginForm extends Form {
 
         Object.keys(errors).forEach((key) => {
           const result = errors[key];
-          const field = this.children.formContent as Block;
-          const inputField = field.children[key] as LoginInput;
+          const formContent = this.children.formContent as Block;
+
+          const fields = formContent.children.fields as Block;
+
+          const inputField = fields.children[key] as LoginInput;
 
           if (inputField) {
             inputField.setProps({
@@ -71,8 +58,7 @@ class LoginForm extends Form {
       password: (value: string) => passwordValidator(value),
     });
 
-    login.setValidator(this.formValidator);
-    password.setValidator(this.formValidator);
+    fields.setValidator(this.formValidator);
   }
 }
 

@@ -2,73 +2,78 @@ import { Button } from "../../components/button";
 import { Form } from "../../components/form";
 import { Link } from "../../components/link";
 import { UserForm } from "../../components/userForm/userForm";
-import { FormField } from "../../components/userForm/userFormField";
-import { Input } from "../../components/userForm/userFormInput";
+import type { LoginInput } from "../../components/userForm/userFormInput";
 import { FormLayoutBlock } from "../../layouts/formLayout";
 import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
 
+import { SignUpFormFields } from "./fields";
 import template from "./signUpPage.hbs?raw";
 import "./style.scss";
+import {
+  emailValidator,
+  firstNameValidator,
+  loginValidator,
+  passwordValidator,
+  phoneValidator,
+  secondNameValidator,
+} from "./validators";
 
-const fields = [
-  {
-    label: "Почта",
-    id: "email",
-    errorMessage: "Неверная почта",
-    type: "email",
-    name: "email",
-    placeholder: "Введите почту",
-  },
-  {
-    label: "Логин",
-    id: "login",
-    errorMessage: "Неверный логин",
-    type: "text",
-    name: "login",
-    placeholder: "Введите логин",
-  },
-  {
-    label: "Имя",
-    id: "first_name",
-    errorMessage: "Неверное имя",
-    type: "text",
-    name: "first_name",
-    placeholder: "Введите имя",
-  },
-  {
-    label: "Фамилия",
-    id: "second_name",
-    errorMessage: "Неверная фамилия",
-    type: "text",
-    name: "second_name",
-    placeholder: "Введите фамилию",
-  },
-  {
-    label: "Телефон",
-    id: "phone",
-    errorMessage: "Неверный телефон",
-    type: "tel",
-    name: "phone",
-    placeholder: "Введите телефон",
-  },
-  {
-    label: "Пароль",
-    id: "password",
-    errorMessage: "Неверный пароль",
-    type: "password",
-    name: "password",
-    placeholder: "Введите пароль",
-  },
-  {
-    label: "Пароль (ещё раз)",
-    id: "password_confirm",
-    errorMessage: "Пароли не совпадают",
-    type: "password",
-    name: "password_confirm",
-    placeholder: "Введите пароль",
-  },
-];
+// TODO: refactor duplicate code with LoginPage
+class SignUpForm extends Form {
+  constructor() {
+    const fields = new SignUpFormFields();
+
+    const formContent = new UserForm({
+      fields,
+      actions: [
+        new Button({
+          text: "Зарегистрироваться",
+          type: "submit",
+          className: "primary login-form__button",
+        }),
+        new Link("/login", "Войти", "login-form__link"),
+      ],
+    });
+
+    super({
+      propsAndChildren: {
+        formContent,
+      },
+      onSubmit: () => {
+        const errors = this.formValidator.getErrors();
+
+        Object.keys(errors).forEach((key) => {
+          const result = errors[key];
+          const formContent = this.children.formContent as Block;
+
+          const fields = formContent.children.fields as Block;
+
+          const inputField = fields.children[key] as LoginInput;
+
+          if (inputField) {
+            inputField.setProps({
+              errorMessage: result.isValid ? "" : result.error,
+              isValid: result.isValid,
+            });
+          }
+        });
+      },
+    });
+
+    fields.setValidator(this.formValidator);
+
+    this.formValidator.addValidators({
+      login: (value: string) => loginValidator(value),
+      password: (value: string) => passwordValidator(value),
+      name: (value: string) => firstNameValidator(value),
+      surname: (value: string) => secondNameValidator(value),
+      email: (value: string) => emailValidator(value),
+      phone: (value: string) => phoneValidator(value),
+      passwordConfirm: (value: string) => passwordValidator(value),
+    });
+  }
+}
 
 class SignUpPage extends Block {
   constructor() {
@@ -77,32 +82,7 @@ class SignUpPage extends Block {
       {
         formLayout: new FormLayoutBlock({
           title: "Регистрация",
-          form: new Form({
-            formContent: new UserForm({
-              formFields: fields.map(
-                (field) =>
-                  new FormField({
-                    label: field.label,
-                    id: field.id,
-                    errorMessage: field.errorMessage,
-                    input: new Input({
-                      type: field.type,
-                      name: field.name,
-                      placeholder: field.placeholder,
-                      id: field.id,
-                    }),
-                  })
-              ),
-              actions: [
-                new Button({
-                  text: "Зарегистрироваться",
-                  type: "submit",
-                  className: "primary login-form__button",
-                }),
-                new Link("/login", "Войти", "login-form__link"),
-              ],
-            }),
-          }),
+          form: new SignUpForm(),
         }),
       },
       true

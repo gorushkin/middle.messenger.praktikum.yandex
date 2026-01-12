@@ -1,14 +1,18 @@
 @use "/src/variables.scss" as *;
 
-.input {
-  border: none;
-  padding: 4px 2px;
-  color: $input-primary;
-  border-bottom: 1px solid $input-border;
-  width: 100%;
-  font-size: 16px;
+.form-field {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+  justify-content: start;
+  align-items: flex-start;
 }
 
-.input::placeholder {
-  color: $input-secondary;
+.form-label {
+  font-size: 12px;
+}
+
+.form-field_error-message {
+  color: $alert-color;
+  font-size: 12px;
 }
