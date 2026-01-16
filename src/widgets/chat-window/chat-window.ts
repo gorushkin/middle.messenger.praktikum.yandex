@@ -3,12 +3,9 @@ import { Form } from "../../components/form/form";
 import { Block } from "../../libs/block";
 
 import { ChatHeader } from "./chat-header";
-import {
-  ChatFormInput,
-  ChatFormWrapper,
-  message,
-} from "./chat-input/chat-input";
+import { ChatFormInput, message } from "./chat-input/chat-input";
 import template from "./chat-window.hbs?raw";
+import { ChatFormWrapper } from "./chatFormWrapper";
 import { MessageList } from "./messages-list";
 import "./style.scss";
 import { messageValidator } from "./validators";

@@ -39,22 +39,12 @@ export class Form extends Block {
   onSubmit() {
     const errors = this.formValidator.getErrors();
     Object.keys(errors).forEach((key) => {
-      const result = errors[key];
       const formContent = this.children.formContent as Block;
       const fields = formContent.children.fields as Block;
       const inputField = fields.children[key] as InputBlock;
-      console.log("inputField: ", inputField);
 
       const value = this.formValidator.values[key] || "";
-      console.log("value: ", value);
       inputField.validate(value);
-
-      if (inputField) {
-        // inputField.setProps({
-        //   errorMessage: result.isValid ? "" : result.error,
-        //   isValid: result.isValid,
-        // });
-      }
     });
   }
 

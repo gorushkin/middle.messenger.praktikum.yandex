@@ -34,15 +34,13 @@ export class Block {
   compiler = Handlebars.compile;
 
   _id: string | null;
-  debug = "";
 
   children: Children = {};
 
   constructor(
     template: string = "",
     propsAndChildren: PropsAndChildren = { props: {}, children: {} },
-    withInternalID = false,
-    debug = ""
+    withInternalID = false
   ) {
     const eventBus = new EventBus();
     this.template = template;
@@ -55,16 +53,9 @@ export class Block {
     this.eventBus = eventBus;
 
     this.children = children;
-    this.debug = debug;
 
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
-  }
-
-  log(...args: unknown[]) {
-    if (this.debug) {
-      console.log(...args);
-    }
   }
 
   _getChildren(propsAndChildren: PropsAndChildren): {
@@ -138,7 +129,6 @@ export class Block {
   dispatchComponentDidMount() {}
 
   _componentDidUpdate(oldProps: Props, newProps: Props) {
-    this.log("Component did update:", { oldProps, newProps });
     const response = this.componentDidUpdate(oldProps, newProps);
 
     if (response) {
@@ -152,9 +142,7 @@ export class Block {
   }
 
   setProps = (nextProps: Props) => {
-    this.log("Set props:", nextProps);
     Object.assign(this.props, nextProps);
-    this.log("New props:", this.props);
   };
 
   get element() {
@@ -163,9 +151,6 @@ export class Block {
 
   _render() {
     const newElement = this.render().firstElementChild as HTMLElement;
-    this.log("Rendering name: ", this.debug);
-    this.log("Rendered Element: ", newElement);
-    this.log("Rendered:props", this.props);
 
     this._removeEvents();
 
@@ -193,8 +178,6 @@ export class Block {
   _makePropsProxy(props: Props): Props {
     const proxy = new Proxy(props, {
       set: (target, prop, value) => {
-        this.log("_makePropsProxy");
-        this.log({ value, prop, target });
         const prev = { ...target };
         target[prop as string] = value;
         this.eventBus.emit(Block.EVENTS.FLOW_CDU, prev, target);
@@ -272,10 +255,9 @@ export class InputBlock extends Block {
   constructor(
     template: string = "",
     propsAndChildren: PropsAndChildren = { props: {}, children: {} },
-    withInternalID = false,
-    debug = ""
+    withInternalID = false
   ) {
-    super(template, propsAndChildren, withInternalID, debug);
+    super(template, propsAndChildren, withInternalID);
     this.name = String(propsAndChildren.name || "");
   }
 
