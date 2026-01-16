@@ -1,6 +1,8 @@
 import Handlebars from "handlebars";
 import { v4 as makeUUID } from "uuid";
 
+import type { FormValidator } from "../components/form";
+
 import { EventBus } from "./eventBus";
 
 type Props = {
@@ -24,7 +26,6 @@ export class Block {
   };
 
   _element: HTMLElement | null = null;
-  // _meta: Meta | null = null;
   props: Props;
   eventBus: EventBus;
 
@@ -33,7 +34,7 @@ export class Block {
   compiler = Handlebars.compile;
 
   _id: string | null;
-  debug = false;
+  debug = "";
 
   children: Children = {};
 
@@ -41,7 +42,7 @@ export class Block {
     template: string = "",
     propsAndChildren: PropsAndChildren = { props: {}, children: {} },
     withInternalID = false,
-    debug = false
+    debug = ""
   ) {
     const eventBus = new EventBus();
     this.template = template;
@@ -137,6 +138,7 @@ export class Block {
   dispatchComponentDidMount() {}
 
   _componentDidUpdate(oldProps: Props, newProps: Props) {
+    this.log("Component did update:", { oldProps, newProps });
     const response = this.componentDidUpdate(oldProps, newProps);
 
     if (response) {
@@ -150,7 +152,9 @@ export class Block {
   }
 
   setProps = (nextProps: Props) => {
+    this.log("Set props:", nextProps);
     Object.assign(this.props, nextProps);
+    this.log("New props:", this.props);
   };
 
   get element() {
@@ -159,9 +163,9 @@ export class Block {
 
   _render() {
     const newElement = this.render().firstElementChild as HTMLElement;
-
-    this.log("Rendered: ", newElement);
-    this.log("Rendered: ", this.props);
+    this.log("Rendering name: ", this.debug);
+    this.log("Rendered Element: ", newElement);
+    this.log("Rendered:props", this.props);
 
     this._removeEvents();
 
@@ -189,6 +193,7 @@ export class Block {
   _makePropsProxy(props: Props): Props {
     const proxy = new Proxy(props, {
       set: (target, prop, value) => {
+        this.log("_makePropsProxy");
         this.log({ value, prop, target });
         const prev = { ...target };
         target[prop as string] = value;
@@ -257,5 +262,29 @@ export class Block {
     });
 
     return fragment.content;
+  }
+}
+
+export class InputBlock extends Block {
+  formValidator: FormValidator | null = null;
+  name: string = "";
+
+  constructor(
+    template: string = "",
+    propsAndChildren: PropsAndChildren = { props: {}, children: {} },
+    withInternalID = false,
+    debug = ""
+  ) {
+    super(template, propsAndChildren, withInternalID, debug);
+    this.name = String(propsAndChildren.name || "");
+  }
+
+  setValidator(validator: FormValidator) {
+    this.formValidator = validator;
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  validate(_value: string) {
+    throw new Error("Method not implemented.");
   }
 }

@@ -2,7 +2,6 @@ import { Button } from "../../components/button";
 import { Form } from "../../components/form";
 import { Link } from "../../components/link";
 import { UserForm } from "../../components/userForm/userForm";
-import { LoginInput } from "../../components/userForm/userFormInput";
 import { FormLayoutBlock } from "../../layouts/formLayout";
 import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
@@ -16,44 +15,25 @@ class LoginForm extends Form {
   constructor() {
     const fields = new LoginFormFields();
 
+    const actions = [
+      new Button({
+        text: "Войти",
+        type: "submit",
+        className: "primary login-form__button",
+      }),
+      new Link("/signup", "Нет аккаунта? Регистрация", "login-form__link"),
+    ];
+
     const formContent = new UserForm({
       fields,
-      actions: [
-        new Button({
-          text: "Войти",
-          type: "submit",
-          className: "primary login-form__button",
-        }),
-        new Link("/signup", "Нет аккаунта? Регистрация", "login-form__link"),
-      ],
+      actions,
     });
 
     super({
-      propsAndChildren: {
-        formContent,
-      },
-      onSubmit: () => {
-        const errors = this.formValidator.getErrors();
-
-        Object.keys(errors).forEach((key) => {
-          const result = errors[key];
-          const formContent = this.children.formContent as Block;
-
-          const fields = formContent.children.fields as Block;
-
-          const inputField = fields.children[key] as LoginInput;
-
-          if (inputField) {
-            inputField.setProps({
-              errorMessage: result.isValid ? "" : result.error,
-              isValid: result.isValid,
-            });
-          }
-        });
-      },
+      formContent,
     });
 
-    this.formValidator.addValidators({
+    this.addValidators({
       login: (value: string) => loginValidator(value),
       password: (value: string) => passwordValidator(value),
     });

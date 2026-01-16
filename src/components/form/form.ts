@@ -1,25 +1,23 @@
-import { Block, type PropsAndChildren } from "../../libs/block";
+import { Block, InputBlock } from "../../libs/block";
+import type { FormsWithValidatorsAndFields } from "../userForm/userForm/userForm";
 
 import template from "./form.hbs?raw";
-import { FormValidator } from "./fromValidator";
+import { FormValidator, type Validator } from "./fromValidator";
 
 export class Form extends Block {
   formValidator: FormValidator = new FormValidator();
-  constructor(params: {
-    onSubmit?: () => void;
-    propsAndChildren?: PropsAndChildren;
-  }) {
-    const { onSubmit, propsAndChildren } = params;
+  constructor(params: { formContent: FormsWithValidatorsAndFields }) {
+    const { formContent } = params;
 
     const formPropsWithEvents = {
-      ...propsAndChildren,
+      formContent,
       events: {
         submit: (e: Event) => {
           e.preventDefault();
           const form = e.target as HTMLFormElement;
           const values = this.getFormData(form);
           this.formValidator.setValues(values);
-          onSubmit?.();
+          this.onSubmit();
           console.info(values);
         },
       },
@@ -37,4 +35,30 @@ export class Form extends Block {
 
     return data;
   };
+
+  onSubmit() {
+    const errors = this.formValidator.getErrors();
+    Object.keys(errors).forEach((key) => {
+      const result = errors[key];
+      const formContent = this.children.formContent as Block;
+      const fields = formContent.children.fields as Block;
+      const inputField = fields.children[key] as InputBlock;
+      console.log("inputField: ", inputField);
+
+      const value = this.formValidator.values[key] || "";
+      console.log("value: ", value);
+      inputField.validate(value);
+
+      if (inputField) {
+        // inputField.setProps({
+        //   errorMessage: result.isValid ? "" : result.error,
+        //   isValid: result.isValid,
+        // });
+      }
+    });
+  }
+
+  addValidators(validators: { [key: string]: Validator }) {
+    this.formValidator.addValidators(validators);
+  }
 }

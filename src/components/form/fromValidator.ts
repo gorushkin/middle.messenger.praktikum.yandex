@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-type Validator = (value: string) => ValidationResult;
+export type Validator = (value: string) => ValidationResult;
 
 export type ValidationResult =
   | { isValid: true }

@@ -1,52 +1,26 @@
-import type { FormValidator } from "../../../components/form";
-import { Block } from "../../../libs/block";
+import { UserFormFields } from "../../../components/userForm/userFormFields";
 
 import {
   email,
   login,
-  name,
+  first_name,
   password,
-  passwordConfirm,
-  surname,
+  password_confirm,
+  second_name,
   phone,
 } from "./fields";
+import fieldsTemplate from "./fields.hbs?raw";
 
-const fieldsTemplate = `
-  <div>
-  {{{email}}}
-  {{{login}}}
-  {{{name}}}
-  {{{surname}}}
-  {{{phone}}}
-  {{{password}}}
-  {{{passwordConfirm}}}
-  </div>
-`;
-
-export class SignUpFormFields extends Block {
+export class SignUpFormFields extends UserFormFields {
   constructor() {
-    super(
-      fieldsTemplate,
-      {
-        email,
-        login,
-        name,
-        surname,
-        phone,
-        password,
-        passwordConfirm,
-      },
-      true
-    );
-  }
-
-  setValidator(validator: FormValidator) {
-    login.setValidator(validator);
-    password.setValidator(validator);
-    email.setValidator(validator);
-    name.setValidator(validator);
-    surname.setValidator(validator);
-    phone.setValidator(validator);
-    passwordConfirm.setValidator(validator);
+    super(fieldsTemplate, {
+      email,
+      login,
+      first_name,
+      second_name,
+      phone,
+      password,
+      password_confirm,
+    });
   }
 }

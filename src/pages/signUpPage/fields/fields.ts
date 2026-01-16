@@ -1,6 +1,6 @@
-import { LoginInput } from "../../../components/userForm/userFormInput";
+import { UserFormInput } from "../../../components/userForm/userFormInput";
 
-const email = new LoginInput({
+const email = new UserFormInput({
   label: "Почта",
   id: "email",
   errorMessage: "",
@@ -9,7 +9,7 @@ const email = new LoginInput({
   placeholder: "Введите почту",
 });
 
-const login = new LoginInput({
+const login = new UserFormInput({
   label: "Логин",
   id: "login",
   errorMessage: "",
@@ -18,7 +18,7 @@ const login = new LoginInput({
   placeholder: "Введите логин",
 });
 
-const name = new LoginInput({
+const first_name = new UserFormInput({
   label: "Имя",
   id: "first_name",
   errorMessage: "",
@@ -27,7 +27,7 @@ const name = new LoginInput({
   placeholder: "Введите имя",
 });
 
-const surname = new LoginInput({
+const second_name = new UserFormInput({
   label: "Фамилия",
   id: "second_name",
   errorMessage: "",
@@ -36,7 +36,7 @@ const surname = new LoginInput({
   placeholder: "Введите фамилию",
 });
 
-const phone = new LoginInput({
+const phone = new UserFormInput({
   label: "Телефон",
   id: "phone",
   errorMessage: "",
@@ -45,7 +45,7 @@ const phone = new LoginInput({
   placeholder: "Введите телефон",
 });
 
-const password = new LoginInput({
+const password = new UserFormInput({
   label: "Пароль",
   id: "password",
   errorMessage: "",
@@ -54,7 +54,7 @@ const password = new LoginInput({
   placeholder: "Введите пароль",
 });
 
-const passwordConfirm = new LoginInput({
+const password_confirm = new UserFormInput({
   label: "Пароль (ещё раз)",
   id: "password_confirm",
   errorMessage: "",
@@ -63,4 +63,12 @@ const passwordConfirm = new LoginInput({
   placeholder: "Введите пароль",
 });
 
-export { email, login, name, surname, phone, password, passwordConfirm };
+export {
+  email,
+  login,
+  first_name,
+  second_name,
+  phone,
+  password,
+  password_confirm,
+};

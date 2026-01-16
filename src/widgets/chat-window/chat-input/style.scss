@@ -17,18 +17,24 @@
   place-items: center;
 }
 
+.chat-input__wrapper {
+  width: 100%;
+  display: flex;
+  border-radius: 10px;
+
+  &--invalid {
+    border: 1px solid $alert-color;
+  }
+}
+
 .chat-input__field {
   flex-grow: 1;
-  color: $text-secondary;
   font-size: 12px;
   border-radius: 10px;
   background: $input-background;
   padding: 10px 14px;
   border: none;
-
-  &--invalid {
-    border: 1px solid $alert-color;
-  }
+  flex-grow: 1;
 }
 
 .chat-input__send-button {

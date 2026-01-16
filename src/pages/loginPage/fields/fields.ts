@@ -1,6 +1,6 @@
-import { LoginInput } from "../../../components/userForm/userFormInput";
+import { UserFormInput } from "../../../components/userForm/userFormInput";
 
-export const login = new LoginInput({
+export const login = new UserFormInput({
   label: "Логин",
   id: "login",
   errorMessage: "",
@@ -9,7 +9,7 @@ export const login = new LoginInput({
   placeholder: "Введите логин",
 });
 
-export const password = new LoginInput({
+export const password = new UserFormInput({
   label: "Пароль",
   id: "password",
   errorMessage: "",
