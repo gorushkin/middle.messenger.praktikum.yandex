@@ -35,8 +35,7 @@ export class Input extends Block {
           },
         },
       },
-      true,
-      params.debug || ""
+      true
     );
     this.validation = params.validation ?? null;
   }

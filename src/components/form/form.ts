@@ -1,12 +1,11 @@
 import { Block, InputBlock } from "../../libs/block";
-import type { FormsWithValidatorsAndFields } from "../userForm/userForm/userForm";
 
 import template from "./form.hbs?raw";
 import { FormValidator, type Validator } from "./fromValidator";
 
 export class Form extends Block {
   formValidator: FormValidator = new FormValidator();
-  constructor(params: { formContent: FormsWithValidatorsAndFields }) {
+  constructor(params: { formContent: Block }) {
     const { formContent } = params;
 
     const formPropsWithEvents = {
