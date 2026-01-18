@@ -5,19 +5,21 @@ import type { FormValidator } from "../components/form";
 
 import { EventBus } from "./eventBus";
 
-type Props = {
-  [key: string]: unknown;
-};
+type Props<T extends Record<string, unknown> = Record<string, unknown>> = T;
 
 type Children = {
   [key: string]: Block | Block[];
 };
 
-export type PropsAndChildren = {
-  [key: string]: Block | unknown;
+export type PropsAndChildren<
+  P extends Record<string, unknown> = Record<string, unknown>
+> = Partial<P> & {
+  [key: string]: Block | Block[] | unknown;
 };
 
-export class Block {
+export class Block<
+  P extends Record<string, unknown> = Record<string, unknown>
+> {
   static EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -26,7 +28,7 @@ export class Block {
   };
 
   _element: HTMLElement | null = null;
-  props: Props;
+  props: Props<P>;
   eventBus: EventBus;
 
   template: string;
@@ -39,7 +41,7 @@ export class Block {
 
   constructor(
     template: string = "",
-    propsAndChildren: PropsAndChildren = { props: {}, children: {} },
+    propsAndChildren: PropsAndChildren<P> = {} as PropsAndChildren<P>,
     withInternalID = false
   ) {
     const eventBus = new EventBus();
@@ -58,12 +60,12 @@ export class Block {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _getChildren(propsAndChildren: PropsAndChildren): {
+  _getChildren(propsAndChildren: PropsAndChildren<P>): {
     children: Children;
-    props: Props;
+    props: Props<P>;
   } {
     const children: Children = {};
-    const props: Props = {};
+    const props: Record<string, unknown> = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (
@@ -76,16 +78,19 @@ export class Block {
       }
     });
 
-    return { children, props };
+    return { children, props: props as Props<P> };
   }
 
   _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDU, ((oldProps: unknown, newProps: unknown) => {
-      this._componentDidUpdate(oldProps as Props, newProps as Props);
-    }));
+    eventBus.on(
+      Block.EVENTS.FLOW_CDU,
+      (oldProps: unknown, newProps: unknown) => {
+        this._componentDidUpdate(oldProps as Props<P>, newProps as Props<P>);
+      }
+    );
   }
 
   init() {
@@ -130,7 +135,7 @@ export class Block {
 
   dispatchComponentDidMount() {}
 
-  _componentDidUpdate(oldProps: Props, newProps: Props) {
+  _componentDidUpdate(oldProps: Props<P>, newProps: Props<P>) {
     const response = this.componentDidUpdate(oldProps, newProps);
 
     if (response) {
@@ -138,12 +143,12 @@ export class Block {
     }
   }
 
-  componentDidUpdate(oldProps: Props, newProps: Props) {
+  componentDidUpdate(oldProps: Props<P>, newProps: Props<P>) {
     const areEqual = JSON.stringify(oldProps) === JSON.stringify(newProps);
     return !areEqual;
   }
 
-  setProps = (nextProps: Props) => {
+  setProps = (nextProps: Partial<Props<P>>) => {
     Object.assign(this.props, nextProps);
   };
 
@@ -177,8 +182,8 @@ export class Block {
     return this.element;
   }
 
-  _makePropsProxy(props: Props): Props {
-    const proxy = new Proxy(props, {
+  _makePropsProxy(props: Props<P>): Props<P> {
+    const proxy = new Proxy(props as Record<string, unknown>, {
       set: (target, prop, value) => {
         const prev = { ...target };
         target[prop as string] = value;
@@ -190,7 +195,7 @@ export class Block {
       },
     });
 
-    return proxy;
+    return proxy as Props<P>;
   }
 
   _createDocumentElement(): HTMLTemplateElement {
@@ -204,7 +209,7 @@ export class Block {
   }
 
   compile() {
-    const propsAndStubs = { ...this.props };
+    const propsAndStubs: Record<string, unknown> = { ...this.props };
 
     Object.entries(this.children).forEach(([key, child]) => {
       if (Array.isArray(child)) {
@@ -256,7 +261,7 @@ export class InputBlock extends Block {
 
   constructor(
     template: string = "",
-    propsAndChildren: PropsAndChildren = { props: {}, children: {} },
+    propsAndChildren: PropsAndChildren = {} as PropsAndChildren,
     withInternalID = false
   ) {
     super(template, propsAndChildren, withInternalID);

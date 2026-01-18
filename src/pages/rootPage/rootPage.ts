@@ -41,7 +41,9 @@ export const ROUTES = [
   },
 ];
 
-const routes = ROUTES.map((route) => new Link(route.path, route.title));
+const routes = ROUTES.map(
+  (route) => new Link({ href: route.path, content: route.title })
+);
 
 class RootPage extends Block {
   constructor(routes: Link[]) {

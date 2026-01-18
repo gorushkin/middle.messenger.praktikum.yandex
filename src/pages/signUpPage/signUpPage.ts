@@ -29,7 +29,11 @@ class SignUpForm extends Form {
         type: "submit",
         className: "primary login-form__button",
       }),
-      new Link("/login", "Войти", "login-form__link"),
+      new Link({
+        href: "/login",
+        content: "Войти",
+        className: "login-form__link",
+      }),
     ];
 
     const formContent = new UserForm({

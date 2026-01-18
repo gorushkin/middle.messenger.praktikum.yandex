@@ -37,11 +37,15 @@ const isDataEmpty = (data?: PlainObject): boolean => {
   return false;
 };
 
+type HTTPTransportMethod = (
+  // eslint-disable-next-line no-unused-vars
+  url: string,
+  // eslint-disable-next-line no-unused-vars
+  options?: RequestOptions
+) => Promise<XMLHttpRequest>;
+
 export class HTTPTransport {
-  get = (
-    url: string,
-    options: RequestOptions = {}
-  ): Promise<XMLHttpRequest> => {
+  get: HTTPTransportMethod = (url, options = {}) => {
     let updatedUrl = url;
 
     if (options.data && !isDataEmpty(options.data)) {
@@ -55,10 +59,7 @@ export class HTTPTransport {
     );
   };
 
-  post = (
-    url: string,
-    options: RequestOptions = {}
-  ): Promise<XMLHttpRequest> => {
+  post: HTTPTransportMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: METHODS.POST },
@@ -66,10 +67,7 @@ export class HTTPTransport {
     );
   };
 
-  put = (
-    url: string,
-    options: RequestOptions = {}
-  ): Promise<XMLHttpRequest> => {
+  put: HTTPTransportMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: METHODS.PUT },
@@ -77,10 +75,7 @@ export class HTTPTransport {
     );
   };
 
-  delete = (
-    url: string,
-    options: RequestOptions = {}
-  ): Promise<XMLHttpRequest> => {
+  delete: HTTPTransportMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: METHODS.DELETE },

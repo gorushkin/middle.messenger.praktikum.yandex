@@ -13,13 +13,21 @@ export class ProfileView extends Block {
       ...propsAndChildren,
       profileAvatar: new ProfileAvatar(),
       actions: [
-        new Link("/profile-edit-data", "Изменить данные", "profile__link-edit"),
-        new Link(
-          "/profile-edit-password",
-          "Изменить пароль",
-          "profile__link-edit"
-        ),
-        new Link("/login", "Выйти", "profile__link-edit"),
+        new Link({
+          href: "/profile-edit-data",
+          content: "Изменить данные",
+          className: "profile__link-edit",
+        }),
+        new Link({
+          href: "/profile-edit-password",
+          content: "Изменить пароль",
+          className: "profile__link-edit",
+        }),
+        new Link({
+          href: "/login",
+          content: "Выйти",
+          className: "profile__link-edit",
+        }),
       ],
     };
     super(template, propsWithAvatar, true);

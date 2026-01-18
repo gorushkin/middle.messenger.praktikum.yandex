@@ -9,14 +9,14 @@ import template from "./chats.hbs?raw";
 
 import "./style.scss";
 
-const chatListHeader = new Link(
-  "/profile",
-  `<span>
+const chatListHeader = new Link({
+  href: "/profile",
+  content: `<span>
                    Профиль
       <img src="/arrow_right.svg" alt="Arrow Icon" />
             </span>`,
-  "chat-list__add-chat-button"
-);
+  className: "chat-list__add-chat-button",
+});
 
 class ChatsPage extends Block {
   constructor() {

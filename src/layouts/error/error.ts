@@ -9,7 +9,11 @@ export class ErrorLayout extends Block {
   constructor(propsAndChildren: PropsAndChildren) {
     const propsWithButton = {
       ...propsAndChildren,
-      errorBackLinkText: new Link("/chat", "Назад к чатам", "error__link"),
+      errorBackLinkText: new Link({
+        href: "/chat",
+        content: "Назад к чатам",
+        className: "error__link",
+      }),
     };
     super(template, propsWithButton, true);
   }

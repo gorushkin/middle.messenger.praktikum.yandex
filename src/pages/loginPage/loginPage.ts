@@ -21,7 +21,11 @@ class LoginForm extends Form {
         type: "submit",
         className: "primary login-form__button",
       }),
-      new Link("/signup", "Нет аккаунта? Регистрация", "login-form__link"),
+      new Link({
+        href: "/signup",
+        content: "Нет аккаунта? Регистрация",
+        className: "login-form__link",
+      }),
     ];
 
     const formContent = new UserForm({

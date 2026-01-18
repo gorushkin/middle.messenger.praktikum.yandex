@@ -8,12 +8,12 @@ export class ProfileLayout extends Block {
   constructor(propsAndChildren: PropsAndChildren) {
     const propsWithButton = {
       ...propsAndChildren,
-      backButton: new Link(
-        "/",
-        `<div class="profile__back-icon">
+      backButton: new Link({
+        href: "/",
+        content: `<div class="profile__back-icon">
         <img src="/back_arrow.svg" alt="Arrow Icon" />
-      </div>`
-      ),
+      </div>`,
+      }),
     };
     super(template, propsWithButton, true);
   }

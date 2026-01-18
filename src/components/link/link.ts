@@ -4,8 +4,15 @@ import LinkTemplate from "./link.hbs?raw";
 
 import "./style.scss";
 
+type LinkProps = {
+  href?: string;
+  content?: string;
+  className?: string;
+};
+
 export class Link extends Block {
-  constructor(href = "#", content = "Link", className = "") {
+  constructor(props: LinkProps = {}) {
+    const { href = "#", content = "Link", className = "" } = props;
     super(
       LinkTemplate,
       {

@@ -9,7 +9,11 @@ export class MainLayout extends Block {
   constructor(propsAndChildren: PropsAndChildren) {
     const propsWithButton = {
       ...propsAndChildren,
-      link: new Link("/", "Demo Page", "main-layout__chat-link"),
+      link: new Link({
+        href: "/",
+        content: "Demo Page",
+        className: "main-layout__chat-link",
+      }),
     };
     super(template, propsWithButton, true);
   }
