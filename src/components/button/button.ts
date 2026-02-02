@@ -1,6 +1,17 @@
-import Handlebars from "handlebars";
+import { Block, type PropsAndChildren } from "../../libs/block";
 
-import Button from "./button.hbs?raw";
+import template from "./button.hbs?raw";
 import "./style.scss";
 
-Handlebars.registerPartial("button", Button);
+export type ButtonProps = {
+  text: string;
+  type?: "button" | "submit" | "reset";
+  className?: string;
+  events?: Record<string, EventListener>;
+};
+
+export class Button extends Block<ButtonProps> {
+  constructor(propsAndChildren: PropsAndChildren<ButtonProps>) {
+    super(template, propsAndChildren, true);
+  }
+}

@@ -26,3 +26,10 @@
   display: grid;
   place-items: center;
 }
+
+.profile__content {
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}

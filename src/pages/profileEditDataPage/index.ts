@@ -1,1 +1,1 @@
-export { renderProfileEditDataPage } from "./profileEditDataPage";
+export { profileEditDataPage } from "./profileEditDataPage";

@@ -1,6 +1,20 @@
-import Handlebars from "handlebars";
+import { Link } from "../../components/link";
+import { Block, type PropsAndChildren } from "../../libs/block";
 
-import Error from "./error.hbs?raw";
+import template from "./error.hbs?raw";
+
 import "./style.scss";
 
-Handlebars.registerPartial("error", Error);
+export class ErrorLayout extends Block {
+  constructor(propsAndChildren: PropsAndChildren) {
+    const propsWithButton = {
+      ...propsAndChildren,
+      errorBackLinkText: new Link({
+        href: "/chat",
+        content: "Назад к чатам",
+        className: "error__link",
+      }),
+    };
+    super(template, propsWithButton, true);
+  }
+}

@@ -1,11 +1,5 @@
   <div class="chat-list__items">
-    {{> chatItem }}
-    {{> chatItem }}
-    {{> chatItem }}
-    {{> chatItem }}
-    {{> chatItem }}
-    {{> chatItem }}
-    {{> chatItem }}
-    {{> chatItem }}
-    {{> chatItem }}
+    {{#each items}}
+      {{{this}}}
+    {{/each}}
   </div>

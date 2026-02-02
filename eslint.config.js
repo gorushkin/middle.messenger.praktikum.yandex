@@ -72,7 +72,7 @@ export default tseslint.config(
       },
     },
     rules: {
-      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "no-console": ["warn", { allow: ["warn", "error", "info"] }],
       "no-debugger": "error",
       "prefer-const": "error",
       "no-var": "error",

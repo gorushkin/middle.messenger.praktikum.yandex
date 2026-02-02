@@ -1,6 +1,11 @@
-import Handlebars from "handlebars";
+import { Block } from "../../libs/block";
 
-import ProfileAvatar from "./profileAvatar.hbs?raw";
+import template from "./profileAvatar.hbs?raw";
+
 import "./style.scss";
 
-Handlebars.registerPartial("profileAvatar", ProfileAvatar);
+export class ProfileAvatar extends Block {
+  constructor() {
+    super(template, {}, true);
+  }
+}

@@ -1,6 +1,11 @@
-import Handlebars from "handlebars";
+import { Block, type PropsAndChildren } from "../../libs/block";
 
-import ProfileInput from "./profile-input.hbs?raw";
+import template from "./profile-input.hbs?raw";
+
 import "./style.scss";
 
-Handlebars.registerPartial("profileInput", ProfileInput);
+export class ProfileInput extends Block {
+  constructor(propsAndChildren: PropsAndChildren) {
+    super(template, propsAndChildren, true);
+  }
+}

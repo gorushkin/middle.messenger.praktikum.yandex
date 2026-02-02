@@ -1,8 +1,11 @@
-import Handlebars from "handlebars";
+import { ErrorLayout } from "../../layouts/error";
+import { MainLayout } from "../../layouts/mainLayout";
 
-import ErrorPageTemplate from "./errorPage.hbs?raw";
-
-export const renderErrorPage = (): string => {
-  const template = Handlebars.compile(ErrorPageTemplate);
-  return template({});
-};
+export const errorPage = new MainLayout({
+  className: "error-page",
+  content: new ErrorLayout({
+    errorTitle: "500",
+    errorDescription: "Мы уже фиксим",
+    errorBackLinkText: "Назад к чатам",
+  }),
+});

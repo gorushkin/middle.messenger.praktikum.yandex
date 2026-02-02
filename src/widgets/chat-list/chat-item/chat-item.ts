@@ -1,6 +1,11 @@
-import Handlebars from "handlebars";
+import { Block } from "../../../libs/block";
 
-import ChatItem from "./chat-item.hbs?raw";
+import template from "./chat-item.hbs?raw";
+
 import "./style.scss";
 
-Handlebars.registerPartial("chatItem", ChatItem);
+export class ChatItem extends Block {
+  constructor(params: { count: number; time: string }) {
+    super(template, params, true);
+  }
+}
