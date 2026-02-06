@@ -1,1 +1,1 @@
-export { profileEditDataPage } from "./profileEditDataPage";
+export { ProfileEditDataPageLayout } from "./profileEditDataPage";

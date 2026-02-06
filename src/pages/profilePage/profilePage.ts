@@ -9,14 +9,14 @@ import { ProfileView } from "../../widgets/profile/profile-view";
 
 import template from "./profilePage.hbs?raw";
 
-class ProfileEditDataPage extends Block {
+class ProfilePageContent extends Block {
   constructor() {
     const mappedData = mapProfileToTemplateData(mockUserProfile).map(
       (field) =>
         new ProfileInput({
           ...field,
           isEditing: true,
-        })
+        }),
     );
 
     super(template, {
@@ -33,8 +33,12 @@ class ProfileEditDataPage extends Block {
   }
 }
 
-export const profilePage = new MainLayout({
-  content: new ProfileLayout({
-    profileContent: new ProfileEditDataPage(),
-  }),
-});
+export class ProfilePageLayout extends MainLayout {
+  constructor() {
+    super({
+      content: new ProfileLayout({
+        profileContent: new ProfilePageContent(),
+      }),
+    });
+  }
+}

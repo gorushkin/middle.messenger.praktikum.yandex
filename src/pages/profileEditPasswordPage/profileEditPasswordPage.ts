@@ -16,7 +16,7 @@ class ProfileEditPasswordPage extends Block {
         new ProfileInput({
           ...field,
           isEditing: true,
-        })
+        }),
     );
 
     super(template, {
@@ -33,9 +33,13 @@ class ProfileEditPasswordPage extends Block {
   }
 }
 
-export const profileEditPasswordPage = new MainLayout({
-  content: new ProfileLayout({
-    profileContent: new ProfileEditPasswordPage(),
-    className: "profile__content-edit",
-  }),
-});
+export class ProfileEditPasswordPageLayout extends MainLayout {
+  constructor() {
+    super({
+      content: new ProfileLayout({
+        profileContent: new ProfileEditPasswordPage(),
+        className: "profile__content-edit",
+      }),
+    });
+  }
+}

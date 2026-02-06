@@ -56,11 +56,15 @@ class LoginPage extends Block {
           form: new LoginForm(),
         }),
       },
-      true
+      true,
     );
   }
 }
 
-export const loginPage = new MainLayout({
-  content: new LoginPage(),
-});
+export class LoginPageLayout extends MainLayout {
+  constructor() {
+    super({
+      content: new LoginPage(),
+    });
+  }
+}

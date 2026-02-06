@@ -69,11 +69,15 @@ class SignUpPage extends Block {
           form: new SignUpForm(),
         }),
       },
-      true
+      true,
     );
   }
 }
 
-export const signUpPage = new MainLayout({
-  content: new SignUpPage(),
-});
+export class SignUpPageLayout extends MainLayout {
+  constructor() {
+    super({
+      content: new SignUpPage(),
+    });
+  }
+}

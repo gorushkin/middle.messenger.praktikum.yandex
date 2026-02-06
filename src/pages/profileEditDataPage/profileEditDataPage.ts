@@ -18,7 +18,7 @@ class ProfileEditDataPage extends Block {
         new ProfileInput({
           ...field,
           isEditing: true,
-        })
+        }),
     );
 
     super(template, {
@@ -35,9 +35,13 @@ class ProfileEditDataPage extends Block {
   }
 }
 
-export const profileEditDataPage = new MainLayout({
-  content: new ProfileLayout({
-    profileContent: new ProfileEditDataPage(),
-    className: "profile__content-edit",
-  }),
-});
+export class ProfileEditDataPageLayout extends MainLayout {
+  constructor() {
+    super({
+      content: new ProfileLayout({
+        profileContent: new ProfileEditDataPage(),
+        className: "profile__content-edit",
+      }),
+    });
+  }
+}

@@ -1,1 +1,1 @@
-export { chatPage } from "./chats";
+export { ChatPageLayout } from "./chats";

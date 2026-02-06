@@ -1,1 +1,1 @@
-export { profilePage } from "./profilePage";
+export { ProfilePageLayout } from "./profilePage";
