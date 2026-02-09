@@ -1,20 +1,39 @@
 import { Block, type PropsAndChildren } from "../../../libs/block";
+import { store, STORE_EVENTS } from "../../../libs/store";
+import type { Chat } from "../../../pages/chats/chatApt";
 import { ChatItem } from "../chat-item";
 
 import template from "./chat-list-items.hbs?raw";
 import "./style.scss";
 
-const items = [
-  { count: 3, time: "12:00", name: "Chat 1", lastMessage: "Last message" },
-  { count: 23, time: "12:00", name: "Chat 2", lastMessage: "Hello" },
-].map((item) => new ChatItem(item));
-
 export class ChatListItems extends Block {
   constructor(propsAndChildren: PropsAndChildren) {
-    const propsWithChildren = {
-      ...propsAndChildren,
-      items,
-    };
-    super(template, propsWithChildren, true);
+    super(template, propsAndChildren, true);
+
+    store.on(STORE_EVENTS.UPDATED, () => {
+      const items = store.get<Chat[]>("chats") || [];
+      this.setProps({ items });
+    });
+  }
+
+  componentDidUpdate(
+    oldProps: PropsAndChildren,
+    newProps: PropsAndChildren,
+  ): boolean {
+    const itemsChanged = oldProps.items !== newProps.items;
+
+    if (itemsChanged && Array.isArray(newProps.items)) {
+      this.children.items = newProps.items.map(
+        (item: Chat) =>
+          new ChatItem({
+            count: item.unread_count,
+            time: "12:00",
+            name: item.title,
+            lastMessage: item.last_message || "Нет сообщений",
+          }),
+      );
+    }
+
+    return super.componentDidUpdate(oldProps, newProps);
   }
 }

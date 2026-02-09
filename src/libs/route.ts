@@ -44,6 +44,7 @@ export class Route {
   leave() {
     if (this._block) {
       this._block.getContent().remove();
+      this._block = null;
     }
   }
 

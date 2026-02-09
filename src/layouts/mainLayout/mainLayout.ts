@@ -10,7 +10,7 @@ export class MainLayout extends Block {
     const propsWithButton = {
       ...propsAndChildren,
       link: new Link({
-        href: "/",
+        href: "/demo",
         content: "Demo Page",
         className: "main-layout__chat-link",
       }),

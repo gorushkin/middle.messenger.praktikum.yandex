@@ -5,7 +5,12 @@ import template from "./chat-item.hbs?raw";
 import "./style.scss";
 
 export class ChatItem extends Block {
-  constructor(params: { count: number; time: string }) {
+  constructor(params: {
+    count: number;
+    time: string;
+    name?: string;
+    lastMessage?: string;
+  }) {
     super(template, params, true);
   }
 }

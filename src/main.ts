@@ -1,4 +1,4 @@
-import { Router } from "./libs/router";
+import { router } from "./libs/";
 import { ChatPageLayout } from "./pages/chats";
 import { ErrorPageLayout } from "./pages/errorPage";
 import { LoginPageLayout } from "./pages/loginPage";
@@ -10,10 +10,10 @@ import { RootPageLayout } from "./pages/rootPage";
 import { SignUpPageLayout } from "./pages/signUpPage";
 import "./style.scss";
 
-const router = new Router("app");
-
 router
-  .use("/", RootPageLayout)
+  .setRootQuery("app")
+  .use("/demo", RootPageLayout)
+  .use("/", LoginPageLayout)
   .use("/login", LoginPageLayout)
   .use("/signup", SignUpPageLayout)
   .use("/chat", ChatPageLayout)

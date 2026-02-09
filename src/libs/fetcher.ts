@@ -37,33 +37,52 @@ const isDataEmpty = (data?: PlainObject): boolean => {
   return false;
 };
 
-type HTTPTransportMethod = (
+type HTTPTransportMethod<T = unknown, E = string> = (
   // eslint-disable-next-line no-unused-vars
   url: string,
   // eslint-disable-next-line no-unused-vars
-  options?: RequestOptions
-) => Promise<XMLHttpRequest>;
+  options?: RequestOptions,
+) => Promise<Response<T, E>>;
+
+type Response<T = unknown, E = string> =
+  | { ok: true; data: T }
+  | { ok: false; error: E };
 
 export class HTTPTransport {
-  get: HTTPTransportMethod = (url, options = {}) => {
+  private baseUrl: string = "https://ya-praktikum.tech";
+
+  private url = "";
+
+  constructor(url: string) {
+    this.url = url;
+  }
+  get = <T = unknown, E = string>(
+    url: string,
+    options: RequestOptions = {},
+  ): Promise<Response<T, E>> => {
     let updatedUrl = url;
 
     if (options.data && !isDataEmpty(options.data)) {
       updatedUrl = url + queryStringify(options.data);
     }
 
-    return this.request(
-      updatedUrl,
+    return this.request<T, E>(
+      this.baseUrl + this.url + updatedUrl,
       { ...options, method: METHODS.GET },
-      options.timeout
+      options.timeout,
     );
   };
 
-  post: HTTPTransportMethod = (url, options = {}) => {
-    return this.request(
-      url,
+  post = async <T = unknown, E = string>(
+    url: string,
+    options: RequestOptions = {},
+  ): Promise<Response<T, E>> => {
+    const fullUrl = this.baseUrl + this.url + url;
+
+    return await this.request<T, E>(
+      fullUrl,
       { ...options, method: METHODS.POST },
-      options.timeout
+      options.timeout,
     );
   };
 
@@ -71,7 +90,7 @@ export class HTTPTransport {
     return this.request(
       url,
       { ...options, method: METHODS.PUT },
-      options.timeout
+      options.timeout,
     );
   };
 
@@ -79,27 +98,39 @@ export class HTTPTransport {
     return this.request(
       url,
       { ...options, method: METHODS.DELETE },
-      options.timeout
+      options.timeout,
     );
   };
 
-  request(
+  request<T, E>(
     url: string,
     options: RequestOptions,
-    timeout: number = 5000
-  ): Promise<XMLHttpRequest> {
+    timeout: number = 5000,
+  ): Promise<Response<T, E>> {
     const { method = METHODS.GET, data, headers = {} } = options;
 
     const xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
     xhr.timeout = timeout;
 
     return new Promise((resolve, reject) => {
       xhr.open(method, url);
 
-      xhr.onload = () => resolve(xhr);
+      xhr.onload = () => {
+        if (xhr.status >= 400) {
+          reject({
+            ok: false,
+            error: `HTTP error ${xhr.status}: ${xhr.statusText}` as E,
+          });
+        }
+
+        resolve({ ok: true, data: JSON.parse(xhr.response) as T });
+      };
       xhr.onerror = reject;
       xhr.onabort = reject;
       xhr.ontimeout = reject;
+
+      xhr.setRequestHeader("Content-Type", "application/json");
 
       Object.entries(headers).forEach(([key, value]: [string, string]) => {
         xhr.setRequestHeader(key, value);

@@ -2,14 +2,16 @@ import { Link } from "../../components/link/link";
 import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
 import { ChatList } from "../../widgets/chat-list/chat-list";
-import { ChatListItems } from "../../widgets/chat-list/chat-list-items";
 import { ChatWindow } from "../../widgets/chat-window";
 
+import { ChatsAPI } from "./chatApt";
 import template from "./chats.hbs?raw";
 
 import "./style.scss";
 
 class ChatsPage extends Block {
+  api = new ChatsAPI();
+
   constructor() {
     const chatListHeader = new Link({
       href: "/profile",
@@ -25,12 +27,13 @@ class ChatsPage extends Block {
       {
         chatList: new ChatList({
           chatListHeader,
-          chatListItems: new ChatListItems({}),
         }),
         chatWindow: new ChatWindow(),
       },
       true,
     );
+    // TODO: add onMount to block
+    void this.api.fetchChats();
   }
 }
 

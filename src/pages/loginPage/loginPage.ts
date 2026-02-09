@@ -6,12 +6,19 @@ import { FormLayoutBlock } from "../../layouts/formLayout";
 import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
 
+import { AuthAPI } from "./api";
 import { LoginFormFields } from "./fields";
 import template from "./loginPage.hbs?raw";
 import "./style.scss";
 import { loginValidator, passwordValidator } from "./validators";
 
-class LoginForm extends Form {
+type LoginFormData = {
+  login: string;
+  password: string;
+};
+
+class LoginForm extends Form<LoginFormData> {
+  api = new AuthAPI();
   constructor() {
     const fields = new LoginFormFields();
 
@@ -35,6 +42,9 @@ class LoginForm extends Form {
 
     super({
       formContent,
+      onSubmit: (values: LoginFormData) => {
+        this.handleSubmit(values);
+      },
     });
 
     this.addValidators({
@@ -43,6 +53,10 @@ class LoginForm extends Form {
     });
 
     fields.setValidator(this.formValidator);
+  }
+
+  handleSubmit(values: LoginFormData) {
+    this.api.login(values);
   }
 }
 

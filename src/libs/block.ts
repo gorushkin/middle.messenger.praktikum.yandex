@@ -33,12 +33,9 @@ export class Block<
 
   template: string;
 
-  compiler = Handlebars.compile;
-
   _id: string | null;
 
   children: Children = {};
-
   constructor(
     template: string = "",
     propsAndChildren: PropsAndChildren<P> = {} as PropsAndChildren<P>,
@@ -70,7 +67,9 @@ export class Block<
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (
         value instanceof Block ||
-        (Array.isArray(value) && value.every((v) => v instanceof Block))
+        (Array.isArray(value) &&
+          value.length > 0 &&
+          value.every((v) => v instanceof Block))
       ) {
         children[key] = value;
       } else {

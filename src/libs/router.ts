@@ -3,23 +3,21 @@ import { Route, type BlockConstructor } from "./route";
 export const LINK_DATA_ATTR = "spa-link";
 
 export class Router {
-  private static __instance: Router | null = null;
   private routes: Route[] = [];
   private history: History = window.history;
   private _currentRoute: Route | null = null;
   private _rootQuery: string = "";
 
-  constructor(rootQuery: string) {
-    if (Router.__instance) {
-      return Router.__instance;
-    }
-
+  constructor(rootQuery?: string) {
     this.routes = [];
     this.history = window.history;
     this._currentRoute = null;
-    this._rootQuery = rootQuery;
+    this._rootQuery = rootQuery || "";
+  }
 
-    Router.__instance = this;
+  setRootQuery(rootQuery: string) {
+    this._rootQuery = rootQuery;
+    return this;
   }
 
   use(pathname: string, block: BlockConstructor) {
@@ -30,6 +28,10 @@ export class Router {
   }
 
   start() {
+    if (!this._rootQuery) {
+      throw new Error("Root query is not defined");
+    }
+
     this.addListeners();
     this._onRoute(window.location.pathname);
   }
@@ -98,3 +100,5 @@ export class Router {
     return this.routes.find((route) => route.match(pathname));
   }
 }
+
+export const router = new Router();

@@ -3,10 +3,16 @@ import { Block, InputBlock } from "../../libs/block";
 import template from "./form.hbs?raw";
 import { FormValidator, type Validator } from "./fromValidator";
 
-export class Form extends Block {
+export class Form<
+  T extends Record<string, string> = { [key: string]: string },
+> extends Block {
   formValidator: FormValidator = new FormValidator();
-  constructor(params: { formContent: Block }) {
-    const { formContent } = params;
+  constructor(params: {
+    formContent: Block;
+    // eslint-disable-next-line no-unused-vars
+    onSubmit?: (values: T) => void;
+  }) {
+    const { formContent, onSubmit } = params;
 
     const formPropsWithEvents = {
       formContent,
@@ -17,14 +23,16 @@ export class Form extends Block {
           const values = this.getFormData(form);
           this.formValidator.setValues(values);
           this.onSubmit();
-          console.info(values);
+          if (onSubmit) {
+            onSubmit(values);
+          }
         },
       },
     };
     super(template, formPropsWithEvents, true);
   }
 
-  getFormData = (form: HTMLFormElement): { [key: string]: string } => {
+  getFormData = (form: HTMLFormElement): T => {
     const formData = new FormData(form);
     const data: { [key: string]: string } = {};
 
@@ -32,7 +40,7 @@ export class Form extends Block {
       data[key] = value.toString();
     }
 
-    return data;
+    return data as T;
   };
 
   onSubmit() {
