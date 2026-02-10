@@ -1,22 +1,22 @@
 <div class="profile__content profile__content--view">
-   {{{profileAvatar}}}
+  {{{profileAvatar}}}
   <h2 class="profile__info-name">
     {{user.first_name}} {{user.second_name}}
   </h2>
   <div class="profile__info-section">
-      <ul class="profile__info-list">
-        {{#each userFields}}
+    <ul class="profile__info-list">
+      {{#each userFields}}
         <li class="profile__info-item">
           {{{this}}}
         </li>
-        {{/each}}
-      </ul>
+      {{/each}}
+    </ul>
   </div>
   <ul class="profile__info-actions">
     {{#each actions}}
-    <li class="profile__info-item">
+      <li class="profile__info-item">
         {{{this}}}
-    </li>
+      </li>
     {{/each}}
   </ul>
 </div>

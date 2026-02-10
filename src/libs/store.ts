@@ -81,7 +81,7 @@ class Store extends EventBus {
     this.emit(Store.EVENTS.UPDATED);
   }
 
-  public get<T>(path: string): T | null {
+  public get<T>(path: string, defaultValue = null): T | null {
     if (!path || typeof path !== "string") {
       throw new Error("path must be string");
     }
@@ -93,7 +93,7 @@ class Store extends EventBus {
     }
 
     if (!restKeys.length) {
-      return this.state[firstKey] as T;
+      return (this.state[firstKey] as T) ?? defaultValue;
     }
 
     return null;

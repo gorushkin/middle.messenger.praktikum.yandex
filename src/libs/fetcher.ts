@@ -56,6 +56,10 @@ export class HTTPTransport {
   constructor(url: string) {
     this.url = url;
   }
+
+  private getFullUrl(url: string): string {
+    return this.baseUrl + this.url + url;
+  }
   get = <T = unknown, E = string>(
     url: string,
     options: RequestOptions = {},
@@ -67,7 +71,7 @@ export class HTTPTransport {
     }
 
     return this.request<T, E>(
-      this.baseUrl + this.url + updatedUrl,
+      this.getFullUrl(updatedUrl),
       { ...options, method: METHODS.GET },
       options.timeout,
     );
@@ -77,18 +81,19 @@ export class HTTPTransport {
     url: string,
     options: RequestOptions = {},
   ): Promise<Response<T, E>> => {
-    const fullUrl = this.baseUrl + this.url + url;
-
     return await this.request<T, E>(
-      fullUrl,
+      this.getFullUrl(url),
       { ...options, method: METHODS.POST },
       options.timeout,
     );
   };
 
-  put: HTTPTransportMethod = (url, options = {}) => {
+  put = async <T = unknown, E = string>(
+    url: string,
+    options: RequestOptions = {},
+  ): Promise<Response<T, E>> => {
     return this.request(
-      url,
+      this.getFullUrl(url),
       { ...options, method: METHODS.PUT },
       options.timeout,
     );
@@ -102,7 +107,7 @@ export class HTTPTransport {
     );
   };
 
-  request<T, E>(
+  async request<T, E>(
     url: string,
     options: RequestOptions,
     timeout: number = 5000,
@@ -113,19 +118,10 @@ export class HTTPTransport {
     xhr.withCredentials = true;
     xhr.timeout = timeout;
 
-    return new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       xhr.open(method, url);
 
-      xhr.onload = () => {
-        if (xhr.status >= 400) {
-          reject({
-            ok: false,
-            error: `HTTP error ${xhr.status}: ${xhr.statusText}` as E,
-          });
-        }
-
-        resolve({ ok: true, data: JSON.parse(xhr.response) as T });
-      };
+      xhr.onload = () => resolve(xhr);
       xhr.onerror = reject;
       xhr.onabort = reject;
       xhr.ontimeout = reject;
@@ -142,5 +138,17 @@ export class HTTPTransport {
         xhr.send(JSON.stringify(data));
       }
     });
+
+    try {
+      const xhr = (await promise) as XMLHttpRequest;
+
+      if (xhr.status >= 400) {
+        throw new Error(`HTTP error ${xhr.status}: ${xhr.statusText}`);
+      }
+
+      return { ok: true, data: JSON.parse(xhr.response) as T };
+    } catch (error) {
+      return { ok: false, error: error as E };
+    }
   }
 }

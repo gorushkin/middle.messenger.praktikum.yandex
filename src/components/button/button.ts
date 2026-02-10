@@ -8,6 +8,7 @@ export type ButtonProps = {
   type?: "button" | "submit" | "reset";
   className?: string;
   events?: Record<string, EventListener>;
+  formId?: string;
 };
 
 export class Button extends Block<ButtonProps> {

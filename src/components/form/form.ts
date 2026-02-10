@@ -10,26 +10,33 @@ export class Form<
   constructor(params: {
     formContent: Block;
     // eslint-disable-next-line no-unused-vars
-    onSubmit?: (values: T) => void;
+    onSubmit?: (values: T) => void | Promise<void>;
+    id?: string;
+    className?: string;
   }) {
-    const { formContent, onSubmit } = params;
+    const { formContent, onSubmit, id, className } = params;
 
-    const formPropsWithEvents = {
-      formContent,
-      events: {
-        submit: (e: Event) => {
-          e.preventDefault();
-          const form = e.target as HTMLFormElement;
-          const values = this.getFormData(form);
-          this.formValidator.setValues(values);
-          this.onSubmit();
-          if (onSubmit) {
-            onSubmit(values);
-          }
+    super(
+      template,
+      {
+        formContent,
+        events: {
+          submit: async (e: Event) => {
+            e.preventDefault();
+            const form = e.target as HTMLFormElement;
+            const values = this.getFormData(form);
+            this.formValidator.setValues(values);
+            this.onSubmit();
+            if (onSubmit) {
+              await onSubmit(values);
+            }
+          },
         },
+        id,
+        className,
       },
-    };
-    super(template, formPropsWithEvents, true);
+      true,
+    );
   }
 
   getFormData = (form: HTMLFormElement): T => {
