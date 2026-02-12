@@ -24,12 +24,12 @@ const USER_ALREADY_IN_SYSTEM_REASON = "User already in system";
 export class AuthAPI {
   private authAPI = new HTTPTransport(AUTH_ENDPOINT);
 
-  async login(data: LoginDataRequest) {
+  async login(body: LoginDataRequest) {
     const response = await this.authAPI.post<
       string,
       { reason: typeof USER_ALREADY_IN_SYSTEM_REASON }
     >("/signin", {
-      data,
+      body,
     });
 
     if (response.ok) {
@@ -54,9 +54,9 @@ export class AuthAPI {
     }
   }
 
-  async signup(data: SignupDataRequest) {
+  async signup(body: SignupDataRequest) {
     const response = await this.authAPI.post("/signup", {
-      data,
+      body,
     });
 
     if (response.ok) {

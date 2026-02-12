@@ -6,7 +6,7 @@ import { FormLayoutBlock } from "../../layouts/formLayout";
 import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
 
-import { AuthAPI } from "./api";
+import { authApi } from "./api";
 import { LoginFormFields } from "./fields";
 import template from "./loginPage.hbs?raw";
 import "./style.scss";
@@ -18,7 +18,7 @@ type LoginFormData = {
 };
 
 class LoginForm extends Form<LoginFormData> {
-  api = new AuthAPI();
+  api = authApi;
   constructor() {
     const fields = new LoginFormFields();
 

@@ -4,8 +4,6 @@ import { HTTPTransport } from "../libs/fetcher";
 import { store } from "../libs/store";
 
 const AUTH_ENDPOINT = "/api/v2/user";
-const PROFILE_URL = "/profile";
-const PASSWORD_URL = "/password";
 
 export type UserProfileUpdateRequest = {
   first_name: string;
@@ -24,9 +22,9 @@ export type UpdateUserPasswordRequest = {
 class UserAPI {
   private api = new HTTPTransport(AUTH_ENDPOINT);
 
-  async updateProfile(data: UserProfileUpdateRequest) {
-    const response = await this.api.put<UserProfile>(PROFILE_URL, {
-      data,
+  async updateProfile(body: UserProfileUpdateRequest) {
+    const response = await this.api.put<UserProfile>("/profile", {
+      body,
     });
 
     if (response.ok) {
@@ -34,21 +32,35 @@ class UserAPI {
       router.go("/profile");
     } else {
       const user = store.get<UserProfile>("user", null);
-      // TODO: replace with proper error handling
       store.set("user", null);
       store.set("user", user);
     }
   }
 
-  async updatePassword(data: UpdateUserPasswordRequest) {
-    const response = await this.api.put<UserProfile>(PASSWORD_URL, {
-      data,
+  async updatePassword(body: UpdateUserPasswordRequest) {
+    const response = await this.api.put<UserProfile>("/password", {
+      body,
     });
 
     if (response.ok) {
       router.go("/profile");
     } else {
       console.error("Failed to update password");
+    }
+  }
+
+  async updateAvatar(file: File) {
+    const formData = new FormData();
+    formData.append("avatar", file);
+    const response = await this.api.put("/profile/avatar", { body: formData });
+
+    if (response.ok) {
+      store.set("user", response.data);
+      router.go("/profile");
+    } else {
+      const user = store.get<UserProfile>("user", null);
+      store.set("user", null);
+      store.set("user", user);
     }
   }
 }

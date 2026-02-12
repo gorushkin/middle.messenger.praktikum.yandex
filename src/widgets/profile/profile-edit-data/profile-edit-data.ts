@@ -12,7 +12,7 @@ export class ProfileViewEditData extends Block {
   constructor(propsAndChildren: PropsAndChildren) {
     const propsWithAvatar = {
       ...propsAndChildren,
-      profileAvatar: new ProfileAvatar(),
+      profileAvatar: new ProfileAvatar({ isEditable: true }),
     };
     super(template, propsWithAvatar, true);
 

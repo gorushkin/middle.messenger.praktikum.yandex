@@ -11,11 +11,12 @@ type PlainObject<T = unknown> = {
   [key: string]: T;
 };
 
-interface RequestOptions {
+interface RequestOptions<B = unknown> {
   data?: PlainObject;
   headers?: Record<string, string>;
   method?: HTTPMethod;
   timeout?: number;
+  body?: B;
 }
 
 function queryStringify(data: PlainObject): string {
@@ -57,7 +58,7 @@ export class HTTPTransport {
     this.url = url;
   }
 
-  private getFullUrl(url: string): string {
+  getFullUrl(url: string): string {
     return this.baseUrl + this.url + url;
   }
   get = <T = unknown, E = string>(
@@ -112,7 +113,7 @@ export class HTTPTransport {
     options: RequestOptions,
     timeout: number = 5000,
   ): Promise<Response<T, E>> {
-    const { method = METHODS.GET, data, headers = {} } = options;
+    const { method = METHODS.GET, body, headers = {} } = options;
 
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
@@ -126,16 +127,20 @@ export class HTTPTransport {
       xhr.onabort = reject;
       xhr.ontimeout = reject;
 
-      xhr.setRequestHeader("Content-Type", "application/json");
+      const isFormData = body instanceof FormData;
+
+      if (!isFormData) {
+        xhr.setRequestHeader("Content-Type", "application/json");
+      }
 
       Object.entries(headers).forEach(([key, value]: [string, string]) => {
         xhr.setRequestHeader(key, value);
       });
 
-      if (method === METHODS.GET || !data) {
+      if (method === METHODS.GET || !body) {
         xhr.send();
       } else {
-        xhr.send(JSON.stringify(data));
+        xhr.send(isFormData ? body : JSON.stringify(body));
       }
     });
 

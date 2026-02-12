@@ -7,10 +7,55 @@
 }
 
 .profile__avatar-wrapper {
-  display: grid;
-  place-items: center;
+  position: relative;
   width: 130px;
   height: 130px;
-  background: $input-background;
+}
+
+.profile__avatar-input {
+  display: none;
+}
+
+.profile__avatar-label {
+  display: block;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
+  background: $input-background;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+
+    .profile__avatar-overlay {
+      opacity: 1;
+    }
+  }
+}
+
+.profile__avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile__avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
 }

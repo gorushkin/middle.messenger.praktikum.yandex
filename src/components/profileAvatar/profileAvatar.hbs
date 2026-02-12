@@ -1,5 +1,41 @@
 <div class="profile__avatar-section">
-  <div class="profile__avatar-wrapper">
-    <img src="/profile_default.svg" alt="Arrow Icon" />
-  </div>
+  {{#unless isEditable}}
+    <div class="profile__avatar-wrapper">
+      <img
+        src="/profile_default.svg"
+        alt="Default Avatar"
+        class="profile__avatar-image"
+      />
+    </div>
+  {{/unless}}
+  {{#if isEditable}}
+    <div class="profile__avatar-wrapper">
+      <input
+        type="file"
+        accept="image/*"
+        class="profile__avatar-input"
+        id="{{id}}"
+      />
+      <label for="{{id}}" class="profile__avatar-label">
+        {{#if imageUrl}}
+          <img
+            src="{{imageUrl}}"
+            alt="Profile Avatar"
+            class="profile__avatar-image"
+          />
+        {{else}}
+          <img
+            src="/profile_default.svg"
+            alt="Default Avatar"
+            class="profile__avatar-image"
+          />
+        {{/if}}
+        <div class="profile__avatar-overlay">
+          <span>
+            Выбрать
+          </span>
+        </div>
+      </label>
+    </div>
+  {{/if}}
 </div>
