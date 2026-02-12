@@ -3,8 +3,17 @@ import { Block, type PropsAndChildren } from "../../../libs/block";
 
 import template from "./chatSettingsPopupContent.hbs?raw";
 
-export class ChatSettingsPopupContent extends Block {
-  constructor(propsAndChildren: PropsAndChildren) {
+type ChatSettingsPopupContentProps = {
+  onAddUserClick: () => void;
+  onRemoveUserClick: () => void;
+};
+
+export class ChatSettingsPopupContent extends Block<ChatSettingsPopupContentProps> {
+  constructor(
+    propsAndChildren: PropsAndChildren<ChatSettingsPopupContentProps>,
+  ) {
+    const { onAddUserClick, onRemoveUserClick } = propsAndChildren;
+
     const addUserButton = new Button({
       text: "Добавить пользователя",
       type: "button",
@@ -12,7 +21,7 @@ export class ChatSettingsPopupContent extends Block {
       className: "chat-settings-popup__button",
       events: {
         click: () => {
-          console.log("Добавить пользователя");
+          onAddUserClick?.();
         },
       },
     });
@@ -25,7 +34,7 @@ export class ChatSettingsPopupContent extends Block {
         "chat-settings-popup__button chat-settings-popup__button--danger",
       events: {
         click: () => {
-          console.log("Удалить пользователя");
+          onRemoveUserClick?.();
         },
       },
     });
