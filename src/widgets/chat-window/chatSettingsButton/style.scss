@@ -1,0 +1,30 @@
+@use "/src/variables.scss" as *;
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-header__info {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.chat-header__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: $input-background;
+  flex-shrink: 0;
+}
+
+.chat-header__title {
+  font-size: 14px;
+  margin: 0;
+}
+
+.chat-header__actions {
+  position: relative;
+}
