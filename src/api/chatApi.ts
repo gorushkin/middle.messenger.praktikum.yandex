@@ -1,5 +1,5 @@
-import { HTTPTransport } from "../../libs/fetcher";
-import { store } from "../../libs/store";
+import { HTTPTransport } from "../libs/fetcher";
+import { store } from "../libs/store";
 
 const CHATS_ENDPOINT = "/api/v2/chats";
 
@@ -14,7 +14,7 @@ export type Chat = {
   last_message: string | null;
 };
 
-export class ChatsAPI {
+class ChatsAPI {
   private chatsAPI = new HTTPTransport(CHATS_ENDPOINT);
 
   async fetchChats() {
@@ -26,3 +26,5 @@ export class ChatsAPI {
     }
   }
 }
+
+export const chatsApi = new ChatsAPI();

@@ -1,4 +1,4 @@
-import { userApi, type UserProfileUpdateRequest } from "../../api/userApi";
+import { userApi, type UserProfileUpdateRequest } from "../../api";
 import { Button } from "../../components/button";
 import { Form } from "../../components/form";
 import { MainLayout } from "../../layouts/mainLayout";

@@ -1,3 +1,4 @@
+import { authApi } from "../../../api";
 import { Button } from "../../../components/button";
 import { Link } from "../../../components/link";
 import { ProfileInput } from "../../../components/profile-input";
@@ -6,7 +7,6 @@ import type { UserProfile } from "../../../entities/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
 import { mapProfileToTemplateData } from "../../../libs/mapProfileToTemplateData";
 import { store, STORE_EVENTS } from "../../../libs/store";
-import { authApi } from "../../../pages/loginPage/api";
 
 import template from "./profile-view.hbs?raw";
 

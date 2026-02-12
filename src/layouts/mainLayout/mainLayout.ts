@@ -1,6 +1,6 @@
+import { authApi } from "../../api";
 import { Link } from "../../components/link";
 import { Block, type PropsAndChildren } from "../../libs/block";
-import { authApi } from "../../pages/loginPage/api";
 
 import template from "./mainLayout.hbs?raw";
 

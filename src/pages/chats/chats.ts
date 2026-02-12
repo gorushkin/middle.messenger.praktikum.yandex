@@ -1,16 +1,16 @@
+import { chatsApi } from "../../api";
 import { Link } from "../../components/link/link";
 import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
 import { ChatList } from "../../widgets/chat-list/chat-list";
 import { ChatWindow } from "../../widgets/chat-window";
 
-import { ChatsAPI } from "./chatApt";
 import template from "./chats.hbs?raw";
 
 import "./style.scss";
 
 class ChatsPage extends Block {
-  api = new ChatsAPI();
+  api = chatsApi;
 
   constructor() {
     const chatListHeader = new Link({

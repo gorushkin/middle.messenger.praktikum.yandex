@@ -1,16 +1,16 @@
-import type { UserProfile } from "../../entities/user/user";
-import { router } from "../../libs";
-import { HTTPTransport } from "../../libs/fetcher";
-import { store } from "../../libs/store";
+import type { UserProfile } from "../entities/user/user";
+import { router } from "../libs";
+import { HTTPTransport } from "../libs/fetcher";
+import { store } from "../libs/store";
 
 const AUTH_ENDPOINT = "/api/v2/auth";
 
-type LoginDataRequest = {
+export type LoginDataRequest = {
   login: string;
   password: string;
 };
 
-type SignupDataRequest = {
+export type SignupDataRequest = {
   login: string;
   password: string;
   first_name: string;
@@ -21,7 +21,7 @@ type SignupDataRequest = {
 
 const USER_ALREADY_IN_SYSTEM_REASON = "User already in system";
 
-export class AuthAPI {
+class AuthAPI {
   private authAPI = new HTTPTransport(AUTH_ENDPOINT);
 
   async login(body: LoginDataRequest) {

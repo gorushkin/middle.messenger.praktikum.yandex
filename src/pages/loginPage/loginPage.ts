@@ -1,3 +1,4 @@
+import { authApi } from "../../api";
 import { Button } from "../../components/button";
 import { Form } from "../../components/form";
 import { Link } from "../../components/link";
@@ -6,7 +7,6 @@ import { FormLayoutBlock } from "../../layouts/formLayout";
 import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
 
-import { authApi } from "./api";
 import { LoginFormFields } from "./fields";
 import template from "./loginPage.hbs?raw";
 import "./style.scss";

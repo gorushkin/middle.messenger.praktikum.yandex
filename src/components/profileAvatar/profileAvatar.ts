@@ -1,4 +1,4 @@
-import { userApi } from "../../api/userApi";
+import { userApi } from "../../api";
 import { Block } from "../../libs/block";
 
 import template from "./profileAvatar.hbs?raw";
@@ -11,8 +11,6 @@ type ProfileAvatarProps = {
 };
 
 export class ProfileAvatar extends Block<ProfileAvatarProps> {
-  private selectedFile: File | null = null;
-
   constructor(props: ProfileAvatarProps = {}) {
     const { isEditable } = props;
     super(
@@ -49,8 +47,6 @@ export class ProfileAvatar extends Block<ProfileAvatarProps> {
     const file = input.files?.[0];
 
     if (file) {
-      this.selectedFile = file;
-
       const imageUrl = URL.createObjectURL(file);
       this.setProps({ imageUrl });
 
