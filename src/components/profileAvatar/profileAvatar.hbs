@@ -1,11 +1,7 @@
 <div class="profile__avatar-section">
   {{#unless isEditable}}
     <div class="profile__avatar-wrapper">
-      <img
-        src="/profile_default.svg"
-        alt="Default Avatar"
-        class="profile__avatar-image"
-      />
+      {{{currentImage}}}
     </div>
   {{/unless}}
   {{#if isEditable}}
@@ -17,19 +13,7 @@
         id="{{id}}"
       />
       <label for="{{id}}" class="profile__avatar-label">
-        {{#if imageUrl}}
-          <img
-            src="{{imageUrl}}"
-            alt="Profile Avatar"
-            class="profile__avatar-image"
-          />
-        {{else}}
-          <img
-            src="/profile_default.svg"
-            alt="Default Avatar"
-            class="profile__avatar-image"
-          />
-        {{/if}}
+        {{{currentImage}}}
         <div class="profile__avatar-overlay">
           <span>
             Выбрать

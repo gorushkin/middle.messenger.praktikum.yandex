@@ -1,5 +1,6 @@
 import { userApi } from "../../api";
 import { Block } from "../../libs/block";
+import { Image } from "../image";
 
 import template from "./profileAvatar.hbs?raw";
 
@@ -8,15 +9,29 @@ import "./style.scss";
 type ProfileAvatarProps = {
   imageUrl?: string;
   isEditable?: boolean;
+  currentImage?: Image | null;
+  defaultImage?: Image;
 };
 
+const DEFAULT_IMAGE_URL = "/profile_default.svg";
+
 export class ProfileAvatar extends Block<ProfileAvatarProps> {
+  private currentImageComponent: Image;
+
   constructor(props: ProfileAvatarProps = {}) {
-    const { isEditable } = props;
+    const { isEditable, imageUrl } = props;
+
+    const currentImage = new Image({
+      src: imageUrl ?? DEFAULT_IMAGE_URL,
+      alt: "Profile Avatar",
+      className: "profile__avatar-image",
+    });
+
     super(
       template,
       {
         ...props,
+        currentImage,
         ...(isEditable
           ? {
               events: {
@@ -28,6 +43,8 @@ export class ProfileAvatar extends Block<ProfileAvatarProps> {
       },
       true,
     );
+
+    this.currentImageComponent = currentImage;
   }
 
   private handleClick(e: Event) {
@@ -48,7 +65,8 @@ export class ProfileAvatar extends Block<ProfileAvatarProps> {
 
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      this.setProps({ imageUrl });
+
+      this.currentImageComponent.setProps({ src: imageUrl });
 
       await userApi.updateAvatar(file);
     }
