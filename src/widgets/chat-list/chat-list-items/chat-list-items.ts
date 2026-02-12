@@ -24,13 +24,7 @@ export class ChatListItems extends Block {
 
     if (itemsChanged && Array.isArray(newProps.items)) {
       this.children.items = newProps.items.map(
-        (item: Chat) =>
-          new ChatItem({
-            count: item.unread_count,
-            time: "12:00",
-            name: item.title,
-            lastMessage: item.last_message || "Нет сообщений",
-          }),
+        (item: Chat) => new ChatItem(item),
       );
     }
 

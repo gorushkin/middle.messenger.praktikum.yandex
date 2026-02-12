@@ -32,7 +32,11 @@ class ChatsPage extends Block {
       },
       true,
     );
-    // TODO: add onMount to block
+
+    this.onMount();
+  }
+
+  async onMount() {
     void this.api.fetchChats();
   }
 }
