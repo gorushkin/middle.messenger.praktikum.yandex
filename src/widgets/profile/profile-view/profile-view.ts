@@ -1,3 +1,4 @@
+import { Button } from "../../../components/button";
 import { Link } from "../../../components/link";
 import { ProfileInput } from "../../../components/profile-input";
 import { ProfileAvatar } from "../../../components/profileAvatar";
@@ -5,6 +6,7 @@ import type { UserProfile } from "../../../entities/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
 import { mapProfileToTemplateData } from "../../../libs/mapProfileToTemplateData";
 import { store, STORE_EVENTS } from "../../../libs/store";
+import { authApi } from "../../../pages/loginPage/api";
 
 import template from "./profile-view.hbs?raw";
 
@@ -29,10 +31,16 @@ export class ProfileView extends Block {
             content: "Изменить пароль",
             className: "profile__link-edit",
           }),
-          new Link({
-            href: "/login",
-            content: "Выйти",
+          new Button({
+            text: "Выйти",
+            variant: "link",
             className: "profile__link-edit",
+            type: "button",
+            events: {
+              click: () => {
+                authApi.logout();
+              },
+            },
           }),
         ],
       },

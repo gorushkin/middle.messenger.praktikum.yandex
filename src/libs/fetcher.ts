@@ -143,10 +143,14 @@ export class HTTPTransport {
       const xhr = (await promise) as XMLHttpRequest;
 
       if (xhr.status >= 400) {
-        throw new Error(`HTTP error ${xhr.status}: ${xhr.statusText}`);
+        throw JSON.parse(xhr.response) as E;
       }
 
-      return { ok: true, data: JSON.parse(xhr.response) as T };
+      try {
+        return { ok: true, data: JSON.parse(xhr.response) as T };
+      } catch {
+        return { ok: true, data: xhr.response as T };
+      }
     } catch (error) {
       return { ok: false, error: error as E };
     }

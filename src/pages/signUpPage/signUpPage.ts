@@ -5,6 +5,7 @@ import { UserForm } from "../../components/userForm/userForm";
 import { FormLayoutBlock } from "../../layouts/formLayout";
 import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
+import { authApi } from "../loginPage/api";
 
 import { SignUpFormFields } from "./fields";
 import template from "./signUpPage.hbs?raw";
@@ -18,8 +19,19 @@ import {
   secondNameValidator,
 } from "./validators";
 
+type SignUpFormData = {
+  login: string;
+  password: string;
+  first_name: string;
+  second_name: string;
+  email: string;
+  phone: string;
+  password_confirm: string;
+};
+
 // TODO: refactor duplicate code with LoginPage
-class SignUpForm extends Form {
+class SignUpForm extends Form<SignUpFormData> {
+  api = authApi;
   constructor() {
     const fields = new SignUpFormFields();
 
@@ -43,6 +55,9 @@ class SignUpForm extends Form {
 
     super({
       formContent,
+      onSubmit: (values: SignUpFormData) => {
+        this.handleSubmit(values);
+      },
     });
 
     this.addValidators({
@@ -56,6 +71,10 @@ class SignUpForm extends Form {
     });
 
     fields.setValidator(this.formValidator);
+  }
+
+  handleSubmit(values: SignUpFormData) {
+    this.api.signup(values);
   }
 }
 

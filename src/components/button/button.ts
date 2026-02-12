@@ -6,6 +6,7 @@ import "./style.scss";
 export type ButtonProps = {
   text: string;
   type?: "button" | "submit" | "reset";
+  variant?: "primary" | "secondary" | "link";
   className?: string;
   events?: Record<string, EventListener>;
   formId?: string;
@@ -13,6 +14,10 @@ export type ButtonProps = {
 
 export class Button extends Block<ButtonProps> {
   constructor(propsAndChildren: PropsAndChildren<ButtonProps>) {
-    super(template, propsAndChildren, true);
+    const { variant = "primary", className = "", ...rest } = propsAndChildren;
+    const variantClass = variant ? variant : "primary";
+    const combinedClassName = `${variantClass} ${className}`.trim();
+
+    super(template, { ...rest, className: combinedClassName }, true);
   }
 }
