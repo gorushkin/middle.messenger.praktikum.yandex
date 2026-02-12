@@ -4,7 +4,9 @@ import { Popup } from "../../../components/popup";
 import { Block, type PropsAndChildren } from "../../../libs/block";
 
 import template from "./chatSettingsButton.hbs?raw";
+import { ChatSettingsPopupContent } from "./chatSettingsPopupContent";
 import "./style.scss";
+import "./chatSettingsPopupContent.scss";
 
 export class ChatSettingsButton extends Block {
   private popup: Popup;
@@ -23,8 +25,10 @@ export class ChatSettingsButton extends Block {
       },
     });
 
+    const popupContent = new ChatSettingsPopupContent({});
+
     const popup = new Popup({
-      content: "Настройки чата",
+      content: popupContent,
       isVisible: false,
       position: {
         x: "right",
@@ -33,8 +37,8 @@ export class ChatSettingsButton extends Block {
         yValue: 40,
       },
       events: {
-        click: () => {
-          popup.hide();
+        click: (e: Event) => {
+          e.stopPropagation();
         },
       },
     });
