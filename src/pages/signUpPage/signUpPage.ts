@@ -95,8 +95,11 @@ class SignUpPage extends Block {
 
 export class SignUpPageLayout extends MainLayout {
   constructor() {
-    super({
-      content: new SignUpPage(),
-    });
+    super(
+      {
+        content: new SignUpPage(),
+      },
+      false,
+    );
   }
 }

@@ -43,14 +43,17 @@ class AuthAPI {
     }
   }
 
-  async getUser() {
+  async getUser(isRoutePrivate = true) {
     const response = await this.authAPI.get<UserProfile>("/user");
 
     if (response.ok) {
       store.set("user", response.data);
     } else {
       store.set("user", null);
-      router.go("/login");
+
+      if (isRoutePrivate) {
+        router.go("/login");
+      }
     }
   }
 
