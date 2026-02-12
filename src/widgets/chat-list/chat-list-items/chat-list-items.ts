@@ -1,6 +1,7 @@
+import type { Chat } from "../../../api/chatApi";
 import { Block, type PropsAndChildren } from "../../../libs/block";
-import { store, STORE_EVENTS } from "../../../libs/store";
-import type { Chat } from "../../../pages/chats/chatApt";
+import { withSelectedChat } from "../../../libs/connect";
+import { isEqual } from "../../../libs/isEqual";
 import { ChatItem } from "../chat-item";
 
 import template from "./chat-list-items.hbs?raw";
@@ -9,22 +10,20 @@ import "./style.scss";
 export class ChatListItems extends Block {
   constructor(propsAndChildren: PropsAndChildren) {
     super(template, propsAndChildren, true);
-
-    store.on(STORE_EVENTS.UPDATED, () => {
-      const items = store.get<Chat[]>("chats") || [];
-      this.setProps({ items });
-    });
   }
 
   componentDidUpdate(
     oldProps: PropsAndChildren,
     newProps: PropsAndChildren,
   ): boolean {
-    const itemsChanged = oldProps.items !== newProps.items;
+    const itemsChanged = !isEqual(
+      { items: oldProps.chats },
+      { items: newProps.chats },
+    );
 
-    if (itemsChanged && Array.isArray(newProps.items)) {
-      this.children.items = newProps.items.map(
-        (item: Chat) => new ChatItem(item),
+    if (itemsChanged && Array.isArray(newProps.chats)) {
+      this.children.items = newProps.chats.map(
+        (item: Chat) => new (withSelectedChat(ChatItem))(item),
       );
     }
 

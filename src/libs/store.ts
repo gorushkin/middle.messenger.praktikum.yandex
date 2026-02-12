@@ -1,6 +1,7 @@
 import { EventBus } from "./eventBus";
+import { isPlainObject } from "./isPlainObject";
 
-type Indexed<T = unknown> = {
+export type Indexed<T = unknown> = {
   // eslint-disable-next-line no-unused-vars
   [key in string]: T;
 };
@@ -10,12 +11,6 @@ function set(object: unknown, path: string, value: unknown): unknown {
     throw new Error("path must be string");
   }
 
-  const isPlainObject = (v: unknown): v is Indexed =>
-    typeof v === "object" &&
-    v !== null &&
-    !Array.isArray(v) &&
-    Object.prototype.toString.call(v) === "[object Object]";
-
   function merge(lhs: Indexed, rhs: Indexed): Indexed {
     for (const p in rhs) {
       if (!Object.prototype.hasOwnProperty.call(rhs, p)) {
@@ -23,6 +18,7 @@ function set(object: unknown, path: string, value: unknown): unknown {
       }
 
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if ((rhs[p] as any).constructor === Object) {
           rhs[p] = merge(lhs[p] as Indexed, rhs[p] as Indexed);
         } else {

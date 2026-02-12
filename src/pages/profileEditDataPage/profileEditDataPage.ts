@@ -4,6 +4,7 @@ import { Form } from "../../components/form";
 import { MainLayout } from "../../layouts/mainLayout";
 import { ProfileLayout } from "../../layouts/profileLayout";
 import { Block } from "../../libs/block";
+import { withUser } from "../../libs/connect";
 import { ProfileViewEditData } from "../../widgets/profile";
 
 import template from "./profileEditDataPage.hbs?raw";
@@ -13,7 +14,7 @@ import "./style.scss";
 class ProfileEditDataFormContent extends Block {
   constructor(formId: string) {
     super(template, {
-      profileContent: new ProfileViewEditData({
+      profileContent: new (withUser(ProfileViewEditData))({
         saveButton: new Button({
           className: "primary profile__button",
           type: "submit",

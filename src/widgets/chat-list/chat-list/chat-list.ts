@@ -1,4 +1,5 @@
 import { Block, type PropsAndChildren } from "../../../libs/block";
+import { withChats } from "../../../libs/connect";
 import { ChatListItems } from "../chat-list-items";
 
 import template from "./chat-list.hbs?raw";
@@ -11,7 +12,7 @@ export class ChatList extends Block {
       template,
       {
         ...propsAndChildren,
-        chatListItems: new ChatListItems({}),
+        chatListItems: new (withChats(ChatListItems))({}),
       },
       true,
     );

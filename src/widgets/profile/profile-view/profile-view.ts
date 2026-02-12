@@ -6,7 +6,6 @@ import { ProfileAvatar } from "../../../components/profileAvatar";
 import type { UserProfile } from "../../../entities/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
 import { mapProfileToTemplateData } from "../../../libs/mapProfileToTemplateData";
-import { store, STORE_EVENTS } from "../../../libs/store";
 
 import template from "./profile-view.hbs?raw";
 
@@ -46,12 +45,6 @@ export class ProfileView extends Block {
       },
       true,
     );
-
-    store.on(STORE_EVENTS.UPDATED, () => {
-      const user = store.get<UserProfile>("user", null);
-
-      this.setProps({ user });
-    });
   }
 
   private getUserFields(user: UserProfile | null) {
