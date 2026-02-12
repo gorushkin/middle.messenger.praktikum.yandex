@@ -2,6 +2,7 @@ import { chatsApi } from "../../api";
 import { Link } from "../../components/link/link";
 import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
+import { withSelectedChat } from "../../libs/connect";
 import { ChatList } from "../../widgets/chat-list/chat-list";
 import { ChatWindow } from "../../widgets/chat-window";
 
@@ -9,7 +10,11 @@ import template from "./chats.hbs?raw";
 
 import "./style.scss";
 
-class ChatsPage extends Block {
+type ChatsPageProps = {
+  selectedChatId?: number;
+};
+
+class ChatsPage extends Block<ChatsPageProps> {
   api = chatsApi;
 
   constructor() {
@@ -25,6 +30,7 @@ class ChatsPage extends Block {
     super(
       template,
       {
+        selectedChatId: -1,
         chatList: new ChatList({
           chatListHeader,
         }),
@@ -44,7 +50,7 @@ class ChatsPage extends Block {
 export class ChatPageLayout extends MainLayout {
   constructor() {
     super({
-      content: new ChatsPage(),
+      content: new (withSelectedChat(ChatsPage))(),
     });
   }
 }

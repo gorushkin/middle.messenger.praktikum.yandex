@@ -1,12 +1,17 @@
 import type { Chat } from "../../../api/chatApi";
-import { Block, type PropsAndChildren } from "../../../libs/block";
+import { Block } from "../../../libs/block";
 import { store } from "../../../libs/store";
 
 import template from "./chat-item.hbs?raw";
 
 import "./style.scss";
 
-export class ChatItem extends Block {
+type ChatItemProps = Chat & {
+  isActive: boolean;
+  selectedChatId: number;
+};
+
+export class ChatItem extends Block<ChatItemProps> {
   id: number;
   constructor(chat: Chat) {
     super(
@@ -16,7 +21,18 @@ export class ChatItem extends Block {
         isActive: false,
         selectedChatId: -1,
         events: {
-          click: () => this.handleClick(chat),
+          click: () => {
+            const chatData: Chat = {
+              id: this.props.id,
+              title: this.props.title,
+              avatar: this.props.avatar,
+              unread_count: this.props.unread_count,
+              last_message: this.props.last_message,
+              created_by: this.props.created_by,
+            };
+
+            store.set("selectedChat", chatData);
+          },
         },
       },
       true,
@@ -25,13 +41,9 @@ export class ChatItem extends Block {
     this.id = chat.id;
   }
 
-  private handleClick(chat: Chat) {
-    store.set("selectedChat", chat);
-  }
-
   componentDidUpdate(
-    oldProps: PropsAndChildren,
-    newProps: PropsAndChildren,
+    oldProps: ChatItemProps,
+    newProps: ChatItemProps,
   ): boolean {
     const isChanged = oldProps.selectedChatId !== newProps.selectedChatId;
 

@@ -7,6 +7,8 @@ import { ChatItem } from "../chat-item";
 import template from "./chat-list-items.hbs?raw";
 import "./style.scss";
 
+const ConnectedChatItem = withSelectedChat(ChatItem);
+
 export class ChatListItems extends Block {
   constructor(propsAndChildren: PropsAndChildren) {
     super(template, propsAndChildren, true);
@@ -23,7 +25,7 @@ export class ChatListItems extends Block {
 
     if (itemsChanged && Array.isArray(newProps.chats)) {
       this.children.items = newProps.chats.map(
-        (item: Chat) => new (withSelectedChat(ChatItem))(item),
+        (item: Chat) => new ConnectedChatItem(item),
       );
     }
 

@@ -1,3 +1,4 @@
+import "./libs/handlebarsHelpers";
 import { router } from "./libs/";
 import { ChatPageLayout } from "./pages/chats";
 import { ErrorPageLayout } from "./pages/errorPage";
