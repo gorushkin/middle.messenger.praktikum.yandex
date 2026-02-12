@@ -19,6 +19,10 @@ export type UpdateUserPasswordRequest = {
   newPassword: string;
 };
 
+export type SearchUsersRequest = {
+  login: string;
+};
+
 class UserAPI {
   private api = new HTTPTransport(AUTH_ENDPOINT);
 
@@ -61,6 +65,18 @@ class UserAPI {
       const user = store.get<UserProfile>("user", null);
       store.set("user", null);
       store.set("user", user);
+    }
+  }
+
+  async searchUsers(query: string) {
+    const response = await this.api.post<UserProfile[]>("/search", {
+      body: { login: query },
+    });
+
+    if (response.ok) {
+      store.set("searchUsers", response.data);
+    } else {
+      store.set("searchUsers", []);
     }
   }
 }

@@ -1,8 +1,12 @@
+import { chatsApi } from "../../../api";
 import { IconButton } from "../../../components/iconButton";
 import { Image } from "../../../components/image";
 import { Modal } from "../../../components/modal";
 import { Popup } from "../../../components/popup";
+import type { UserProfileSearch } from "../../../entities/user/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
+import { withChatUsers } from "../../../libs/connect";
+import { store } from "../../../libs/store";
 import { UserModalContent } from "../userModal/userModalContent";
 import { loginValidator } from "../userModal/validators";
 
@@ -32,22 +36,28 @@ export class ChatSettingsButton extends Block {
       },
     });
 
-    const addUserModalContent = new UserModalContent({
+    const addUserModalContent = new (withChatUsers(UserModalContent))({
       title: "Добавить пользователя",
       placeholder: "Логин пользователя",
       buttonText: "Добавить",
       buttonVariant: "primary",
-      onSubmit: (login: string) => this.handleAddUser(login),
+      onSubmit: () => this.handleAddUsersSubmit(),
+      onUserClick: (user) => {
+        this.handleAddUser(user);
+      },
       validator: loginValidator,
     });
 
-    const removeUserModalContent = new UserModalContent({
+    const removeUserModalContent = new (withChatUsers(UserModalContent))({
       title: "Удалить пользователя",
       placeholder: "Логин пользователя",
       buttonText: "Удалить",
       buttonVariant: "primary",
-      onSubmit: (login: string) => this.handleRemoveUser(login),
+      onSubmit: () => this.handleRemoveUsersSubmit(),
       validator: loginValidator,
+      onUserClick: (user) => {
+        this.handleRemoveUser(user);
+      },
     });
 
     const addUserModal = new Modal({
@@ -121,13 +131,30 @@ export class ChatSettingsButton extends Block {
     this.removeUserModal.show();
   }
 
-  private handleAddUser(login: string) {
-    console.info("Добавить пользователя:", login);
+  private handleAddUser(user: UserProfileSearch) {
+    const selectedUsers =
+      store.get<UserProfileSearch[]>("selectedChatUsers") || [];
+
+    if (!selectedUsers.find((u) => u.id === user.id)) {
+      store.set("selectedChatUsers", [...selectedUsers, user]);
+    } else {
+      const filtered = selectedUsers.filter((u) => u.id !== user.id);
+      store.set("selectedChatUsers", filtered);
+    }
+  }
+
+  private async handleAddUsersSubmit() {
+    await chatsApi.addUsersToChat();
     this.addUserModal.hide();
   }
 
-  private handleRemoveUser(login: string) {
-    console.info("Удалить пользователя:", login);
+  private async handleRemoveUsersSubmit() {
+    // await chatsApi.addUsersToChat();
+    this.addUserModal.hide();
+  }
+
+  private handleRemoveUser(user: UserProfileSearch) {
+    console.info("Удалить пользователя:", user);
     this.removeUserModal.hide();
   }
 }

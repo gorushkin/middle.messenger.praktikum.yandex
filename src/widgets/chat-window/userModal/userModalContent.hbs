@@ -1,7 +1,14 @@
 <div class="user-modal">
-  <h2 class="user-modal__title">{{title}}</h2>
+  <h2 class="user-modal__title">
+    {{title}}
+  </h2>
   <div class="user-modal__form">
     {{{loginInput}}}
+    <div class="user-modal__users-list">
+      {{#each searchUsers}}
+        {{{this}}}
+      {{/each}}
+    </div>
     <div class="user-modal__actions">
       {{{submitButton}}}
     </div>

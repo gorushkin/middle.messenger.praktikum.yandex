@@ -1,3 +1,5 @@
+@use "/src/variables.scss" as *;
+
 .user-modal {
   min-width: 400px;
 }
@@ -16,6 +18,32 @@
 
 .user-modal__input {
   width: 100%;
+}
+
+.user-modal__users-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+}
+
+.user-modal__user-item {
+  border-bottom: 1px solid $border-color;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &--selected {
+    background-color: $button-primary-background;
+  }
 }
 
 .user-modal__actions {

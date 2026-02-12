@@ -11,20 +11,10 @@ export const connect = <T extends new (...args: any[]) => Block>(
   return class extends Component {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...args: any[]) {
-      // const data = mapStateToProps(store.getState());
-
-      // if (isPlainObject(data)) {
-      //   super(...args, data);
-      // } else {
-      //   super(...args);
-      // }
       super(...args);
 
       store.on(STORE_EVENTS.UPDATED, () => {
         const data = mapStateToProps(store.getState());
-        // console.log("store.getState(): ", store.getState());
-        // console.log("data: ", data);
-        // console.log(this);
         this.setProps({ ...data });
       });
     }
@@ -51,5 +41,29 @@ export const withSelectedChat = <T extends new (...args: any[]) => Block>(
 
     return {
       selectedChatId,
+    };
+  });
+
+// eslint-disable-next-line no-unused-vars
+export const withChatUsers = <T extends new (...args: any[]) => Block>(
+  Component: T,
+): T =>
+  connect(Component, (state) => {
+    const searchUsers = state.searchUsers;
+
+    return {
+      searchUsers,
+    };
+  });
+
+// eslint-disable-next-line no-unused-vars
+export const withSelectedUsers = <T extends new (...args: any[]) => Block>(
+  Component: T,
+): T =>
+  connect(Component, (state) => {
+    const selectedUsers = state.selectedChatUsers;
+
+    return {
+      selectedUsers,
     };
   });

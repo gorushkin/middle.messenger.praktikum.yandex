@@ -15,7 +15,7 @@ export class Input extends Block {
       // eslint-disable-next-line no-unused-vars
       validation?: (value: string) => boolean;
       debug?: string;
-    } = { onChange: () => {}, onBlur: () => {} }
+    } = { onChange: () => {}, onBlur: () => {} },
   ) {
     super(
       template,
@@ -35,7 +35,7 @@ export class Input extends Block {
           },
         },
       },
-      true
+      true,
     );
     this.validation = params.validation ?? null;
   }

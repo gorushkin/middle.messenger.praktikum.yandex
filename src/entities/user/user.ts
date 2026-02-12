@@ -9,6 +9,15 @@ export type UserProfile = {
   phone: string;
 };
 
+export type UserProfileSearch = {
+  id: number;
+  first_name: string;
+  second_name: string;
+  display_name: string | null;
+  login: string;
+  avatar: string | null;
+};
+
 export type Password = {
   oldPassword: string;
   newPassword: string;
