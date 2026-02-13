@@ -19,6 +19,7 @@ export type PopupProps = {
   xValue?: number;
   yValue?: number;
   events?: Record<string, EventListener>;
+  id: string | null;
 };
 
 export class Popup extends Block<PopupProps> {
@@ -38,10 +39,25 @@ export class Popup extends Block<PopupProps> {
       },
       true,
     );
+
+    this.setProps({ id: this._id });
   }
 
   public show() {
     this.setProps({ isVisible: true });
+
+    const onceClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+
+      if (target.closest(`[data-popup-id="${this._id}"]`)) {
+        return;
+      }
+
+      this.hide();
+      document.removeEventListener("click", onceClickOutside);
+    };
+
+    document.addEventListener("click", onceClickOutside);
   }
 
   public hide() {

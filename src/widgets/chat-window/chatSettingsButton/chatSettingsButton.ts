@@ -73,6 +73,7 @@ export class ChatSettingsButton extends Block {
     const popupContent = new ChatSettingsPopupContent({
       onAddUserClick: () => this.openAddUserModal(),
       onRemoveUserClick: () => this.openRemoveUserModal(),
+      onDeleteChatClick: () => this.handleDeleteChat(),
     });
 
     const popup = new Popup({
@@ -103,22 +104,7 @@ export class ChatSettingsButton extends Block {
 
   private handleButtonClick(e: Event) {
     e.stopPropagation();
-    this.popup.toggle();
-
-    if (this.popup.props.isVisible) {
-      const closePopup = (event: MouseEvent) => {
-        const target = event.target as HTMLElement;
-
-        if (
-          !target.closest(".popup") &&
-          !target.closest(".chat-settings-button")
-        ) {
-          this.popup.hide();
-          document.removeEventListener("click", closePopup);
-        }
-      };
-      setTimeout(() => document.addEventListener("click", closePopup), 0);
-    }
+    this.popup.show();
   }
 
   private openAddUserModal() {
@@ -167,5 +153,31 @@ export class ChatSettingsButton extends Block {
   private handleRemoveUser(user: User) {
     console.info("Удалить пользователя:", user);
     this.removeUserModal.hide();
+  }
+
+  private async handleDeleteChat() {
+    const selectedChat = store.get<ChatData>("selectedChat", null);
+
+    if (!selectedChat) {
+      console.error("No chat selected");
+      return;
+    }
+
+    const confirmed = confirm(
+      `Вы уверены, что хотите удалить чат "${selectedChat.title}"?`,
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await chatsApi.deleteChat(selectedChat.id);
+      this.popup.hide();
+      store.set("selectedChat", { id: -1 });
+      await chatsApi.fetchChats();
+    } catch (error) {
+      console.error("Error deleting chat:", error);
+    }
   }
 }

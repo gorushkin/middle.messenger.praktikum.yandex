@@ -79,6 +79,18 @@ class ChatsAPI {
       return null;
     }
   }
+
+  async deleteChat(chatId: number) {
+    const response = await this.chatsAPI.delete("", {
+      body: { chatId },
+    });
+
+    if (response.ok) {
+      await this.fetchChats();
+    } else {
+      console.error("Failed to delete chat:", response.error);
+    }
+  }
 }
 
 export const chatsApi = new ChatsAPI();

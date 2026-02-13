@@ -40,13 +40,6 @@ const isDataEmpty = (data?: PlainObject): boolean => {
   return false;
 };
 
-type HTTPTransportMethod<T = unknown, E = string> = (
-  // eslint-disable-next-line no-unused-vars
-  url: string,
-  // eslint-disable-next-line no-unused-vars
-  options?: RequestOptions,
-) => Promise<Response<T, E>>;
-
 type Response<T = unknown, E = string> =
   | { ok: true; data: T }
   | { ok: false; error: E };
@@ -102,9 +95,12 @@ export class HTTPTransport {
     );
   };
 
-  delete: HTTPTransportMethod = (url, options = {}) => {
+  delete = async <T = unknown, E = string>(
+    url: string,
+    options: RequestOptions = {},
+  ): Promise<Response<T, E>> => {
     return this.request(
-      url,
+      this.getFullUrl(url),
       { ...options, method: METHODS.DELETE },
       options.timeout,
     );

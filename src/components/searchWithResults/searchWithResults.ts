@@ -1,6 +1,7 @@
 import type { User } from "../../entities/user/user";
 import { Block, type PropsAndChildren } from "../../libs/block";
 import { withChatUsers } from "../../libs/connect";
+import { store } from "../../libs/store";
 import { Popup } from "../popup/popup";
 import { SearchInput } from "../searchInput";
 import { SearchUsersList } from "../searchUsersList";
@@ -33,6 +34,11 @@ class SearchWithResultsBase extends Block<SearchWithResultsProps> {
       placeholder,
       className,
       onInput: (value: string) => {
+        if (value.trim() === "") {
+          this.popup.hide();
+          store.set("searchUsers", []);
+          return;
+        }
         onInput?.(value);
       },
     });

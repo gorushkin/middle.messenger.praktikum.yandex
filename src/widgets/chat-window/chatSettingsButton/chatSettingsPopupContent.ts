@@ -6,13 +6,15 @@ import template from "./chatSettingsPopupContent.hbs?raw";
 type ChatSettingsPopupContentProps = {
   onAddUserClick: () => void;
   onRemoveUserClick: () => void;
+  onDeleteChatClick: () => void;
 };
 
 export class ChatSettingsPopupContent extends Block<ChatSettingsPopupContentProps> {
   constructor(
     propsAndChildren: PropsAndChildren<ChatSettingsPopupContentProps>,
   ) {
-    const { onAddUserClick, onRemoveUserClick } = propsAndChildren;
+    const { onAddUserClick, onRemoveUserClick, onDeleteChatClick } =
+      propsAndChildren;
 
     const addUserButton = new Button({
       text: "Добавить пользователя",
@@ -39,12 +41,26 @@ export class ChatSettingsPopupContent extends Block<ChatSettingsPopupContentProp
       },
     });
 
+    const deleteChatButton = new Button({
+      text: "Удалить чат",
+      type: "button",
+      variant: "link",
+      className:
+        "chat-settings-popup__button chat-settings-popup__button--danger",
+      events: {
+        click: () => {
+          onDeleteChatClick?.();
+        },
+      },
+    });
+
     super(
       template,
       {
         ...propsAndChildren,
         addUserButton,
         removeUserButton,
+        deleteChatButton,
       },
       true,
     );
