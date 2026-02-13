@@ -39,19 +39,10 @@ class ChatsAPI {
     }
   }
 
-  async addUsersToChat() {
-    const selectedChat = store.get<ChatData>("selectedChat", null);
-
-    if (!selectedChat) {
-      console.error("No chat selected");
-      return;
-    }
-
-    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
-
+  async addUsersToChat(selectedChatId: number, users: number[]) {
     const body = {
-      users: selectedUsers.map((user) => user.id),
-      chatId: selectedChat?.id || -1,
+      users,
+      chatId: selectedChatId,
     };
 
     await this.chatsAPI.put<AddUsersToChatRequest>("/users", {
@@ -71,6 +62,20 @@ class ChatsAPI {
       store.set("chatToken", response.data.token);
     } else {
       console.error("Failed to get chat token:", response.error);
+      return null;
+    }
+  }
+
+  async createChat(title: string) {
+    const response = await this.chatsAPI.post<{ id: Id }, string>("", {
+      body: { title },
+    });
+
+    if (response.ok) {
+      await this.fetchChats();
+      return response.data.id;
+    } else {
+      console.error("Failed to create chat:", response.error);
       return null;
     }
   }

@@ -1,0 +1,48 @@
+@import "../../variables.scss";
+
+.create-chat-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 400px;
+  width: 100%;
+
+  &__header {
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: $text-primary;
+  }
+
+  &__body {
+    margin-bottom: 24px;
+  }
+
+  &__user-info {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    color: $text-secondary;
+
+    strong {
+      color: $text-primary;
+    }
+  }
+
+  &__input {
+    width: 100%;
+  }
+
+  &__footer {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+  }
+
+  &__button {
+    min-width: 100px;
+  }
+}

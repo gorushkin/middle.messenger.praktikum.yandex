@@ -1,4 +1,4 @@
-import { chatsApi } from "../../../api";
+import { chatsApi, type ChatData } from "../../../api";
 import { IconButton } from "../../../components/iconButton";
 import { Image } from "../../../components/image";
 import { Modal } from "../../../components/modal";
@@ -143,7 +143,19 @@ export class ChatSettingsButton extends Block {
   }
 
   private async handleAddUsersSubmit() {
-    await chatsApi.addUsersToChat();
+    const selectedChat = store.get<ChatData>("selectedChat", null);
+
+    if (!selectedChat) {
+      console.error("No chat selected");
+      return;
+    }
+
+    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
+
+    await chatsApi.addUsersToChat(
+      selectedChat.id,
+      selectedUsers.map((user) => user.id),
+    );
     this.addUserModal.hide();
   }
 

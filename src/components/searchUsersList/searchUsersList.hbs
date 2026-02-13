@@ -1,0 +1,11 @@
+<div class="search-users-list">
+  {{#if userItems}}
+    {{#each userItems}}
+      {{{this}}}
+    {{/each}}
+  {{else}}
+    <div class="search-users-list__empty">
+      Пользователи не найдены
+    </div>
+  {{/if}}
+</div>
