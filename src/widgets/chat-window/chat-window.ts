@@ -1,12 +1,17 @@
+import type { ChatData } from "../../api";
+import { messagesApi } from "../../api/messagesApi";
 import type { FormValidator } from "../../components/form";
 import { Form } from "../../components/form/form";
-import { Block } from "../../libs/block";
+import type { UserProfile } from "../../entities/user";
+import { Block, type PropsAndChildren } from "../../libs/block";
+import { withChatToken } from "../../libs/connect";
+import { store } from "../../libs/store";
 
 import { ChatHeader } from "./chat-header";
 import { ChatFormInput, message } from "./chat-input/chat-input";
 import template from "./chat-window.hbs?raw";
 import { ChatFormWrapper } from "./chatFormWrapper";
-import { MessageList } from "./messages-list";
+import { ConnectedMessageList } from "./messages-list/messages-list";
 import "./style.scss";
 import { messageValidator } from "./validators";
 
@@ -27,13 +32,21 @@ class ChatFormFields extends Block {
   }
 }
 
-class ChatForm extends Form {
+type ChatFormValues = {
+  message: string;
+};
+
+class ChatForm extends Form<ChatFormValues> {
+  messagesApi = messagesApi;
   constructor() {
     const fields = new ChatFormFields();
     const formContent = new ChatFormWrapper({ fields });
 
     super({
       formContent,
+      onSubmit: (value) => {
+        messagesApi.sendMessage(value.message);
+      },
     });
 
     this.addValidators({
@@ -44,16 +57,53 @@ class ChatForm extends Form {
   }
 }
 
-export class ChatWindow extends Block {
+type ChatWindowProps = {
+  chatToken?: string;
+};
+
+export class ChatWindow extends Block<ChatWindowProps> {
   constructor() {
     super(
       template,
       {
         chatHeader: new ChatHeader({}),
         chatInput: new ChatForm(),
-        messageList: new MessageList(),
+        messageList: new ConnectedMessageList(),
       },
-      true
+      true,
     );
   }
+
+  componentDidUpdate(
+    oldProps: PropsAndChildren<ChatWindowProps>,
+    newProps: PropsAndChildren<ChatWindowProps>,
+  ): boolean {
+    const tokenChanged = oldProps.chatToken !== newProps.chatToken;
+
+    if (tokenChanged && newProps.chatToken) {
+      this.connect();
+    }
+
+    return super.componentDidUpdate(oldProps, newProps);
+  }
+
+  private connect() {
+    const userId = store.get<UserProfile>("user", null)?.id || -1;
+    const chatId = store.get<ChatData>("selectedChat", null)?.id || -1;
+    const token = store.get<string>("chatToken");
+
+    if (!token) {
+      console.error("No chat token available");
+      return;
+    }
+
+    if (userId === -1 || chatId === -1) {
+      console.error("User ID or Chat ID is missing");
+      return;
+    }
+
+    messagesApi.connect(userId, chatId, token);
+  }
 }
+
+export const ConnectedChatWindow = withChatToken(ChatWindow);

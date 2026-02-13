@@ -2,7 +2,7 @@ import { userApi } from "../../../api";
 import { Button } from "../../../components/button";
 import { ClickableText } from "../../../components/clickableText";
 import { Input } from "../../../components/input";
-import type { UserProfileSearch } from "../../../entities/user/user";
+import type { User } from "../../../entities/user/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
 import { withSelectedUsers } from "../../../libs/connect";
 import { getDebounce } from "../../../libs/debauncer";
@@ -19,8 +19,8 @@ type UserModalContentProps = {
   buttonVariant?: "primary" | "secondary" | "link";
   onSubmit: () => void;
   // eslint-disable-next-line no-unused-vars
-  onUserClick?: (user: UserProfileSearch) => void;
-  searchUsers: UserProfileSearch[];
+  onUserClick?: (user: User) => void;
+  searchUsers: User[];
 };
 
 export class UserModalContent extends Block<UserModalContentProps> {
@@ -78,7 +78,7 @@ export class UserModalContent extends Block<UserModalContentProps> {
     this.children.userItems = this.createUserItems(searchUsers || []);
   }
 
-  private createUserItems(users: UserProfileSearch[]) {
+  private createUserItems(users: User[]) {
     return users.map(
       (user) =>
         new (withSelectedUsers(ClickableText))({

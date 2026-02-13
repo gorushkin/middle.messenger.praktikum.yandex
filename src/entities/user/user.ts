@@ -9,7 +9,7 @@ export type UserProfile = {
   phone: string;
 };
 
-export type UserProfileSearch = {
+export type User = {
   id: number;
   first_name: string;
   second_name: string;

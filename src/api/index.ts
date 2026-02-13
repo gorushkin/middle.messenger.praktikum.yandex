@@ -8,4 +8,4 @@ export type {
 } from "./userApi";
 
 export { chatsApi } from "./chatApi";
-export type { Chat } from "./chatApi";
+export type { ChatData } from "./chatApi";

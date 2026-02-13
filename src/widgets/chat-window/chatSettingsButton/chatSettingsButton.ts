@@ -3,7 +3,7 @@ import { IconButton } from "../../../components/iconButton";
 import { Image } from "../../../components/image";
 import { Modal } from "../../../components/modal";
 import { Popup } from "../../../components/popup";
-import type { UserProfileSearch } from "../../../entities/user/user";
+import type { User } from "../../../entities/user/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
 import { withChatUsers } from "../../../libs/connect";
 import { store } from "../../../libs/store";
@@ -131,9 +131,8 @@ export class ChatSettingsButton extends Block {
     this.removeUserModal.show();
   }
 
-  private handleAddUser(user: UserProfileSearch) {
-    const selectedUsers =
-      store.get<UserProfileSearch[]>("selectedChatUsers") || [];
+  private handleAddUser(user: User) {
+    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
 
     if (!selectedUsers.find((u) => u.id === user.id)) {
       store.set("selectedChatUsers", [...selectedUsers, user]);
@@ -153,7 +152,7 @@ export class ChatSettingsButton extends Block {
     this.addUserModal.hide();
   }
 
-  private handleRemoveUser(user: UserProfileSearch) {
+  private handleRemoveUser(user: User) {
     console.info("Удалить пользователя:", user);
     this.removeUserModal.hide();
   }

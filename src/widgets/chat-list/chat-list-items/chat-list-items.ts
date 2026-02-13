@@ -1,4 +1,4 @@
-import type { Chat } from "../../../api/chatApi";
+import type { ChatData } from "../../../api/chatApi";
 import { Block, type PropsAndChildren } from "../../../libs/block";
 import { withSelectedChat } from "../../../libs/connect";
 import { isEqual } from "../../../libs/isEqual";
@@ -25,7 +25,7 @@ export class ChatListItems extends Block {
 
     if (itemsChanged && Array.isArray(newProps.chats)) {
       this.children.items = newProps.chats.map(
-        (item: Chat) => new ConnectedChatItem(item),
+        (item: ChatData) => new ConnectedChatItem(item),
       );
     }
 

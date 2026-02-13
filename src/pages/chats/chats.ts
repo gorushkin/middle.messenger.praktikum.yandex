@@ -4,7 +4,7 @@ import { MainLayout } from "../../layouts/mainLayout";
 import { Block } from "../../libs/block";
 import { withSelectedChat } from "../../libs/connect";
 import { ChatList } from "../../widgets/chat-list/chat-list";
-import { ChatWindow } from "../../widgets/chat-window";
+import { ConnectedChatWindow } from "../../widgets/chat-window/chat-window";
 
 import template from "./chats.hbs?raw";
 
@@ -34,7 +34,7 @@ class ChatsPage extends Block<ChatsPageProps> {
         chatList: new ChatList({
           chatListHeader,
         }),
-        chatWindow: new ChatWindow(),
+        chatWindow: new ConnectedChatWindow(),
       },
       true,
     );

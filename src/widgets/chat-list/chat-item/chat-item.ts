@@ -1,4 +1,4 @@
-import type { Chat } from "../../../api/chatApi";
+import { chatsApi, type ChatData } from "../../../api/chatApi";
 import { Block } from "../../../libs/block";
 import { store } from "../../../libs/store";
 
@@ -6,14 +6,14 @@ import template from "./chat-item.hbs?raw";
 
 import "./style.scss";
 
-type ChatItemProps = Chat & {
+type ChatItemProps = ChatData & {
   isActive: boolean;
   selectedChatId: number;
 };
 
 export class ChatItem extends Block<ChatItemProps> {
   id: number;
-  constructor(chat: Chat) {
+  constructor(chat: ChatData) {
     super(
       template,
       {
@@ -21,8 +21,8 @@ export class ChatItem extends Block<ChatItemProps> {
         isActive: false,
         selectedChatId: -1,
         events: {
-          click: () => {
-            const chatData: Chat = {
+          click: async () => {
+            const chatData: ChatData = {
               id: this.props.id,
               title: this.props.title,
               avatar: this.props.avatar,
@@ -32,6 +32,8 @@ export class ChatItem extends Block<ChatItemProps> {
             };
 
             store.set("selectedChat", chatData);
+
+            await chatsApi.getChatToken();
           },
         },
       },

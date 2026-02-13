@@ -1,4 +1,4 @@
-import type { UserProfileSearch } from "../../entities/user/user";
+import type { User } from "../../entities/user/user";
 import { Block, type PropsAndChildren } from "../../libs/block";
 
 import template from "./clickableText.hbs?raw";
@@ -8,7 +8,7 @@ import "./style.scss";
 type ClickableTextProps = {
   text: string;
   className?: string;
-  selectedUsers: UserProfileSearch[];
+  selectedUsers: User[];
   id: number;
   isSelected?: boolean;
 };

@@ -1,3 +1,5 @@
+import { baseUrl } from "../config/config";
+
 const METHODS = {
   GET: "GET",
   POST: "POST",
@@ -50,7 +52,7 @@ type Response<T = unknown, E = string> =
   | { ok: false; error: E };
 
 export class HTTPTransport {
-  private baseUrl: string = "https://ya-praktikum.tech";
+  private baseUrl = baseUrl;
 
   private url = "";
 

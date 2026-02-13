@@ -19,11 +19,9 @@ export class ChatFormInput extends InputBlock {
       {
         onBlur: (e) => {
           const target = e.target as HTMLInputElement;
-
           this.validate(target.value);
         },
-        debug: "input in ChatFormInput",
-      }
+      },
     );
 
     super(`<div class="{{className}}">{{{input}}}</div>`, {
