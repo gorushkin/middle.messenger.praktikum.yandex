@@ -11,7 +11,13 @@ const ConnectedChatItem = withSelectedChat(ChatItem);
 
 export class ChatListItems extends Block {
   constructor(propsAndChildren: PropsAndChildren) {
-    super(template, propsAndChildren, true);
+    const items = Array.isArray(propsAndChildren.chats)
+      ? propsAndChildren.chats.map(
+          (item: ChatData) => new ConnectedChatItem(item),
+        )
+      : [];
+
+    super(template, { ...propsAndChildren, items }, true);
   }
 
   componentDidUpdate(

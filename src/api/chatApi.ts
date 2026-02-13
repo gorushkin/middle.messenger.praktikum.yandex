@@ -2,7 +2,7 @@ import type { User } from "../entities/user/user";
 import { HTTPTransport } from "../libs/fetcher";
 import { store } from "../libs/store";
 
-const CHATS_ENDPOINT = "/api/v2/chats";
+const CHATS_ENDPOINT = "/chats";
 
 type Id = number;
 

@@ -22,11 +22,14 @@ export type SearchUsersListProps = {
 
 export class SearchUsersListBase extends Block<SearchUsersListProps> {
   constructor(propsAndChildren: PropsAndChildren<SearchUsersListProps>) {
-    super(template, propsAndChildren, true);
+    const userItems = propsAndChildren.searchUsers
+      ? SearchUsersListBase.prototype.createUserItems.call(
+          { props: propsAndChildren },
+          propsAndChildren.searchUsers,
+        )
+      : [];
 
-    this.children.userItems = this.createUserItems(
-      propsAndChildren.searchUsers || [],
-    );
+    super(template, { ...propsAndChildren, userItems }, true);
   }
 
   private createUserItems(users: User[]) {

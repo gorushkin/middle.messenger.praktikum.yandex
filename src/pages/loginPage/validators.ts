@@ -56,3 +56,10 @@ export const passwordValidator = (value: string): ValidationResult => {
 
   return { isValid: true };
 };
+
+export const stringValidator = (value: string): ValidationResult => {
+  if (!value) {
+    return { isValid: false, error: "Поле обязательно" };
+  }
+  return { isValid: true };
+};

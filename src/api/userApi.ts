@@ -3,7 +3,7 @@ import { router } from "../libs";
 import { HTTPTransport } from "../libs/fetcher";
 import { store } from "../libs/store";
 
-const AUTH_ENDPOINT = "/api/v2/user";
+const AUTH_ENDPOINT = "/user";
 
 export type UserProfileUpdateRequest = {
   first_name: string;

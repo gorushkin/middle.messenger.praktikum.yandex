@@ -12,13 +12,31 @@ import template from "./profile-view.hbs?raw";
 import "./style.scss";
 import "../style.scss";
 
-export class ProfileView extends Block {
-  constructor(propsAndChildren: PropsAndChildren) {
+type ProfileViewProps = {
+  user?: UserProfile;
+};
+
+export class ProfileView extends Block<ProfileViewProps> {
+  constructor(propsAndChildren: PropsAndChildren<ProfileViewProps>) {
+    const userFields = propsAndChildren.user
+      ? propsAndChildren.user
+        ? mapProfileToTemplateData(propsAndChildren.user).map((field) => {
+            return new ProfileInput({
+              ...field,
+              isEditing: false,
+            });
+          })
+        : []
+      : [];
+
     super(
       template,
       {
         ...propsAndChildren,
-        profileAvatar: new ProfileAvatar(),
+        profileAvatar: new ProfileAvatar({
+          imageUrl: propsAndChildren.user?.avatar || "",
+        }),
+        userFields,
         actions: [
           new Link({
             href: "/profile/edit-data",
@@ -61,15 +79,17 @@ export class ProfileView extends Block {
   }
 
   componentDidUpdate(
-    oldProps: PropsAndChildren,
-    newProps: PropsAndChildren,
+    oldProps: PropsAndChildren<ProfileViewProps>,
+    newProps: PropsAndChildren<ProfileViewProps>,
   ): boolean {
     const itemsChanged = oldProps.user !== newProps.user;
 
     if (itemsChanged && newProps.user) {
-      this.children.userFields = this.getUserFields(
-        newProps.user as UserProfile,
-      );
+      this.children.userFields = this.getUserFields(newProps.user);
+
+      this.children.profileAvatar = new ProfileAvatar({
+        imageUrl: newProps.user.avatar || "",
+      });
     }
 
     return super.componentDidUpdate(oldProps, newProps);

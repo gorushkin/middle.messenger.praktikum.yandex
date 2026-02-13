@@ -9,7 +9,7 @@ export class ProfileLayout extends Block {
     const propsWithButton = {
       ...propsAndChildren,
       backButton: new Link({
-        href: "/",
+        href: "/chat",
         content: `<div class="profile__back-icon">
         <img src="/back_arrow.svg" alt="Arrow Icon" />
       </div>`,

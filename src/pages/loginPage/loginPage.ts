@@ -10,7 +10,7 @@ import { Block } from "../../libs/block";
 import { LoginFormFields } from "./fields";
 import template from "./loginPage.hbs?raw";
 import "./style.scss";
-import { loginValidator, passwordValidator } from "./validators";
+import { stringValidator } from "./validators";
 
 type LoginFormData = {
   login: string;
@@ -48,8 +48,8 @@ class LoginForm extends Form<LoginFormData> {
     });
 
     this.addValidators({
-      login: (value: string) => loginValidator(value),
-      password: (value: string) => passwordValidator(value),
+      login: (value: string) => stringValidator(value),
+      password: (value: string) => stringValidator(value),
     });
 
     fields.setValidator(this.formValidator);

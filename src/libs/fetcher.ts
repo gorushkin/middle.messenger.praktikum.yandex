@@ -1,4 +1,4 @@
-import { baseUrl } from "../config/config";
+import { getFullUrl } from "../config/config";
 
 const METHODS = {
   GET: "GET",
@@ -45,8 +45,6 @@ type Response<T = unknown, E = string> =
   | { ok: false; error: E };
 
 export class HTTPTransport {
-  private baseUrl = baseUrl;
-
   private url = "";
 
   constructor(url: string) {
@@ -54,7 +52,7 @@ export class HTTPTransport {
   }
 
   getFullUrl(url: string): string {
-    return this.baseUrl + this.url + url;
+    return getFullUrl(this.url + url);
   }
   get = <T = unknown, E = string>(
     url: string,

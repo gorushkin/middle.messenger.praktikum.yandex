@@ -27,16 +27,6 @@ export class FormValidator {
     }
   }
 
-  // validateValues(values: { [key: string]: string }): boolean {
-  //   this.values = values;
-  //   for (const key of this.keys) {
-  //     if (!values[key] || values[key].trim().length === 0) {
-  //       return false;
-  //     }
-  //   }
-  //   return true;
-  // }
-
   validateField(key: string, value: string): ValidationResult {
     const validator = this.validators[key];
 

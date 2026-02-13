@@ -12,7 +12,9 @@ export const connect = <T extends new (...args: any[]) => Block>(
     private prevMappedState: Indexed = {};
 
     constructor(...args: any[]) {
-      super(...args);
+      const data = mapStateToProps(store.getState());
+      const props = { ...args[0], ...data };
+      super(props, ...args.slice(1));
 
       store.on(STORE_EVENTS.UPDATED, () => {
         const data = mapStateToProps(store.getState());

@@ -1,4 +1,5 @@
 import { userApi } from "../../api";
+import { getFullUrl } from "../../config/config";
 import { Block } from "../../libs/block";
 import { Image } from "../image";
 
@@ -21,8 +22,12 @@ export class ProfileAvatar extends Block<ProfileAvatarProps> {
   constructor(props: ProfileAvatarProps = {}) {
     const { isEditable, imageUrl } = props;
 
+    const src = imageUrl
+      ? getFullUrl("/resources" + imageUrl)
+      : DEFAULT_IMAGE_URL;
+
     const currentImage = new Image({
-      src: imageUrl ?? DEFAULT_IMAGE_URL,
+      src,
       alt: "Profile Avatar",
       className: "profile__avatar-image",
     });
