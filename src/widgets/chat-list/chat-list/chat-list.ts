@@ -27,7 +27,7 @@ export class ChatList extends Block {
       className: "chat-list__search",
       onInput: (value: string) => {
         this.debounce(() => {
-          void userApi.searchUsers(value);
+          void userApi.searchUsers(value, "searchForNewChat");
         }, 300);
       },
       onUserClick: (user: User) => {

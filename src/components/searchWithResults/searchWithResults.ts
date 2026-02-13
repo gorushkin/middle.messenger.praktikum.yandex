@@ -1,10 +1,10 @@
 import type { User } from "../../entities/user/user";
 import { Block, type PropsAndChildren } from "../../libs/block";
-import { withChatUsers } from "../../libs/connect";
+import { withSearchForNewChat } from "../../libs/connect";
 import { store } from "../../libs/store";
 import { Popup } from "../popup/popup";
 import { SearchInput } from "../searchInput";
-import { SearchUsersList } from "../searchUsersList";
+import { SearchUsersListForNewChat } from "../searchUsersList";
 
 import template from "./searchWithResults.hbs?raw";
 import "./style.scss";
@@ -36,14 +36,15 @@ class SearchWithResultsBase extends Block<SearchWithResultsProps> {
       onInput: (value: string) => {
         if (value.trim() === "") {
           this.popup.hide();
-          store.set("searchUsers", []);
+          store.set("searchForNewChat", []);
           return;
         }
         onInput?.(value);
       },
     });
 
-    const usersList = new SearchUsersList({
+    const usersList = new SearchUsersListForNewChat({
+      showFullName: true,
       onUserClick: (user: User) => {
         onUserClick?.(user);
       },
@@ -104,4 +105,4 @@ class SearchWithResultsBase extends Block<SearchWithResultsProps> {
   }
 }
 
-export const SearchWithResults = withChatUsers(SearchWithResultsBase);
+export const SearchWithResults = withSearchForNewChat(SearchWithResultsBase);

@@ -59,6 +59,30 @@ export const withChatUsers = <T extends new (...args: any[]) => Block>(
     };
   });
 
+export const withSearchForNewChat = <T extends new (...args: any[]) => Block>(
+  Component: T,
+): T =>
+  connect(Component, (state) => {
+    const searchUsers = state.searchForNewChat;
+
+    return {
+      searchUsers,
+    };
+  });
+
+export const withSearchForExistingChat = <
+  T extends new (...args: any[]) => Block,
+>(
+  Component: T,
+): T =>
+  connect(Component, (state) => {
+    const searchUsers = state.searchForExistingChat;
+
+    return {
+      searchUsers,
+    };
+  });
+
 export const withSelectedUsers = <T extends new (...args: any[]) => Block>(
   Component: T,
 ): T =>

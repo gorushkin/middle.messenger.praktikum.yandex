@@ -68,15 +68,21 @@ class UserAPI {
     }
   }
 
-  async searchUsers(query: string) {
+  async searchUsers(
+    query: string,
+    target:
+      | "searchForNewChat"
+      | "searchForExistingChat"
+      | "searchUsers" = "searchUsers",
+  ) {
     const response = await this.api.post<UserProfile[]>("/search", {
       body: { login: query },
     });
 
     if (response.ok) {
-      store.set("searchUsers", response.data);
+      store.set(target, response.data);
     } else {
-      store.set("searchUsers", []);
+      store.set(target, []);
     }
   }
 }

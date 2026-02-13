@@ -8,7 +8,6 @@ import { Block, type PropsAndChildren } from "../../../libs/block";
 import { withChatUsers } from "../../../libs/connect";
 import { store } from "../../../libs/store";
 import { UserModalContent } from "../userModal/userModalContent";
-import { loginValidator } from "../userModal/validators";
 
 import template from "./chatSettingsButton.hbs?raw";
 import { ChatSettingsPopupContent } from "./chatSettingsPopupContent";
@@ -45,7 +44,6 @@ export class ChatSettingsButton extends Block {
       onUserClick: (user) => {
         this.handleAddUser(user);
       },
-      validator: loginValidator,
     });
 
     const removeUserModalContent = new (withChatUsers(UserModalContent))({
@@ -54,7 +52,6 @@ export class ChatSettingsButton extends Block {
       buttonText: "Удалить",
       buttonVariant: "primary",
       onSubmit: () => this.handleRemoveUsersSubmit(),
-      validator: loginValidator,
       onUserClick: (user) => {
         this.handleRemoveUser(user);
       },

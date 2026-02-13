@@ -1,1 +1,6 @@
-export { SearchUsersList } from "./searchUsersList";
+export {
+  SearchUsersList,
+  SearchUsersListForNewChat,
+  SearchUsersListForExistingChat,
+  SearchUsersListBase,
+} from "./searchUsersList";

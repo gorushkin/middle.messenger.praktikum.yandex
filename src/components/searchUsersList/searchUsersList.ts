@@ -1,19 +1,26 @@
 import type { User } from "../../entities/user/user";
 import { Block, type PropsAndChildren } from "../../libs/block";
-import { withChatUsers, withSelectedUsers } from "../../libs/connect";
+import {
+  withChatUsers,
+  withSearchForNewChat,
+  withSearchForExistingChat,
+  withSelectedUsers,
+} from "../../libs/connect";
 import { isEqual } from "../../libs/isEqual";
 import { ClickableText } from "../clickableText";
 
 import template from "./searchUsersList.hbs?raw";
 import "./style.scss";
 
-type SearchUsersListProps = {
+export type SearchUsersListProps = {
   searchUsers?: User[];
+  className?: string;
+  showFullName?: boolean;
   // eslint-disable-next-line no-unused-vars
   onUserClick?: (user: User) => void;
 };
 
-class SearchUsersListBase extends Block<SearchUsersListProps> {
+export class SearchUsersListBase extends Block<SearchUsersListProps> {
   constructor(propsAndChildren: PropsAndChildren<SearchUsersListProps>) {
     super(template, propsAndChildren, true);
 
@@ -23,12 +30,17 @@ class SearchUsersListBase extends Block<SearchUsersListProps> {
   }
 
   private createUserItems(users: User[]) {
+    const { showFullName = false, className = "search-users-list__item" } =
+      this.props;
+
     return users.map(
       (user) =>
         new (withSelectedUsers(ClickableText))({
-          text: user.login,
+          text: showFullName
+            ? `${user.first_name} ${user.second_name} (@${user.login})`
+            : user.login,
           id: user.id,
-          className: "user-modal__user-item",
+          className,
           events: {
             click: () => {
               if (this.props.onUserClick) {
@@ -59,3 +71,9 @@ class SearchUsersListBase extends Block<SearchUsersListProps> {
 }
 
 export const SearchUsersList = withChatUsers(SearchUsersListBase);
+
+export const SearchUsersListForNewChat =
+  withSearchForNewChat(SearchUsersListBase);
+
+export const SearchUsersListForExistingChat =
+  withSearchForExistingChat(SearchUsersListBase);
