@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Block } from "./block";
+import { isEqual } from "./isEqual";
 import { store, STORE_EVENTS, type Indexed } from "./store";
 
 export const connect = <T extends new (...args: any[]) => Block>(
@@ -8,13 +9,21 @@ export const connect = <T extends new (...args: any[]) => Block>(
   mapStateToProps: (state: Indexed) => Indexed,
 ): T => {
   return class extends Component {
+    private prevMappedState: Indexed = {};
+
     constructor(...args: any[]) {
       super(...args);
 
       store.on(STORE_EVENTS.UPDATED, () => {
         const data = mapStateToProps(store.getState());
-        this.setProps({ ...data });
+
+        if (!isEqual(this.prevMappedState, data)) {
+          this.prevMappedState = data;
+          this.setProps({ ...data });
+        }
       });
+
+      this.prevMappedState = mapStateToProps(store.getState());
     }
   } as T;
 };
@@ -71,6 +80,14 @@ export const withMessages = <T extends new (...args: any[]) => Block>(
       messages,
     };
   });
+
+export const withMessagesAndUser = <T extends new (...args: any[]) => Block>(
+  Component: T,
+): T =>
+  connect(Component, (state) => ({
+    messages: state.messagesHistory || [],
+    user: state.user,
+  }));
 
 export const withChatToken = <T extends new (...args: any[]) => Block>(
   Component: T,

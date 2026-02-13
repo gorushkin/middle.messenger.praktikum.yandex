@@ -1,7 +1,7 @@
 import type { TextMessage } from "../../../api/messagesTypes";
 import type { UserProfile } from "../../../entities/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
-import { withMessages, withUser } from "../../../libs/connect";
+import { withMessagesAndUser } from "../../../libs/connect";
 import { isEqual } from "../../../libs/isEqual";
 import { store } from "../../../libs/store";
 
@@ -16,6 +16,8 @@ type MessagesListProps = {
 
 class MessageList extends Block<MessagesListProps> {
   userId: number;
+  private messageComponentsMap: Map<string, Message> = new Map();
+
   constructor() {
     const user = store.get<UserProfile>("user", null);
 
@@ -24,17 +26,55 @@ class MessageList extends Block<MessagesListProps> {
     this.userId = user ? user.id : -1;
   }
 
-  private createMessageComponents(
+  private createMessageComponent(
+    msg: TextMessage,
+    userId: number = this.userId,
+  ): Message {
+    return new Message({
+      ...msg,
+      isMine: msg.user_id === userId,
+    });
+  }
+
+  private updateMessages(
     messages: TextMessage[] = [],
     userId: number = this.userId,
-  ): Message[] {
-    return messages.map(
-      (msg) =>
-        new Message({
-          ...msg,
-          isMine: msg.user_id === userId,
-        }),
-    );
+  ) {
+    const newComponents: Message[] = [];
+
+    messages.forEach((msg) => {
+      const messageId = msg.id;
+
+      if (!this.messageComponentsMap.has(messageId)) {
+        const component = this.createMessageComponent(msg, userId);
+        this.messageComponentsMap.set(messageId, component);
+        newComponents.push(component);
+      }
+    });
+
+    if (newComponents.length > 0) {
+      const existingMessages = this.children.messages as Message[];
+      if (Array.isArray(existingMessages)) {
+        existingMessages.push(...newComponents);
+      } else {
+        this.children.messages = newComponents;
+      }
+    }
+  }
+
+  private replaceAllMessages(
+    messages: TextMessage[] = [],
+    userId: number = this.userId,
+  ) {
+    this.messageComponentsMap.clear();
+
+    const components = messages.map((msg) => {
+      const component = this.createMessageComponent(msg, userId);
+      this.messageComponentsMap.set(msg.id, component);
+      return component;
+    });
+
+    this.children.messages = components;
   }
 
   componentDidUpdate(
@@ -51,19 +91,25 @@ class MessageList extends Block<MessagesListProps> {
       { user: newProps.user },
     );
 
-    if (userChanged) {
-      this.setProps({ user: newProps.user });
+    if (userChanged && newProps.user) {
+      this.userId = newProps.user.id;
+      this.replaceAllMessages(newProps.messages || [], this.userId);
+      return super.componentDidUpdate(oldProps, newProps);
     }
 
-    if (messagesChanged || userChanged) {
-      this.children.messages = this.createMessageComponents(
-        newProps.messages || [],
-        newProps.user ? newProps.user.id : -1,
-      );
+    if (messagesChanged) {
+      const oldLength = oldProps.messages?.length || 0;
+      const newLength = newProps.messages?.length || 0;
+
+      if (newLength > oldLength) {
+        this.updateMessages(newProps.messages || [], this.userId);
+      } else {
+        this.replaceAllMessages(newProps.messages || [], this.userId);
+      }
     }
 
     return super.componentDidUpdate(oldProps, newProps);
   }
 }
 
-export const ConnectedMessageList = withMessages(withUser(MessageList));
+export const ConnectedMessageList = withMessagesAndUser(MessageList);
