@@ -59,6 +59,8 @@ class MessageList extends Block<MessagesListProps> {
       } else {
         this.children.messages = newComponents;
       }
+
+      this.scrollToBottom();
     }
   }
 
@@ -75,6 +77,16 @@ class MessageList extends Block<MessagesListProps> {
     });
 
     this.children.messages = components;
+
+    this.scrollToBottom();
+  }
+
+  private scrollToBottom() {
+    setTimeout(() => {
+      if (this._element) {
+        this._element.scrollTop = this._element.scrollHeight;
+      }
+    }, 0);
   }
 
   componentDidUpdate(
