@@ -55,7 +55,9 @@ export class FormValidator {
 
       const result = this.validateField(key, value);
 
-      errors[key] = result;
+      if (!result.isValid) {
+        errors[key] = result;
+      }
     }
 
     return errors;
@@ -63,5 +65,10 @@ export class FormValidator {
 
   setValues(values: { [key: string]: string }) {
     this.values = values;
+  }
+
+  isFormValid(): boolean {
+    const errors = this.getErrors();
+    return Object.keys(errors).length === 0;
   }
 }

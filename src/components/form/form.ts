@@ -27,7 +27,7 @@ export class Form<
             const values = this.getFormData(form);
             this.formValidator.setValues(values);
             this.onSubmit();
-            if (onSubmit) {
+            if (onSubmit && this.formValidator.isFormValid()) {
               await onSubmit(values);
             }
           },
