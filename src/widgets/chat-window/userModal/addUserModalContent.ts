@@ -6,49 +6,55 @@ import type { User } from "../../../entities/user/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
 import { getDebounce } from "../../../libs/debauncer";
 
-import template from "./userModalContent.hbs?raw";
+import template from "./userModal.hbs?raw";
 
 import "./style.scss";
 
-type UserModalContentProps = {
+type AddUserModalContentProps = {
   title: string;
-  placeholder: string;
+  placeholder?: string;
   buttonText: string;
   buttonVariant?: "primary" | "secondary" | "link";
   onSubmit: () => void;
+  onCancel?: () => void;
+  showSearch?: boolean;
   // eslint-disable-next-line no-unused-vars
   onUserClick?: (user: User) => void;
 };
 
-export class UserModalContent extends Block<UserModalContentProps> {
+export class AddUserModalContent extends Block<AddUserModalContentProps> {
   debounce = getDebounce();
 
-  constructor(propsAndChildren: PropsAndChildren<UserModalContentProps>) {
+  constructor(propsAndChildren: PropsAndChildren<AddUserModalContentProps>) {
     const {
       title,
       placeholder,
       buttonText,
       buttonVariant = "primary",
       onSubmit,
+      onCancel,
       onUserClick,
+      showSearch = true,
     } = propsAndChildren;
 
-    const loginInput = new Input(
-      {
-        name: "login",
-        type: "text",
-        placeholder,
-        className: "user-modal__input",
-      },
-      {
-        onChange: (e: Event) => {
-          const target = e.target as HTMLInputElement;
-          this.debounce(() => {
-            void userApi.searchUsers(target.value, "searchForExistingChat");
-          }, 300);
-        },
-      },
-    );
+    const loginInput = showSearch
+      ? new Input(
+          {
+            name: "login",
+            type: "text",
+            placeholder: placeholder || "",
+            className: "user-modal__input",
+          },
+          {
+            onChange: (e: Event) => {
+              const target = e.target as HTMLInputElement;
+              this.debounce(() => {
+                void userApi.searchUsers(target.value, "searchForExistingChat");
+              }, 300);
+            },
+          },
+        )
+      : null;
 
     const submitButton = new Button({
       text: buttonText,
@@ -57,6 +63,16 @@ export class UserModalContent extends Block<UserModalContentProps> {
       className: "user-modal__button",
       events: {
         click: () => onSubmit?.(),
+      },
+    });
+
+    const cancelButton = new Button({
+      text: "Отмена",
+      type: "button",
+      variant: "secondary",
+      className: "user-modal__button",
+      events: {
+        click: () => onCancel?.(),
       },
     });
 
@@ -72,6 +88,7 @@ export class UserModalContent extends Block<UserModalContentProps> {
         title,
         loginInput,
         submitButton,
+        cancelButton,
         usersList,
       },
       true,

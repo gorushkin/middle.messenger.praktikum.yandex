@@ -61,6 +61,17 @@ export const withCurrentChat = <T extends new (...args: any[]) => Block>(
     };
   });
 
+export const withCurrentChatUsers = <T extends new (...args: any[]) => Block>(
+  Component: T,
+): T =>
+  connect(Component, (state) => {
+    const searchUsers = state.chatUsers || [];
+
+    return {
+      searchUsers,
+    };
+  });
+
 export const withChatUsers = <T extends new (...args: any[]) => Block>(
   Component: T,
 ): T =>

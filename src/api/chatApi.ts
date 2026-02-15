@@ -112,10 +112,10 @@ class ChatsAPI {
     const response = await this.chatsAPI.get<User[], string>(url);
 
     if (response.ok) {
-      store.set("searchForExistingChat", response.data);
+      store.set("chatUsers", response.data);
     } else {
       console.error("Failed to get chat users:", response.error);
-      store.set("searchForExistingChat", []);
+      store.set("chatUsers", []);
     }
   }
 }

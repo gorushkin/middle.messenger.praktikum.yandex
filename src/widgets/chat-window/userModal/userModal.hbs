@@ -3,11 +3,14 @@
     {{title}}
   </h2>
   <div class="user-modal__form">
-    {{{loginInput}}}
+    {{#if loginInput}}
+      {{{loginInput}}}
+    {{/if}}
     <div class="user-modal__users-list">
       {{{usersList}}}
     </div>
     <div class="user-modal__actions">
+      {{{cancelButton}}}
       {{{submitButton}}}
     </div>
   </div>

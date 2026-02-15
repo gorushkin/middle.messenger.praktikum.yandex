@@ -7,7 +7,8 @@ import type { User } from "../../../entities/user/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
 import { withChatUsers } from "../../../libs/connect";
 import { store } from "../../../libs/store";
-import { UserModalContent } from "../userModal/userModalContent";
+import { AddUserModalContent } from "../userModal/addUserModalContent";
+import { RemoveUserModalContent } from "../userModal/removeUserModalContent";
 
 import template from "./chatSettingsButton.hbs?raw";
 import { ChatSettingsPopupContent } from "./chatSettingsPopupContent";
@@ -35,23 +36,25 @@ export class ChatSettingsButton extends Block {
       },
     });
 
-    const addUserModalContent = new (withChatUsers(UserModalContent))({
+    const addUserModalContent = new (withChatUsers(AddUserModalContent))({
       title: "Добавить пользователя",
       placeholder: "Логин пользователя",
       buttonText: "Добавить",
       buttonVariant: "primary",
+      showSearch: true,
       onSubmit: () => this.handleAddUsersSubmit(),
+      onCancel: () => this.addUserModal.hide(),
       onUserClick: (user) => {
         this.handleAddUser(user);
       },
     });
 
-    const removeUserModalContent = new (withChatUsers(UserModalContent))({
+    const removeUserModalContent = new RemoveUserModalContent({
       title: "Удалить пользователя",
-      placeholder: "Логин пользователя",
       buttonText: "Удалить",
       buttonVariant: "primary",
       onSubmit: () => this.handleRemoveUsersSubmit(),
+      onCancel: () => this.removeUserModal.hide(),
       onUserClick: (user) => {
         this.handleRemoveUser(user);
       },

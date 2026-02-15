@@ -5,6 +5,7 @@ import {
   withSearchForNewChat,
   withSearchForExistingChat,
   withSelectedUsers,
+  withCurrentChatUsers,
 } from "../../libs/connect";
 import { isEqual } from "../../libs/isEqual";
 import { ClickableText } from "../clickableText";
@@ -80,3 +81,6 @@ export const SearchUsersListForNewChat =
 
 export const SearchUsersListForExistingChat =
   withSearchForExistingChat(SearchUsersListBase);
+
+export const SearchUsersListForCurrentChat =
+  withCurrentChatUsers(SearchUsersListBase);
