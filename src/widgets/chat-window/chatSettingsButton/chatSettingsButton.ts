@@ -3,7 +3,6 @@ import { IconButton } from "../../../components/iconButton";
 import { Image } from "../../../components/image";
 import { Modal } from "../../../components/modal";
 import { Popup } from "../../../components/popup";
-import type { User } from "../../../entities/user/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
 import { withChatUsers } from "../../../libs/connect";
 import { store } from "../../../libs/store";
@@ -42,22 +41,14 @@ export class ChatSettingsButton extends Block {
       buttonText: "Добавить",
       buttonVariant: "primary",
       showSearch: true,
-      onSubmit: () => this.handleAddUsersSubmit(),
-      onCancel: () => this.addUserModal.hide(),
-      onUserClick: (user) => {
-        this.handleAddUser(user);
-      },
+      onClose: () => this.addUserModal.hide(),
     });
 
     const removeUserModalContent = new RemoveUserModalContent({
       title: "Удалить пользователя",
       buttonText: "Удалить",
       buttonVariant: "primary",
-      onSubmit: () => this.handleRemoveUsersSubmit(),
-      onCancel: () => this.removeUserModal.hide(),
-      onUserClick: (user) => {
-        this.handleRemoveUser(user);
-      },
+      onClose: () => this.removeUserModal.hide(),
     });
 
     const addUserModal = new Modal({
@@ -115,65 +106,6 @@ export class ChatSettingsButton extends Block {
   private openRemoveUserModal() {
     this.popup.hide();
     this.removeUserModal.show();
-  }
-
-  private handleAddUser(user: User) {
-    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
-
-    if (!selectedUsers.find((u) => u.id === user.id)) {
-      store.set("selectedChatUsers", [...selectedUsers, user]);
-    } else {
-      const filtered = selectedUsers.filter((u) => u.id !== user.id);
-      store.set("selectedChatUsers", filtered);
-    }
-  }
-
-  private async handleAddUsersSubmit() {
-    const selectedChat = store.get<ChatData>("selectedChat", null);
-
-    if (!selectedChat) {
-      console.error("No chat selected");
-      return;
-    }
-
-    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
-
-    await chatsApi.addUsersToChat(
-      selectedChat.id,
-      selectedUsers.map((user) => user.id),
-    );
-    this.addUserModal.hide();
-  }
-
-  private handleRemoveUser(user: User) {
-    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
-
-    if (!selectedUsers.find((u) => u.id === user.id)) {
-      store.set("selectedChatUsers", [...selectedUsers, user]);
-    } else {
-      const filtered = selectedUsers.filter((u) => u.id !== user.id);
-      store.set("selectedChatUsers", filtered);
-    }
-  }
-
-  async handleRemoveUsersSubmit() {
-    const selectedChat = store.get<ChatData>("selectedChat", null);
-
-    if (!selectedChat) {
-      console.error("No chat selected");
-      return;
-    }
-
-    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
-
-    await chatsApi.deleteUsersFromChat(
-      selectedChat.id,
-      selectedUsers.map((user) => user.id),
-    );
-
-    await chatsApi.getChatUsers(selectedChat.id);
-
-    this.removeUserModal.hide();
   }
 
   private async handleDeleteChat() {

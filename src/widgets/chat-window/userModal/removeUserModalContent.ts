@@ -1,7 +1,9 @@
+import { chatsApi, type ChatData } from "../../../api";
 import { Button } from "../../../components/button";
 import { SearchUsersListForCurrentChat } from "../../../components/searchUsersList";
 import type { User } from "../../../entities/user/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
+import { store } from "../../../libs/store";
 
 import template from "./userModal.hbs?raw";
 
@@ -11,10 +13,7 @@ type RemoveUserModalContentProps = {
   title: string;
   buttonText: string;
   buttonVariant?: "primary" | "secondary" | "link";
-  onSubmit: () => void;
-  onCancel?: () => void;
-  // eslint-disable-next-line no-unused-vars
-  onUserClick?: (user: User) => void;
+  onClose?: () => void;
 };
 
 export class RemoveUserModalContent extends Block<RemoveUserModalContentProps> {
@@ -23,9 +22,7 @@ export class RemoveUserModalContent extends Block<RemoveUserModalContentProps> {
       title,
       buttonText,
       buttonVariant = "primary",
-      onSubmit,
-      onCancel,
-      onUserClick,
+      onClose,
     } = propsAndChildren;
 
     const submitButton = new Button({
@@ -34,7 +31,9 @@ export class RemoveUserModalContent extends Block<RemoveUserModalContentProps> {
       variant: buttonVariant,
       className: "user-modal__button",
       events: {
-        click: () => onSubmit?.(),
+        click: () => {
+          void this.handleSubmit(onClose);
+        },
       },
     });
 
@@ -44,14 +43,14 @@ export class RemoveUserModalContent extends Block<RemoveUserModalContentProps> {
       variant: "secondary",
       className: "user-modal__button",
       events: {
-        click: () => onCancel?.(),
+        click: () => onClose?.(),
       },
     });
 
     const usersList = new SearchUsersListForCurrentChat({
       className: "user-modal__user-item",
       showFullName: false,
-      onUserClick,
+      onUserClick: (user) => this.handleRemoveUser(user),
     });
 
     super(
@@ -65,5 +64,36 @@ export class RemoveUserModalContent extends Block<RemoveUserModalContentProps> {
       },
       true,
     );
+  }
+
+  private handleRemoveUser(user: User) {
+    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
+
+    if (!selectedUsers.find((u) => u.id === user.id)) {
+      store.set("selectedChatUsers", [...selectedUsers, user]);
+    } else {
+      const filtered = selectedUsers.filter((u) => u.id !== user.id);
+      store.set("selectedChatUsers", filtered);
+    }
+  }
+
+  private async handleSubmit(onClose?: () => void) {
+    const selectedChat = store.get<ChatData>("selectedChat", null);
+
+    if (!selectedChat) {
+      console.error("No chat selected");
+      return;
+    }
+
+    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
+
+    await chatsApi.deleteUsersFromChat(
+      selectedChat.id,
+      selectedUsers.map((user) => user.id),
+    );
+
+    await chatsApi.getChatUsers(selectedChat.id);
+
+    onClose?.();
   }
 }

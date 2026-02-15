@@ -1,10 +1,11 @@
-import { userApi } from "../../../api";
+import { chatsApi, userApi, type ChatData } from "../../../api";
 import { Button } from "../../../components/button";
 import { Input } from "../../../components/input";
 import { SearchUsersListForExistingChat } from "../../../components/searchUsersList";
 import type { User } from "../../../entities/user/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
 import { getDebounce } from "../../../libs/debauncer";
+import { store } from "../../../libs/store";
 
 import template from "./userModal.hbs?raw";
 
@@ -15,11 +16,8 @@ type AddUserModalContentProps = {
   placeholder?: string;
   buttonText: string;
   buttonVariant?: "primary" | "secondary" | "link";
-  onSubmit: () => void;
-  onCancel?: () => void;
+  onClose?: () => void;
   showSearch?: boolean;
-  // eslint-disable-next-line no-unused-vars
-  onUserClick?: (user: User) => void;
 };
 
 export class AddUserModalContent extends Block<AddUserModalContentProps> {
@@ -31,9 +29,7 @@ export class AddUserModalContent extends Block<AddUserModalContentProps> {
       placeholder,
       buttonText,
       buttonVariant = "primary",
-      onSubmit,
-      onCancel,
-      onUserClick,
+      onClose,
       showSearch = true,
     } = propsAndChildren;
 
@@ -62,7 +58,9 @@ export class AddUserModalContent extends Block<AddUserModalContentProps> {
       variant: buttonVariant,
       className: "user-modal__button",
       events: {
-        click: () => onSubmit?.(),
+        click: () => {
+          void this.handleSubmit(onClose);
+        },
       },
     });
 
@@ -72,14 +70,14 @@ export class AddUserModalContent extends Block<AddUserModalContentProps> {
       variant: "secondary",
       className: "user-modal__button",
       events: {
-        click: () => onCancel?.(),
+        click: () => onClose?.(),
       },
     });
 
     const usersList = new SearchUsersListForExistingChat({
       className: "user-modal__user-item",
       showFullName: false,
-      onUserClick,
+      onUserClick: (user) => this.handleAddUser(user),
     });
 
     super(
@@ -93,5 +91,34 @@ export class AddUserModalContent extends Block<AddUserModalContentProps> {
       },
       true,
     );
+  }
+
+  private handleAddUser(user: User) {
+    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
+
+    if (!selectedUsers.find((u) => u.id === user.id)) {
+      store.set("selectedChatUsers", [...selectedUsers, user]);
+    } else {
+      const filtered = selectedUsers.filter((u) => u.id !== user.id);
+      store.set("selectedChatUsers", filtered);
+    }
+  }
+
+  private async handleSubmit(onClose?: () => void) {
+    const selectedChat = store.get<ChatData>("selectedChat", null);
+
+    if (!selectedChat) {
+      console.error("No chat selected");
+      return;
+    }
+
+    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
+
+    await chatsApi.addUsersToChat(
+      selectedChat.id,
+      selectedUsers.map((user) => user.id),
+    );
+
+    onClose?.();
   }
 }
