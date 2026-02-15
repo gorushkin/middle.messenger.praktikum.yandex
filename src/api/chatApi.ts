@@ -91,6 +91,19 @@ class ChatsAPI {
       console.error("Failed to delete chat:", response.error);
     }
   }
+
+  async getChatUsers(chatId: number) {
+    const url = `/${chatId}/users`;
+
+    const response = await this.chatsAPI.get<User[], string>(url);
+
+    if (response.ok) {
+      store.set("selectedChatUsers", response.data);
+    } else {
+      console.error("Failed to get chat users:", response.error);
+      store.set("selectedChatUsers", []);
+    }
+  }
 }
 
 export const chatsApi = new ChatsAPI();

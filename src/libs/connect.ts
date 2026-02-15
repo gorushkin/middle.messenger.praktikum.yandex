@@ -50,6 +50,17 @@ export const withSelectedChat = <T extends new (...args: any[]) => Block>(
     };
   });
 
+export const withCurrentChat = <T extends new (...args: any[]) => Block>(
+  Component: T,
+): T =>
+  connect(Component, (state) => {
+    const currentChat = state.selectedChat || null;
+
+    return {
+      currentChat,
+    };
+  });
+
 export const withChatUsers = <T extends new (...args: any[]) => Block>(
   Component: T,
 ): T =>
