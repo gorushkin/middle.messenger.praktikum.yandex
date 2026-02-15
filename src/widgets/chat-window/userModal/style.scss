@@ -20,13 +20,28 @@
   width: 100%;
 }
 
+.user-modal__list-section {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.user-modal__list-title {
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid $border-color;
+}
+
 .user-modal__users-list {
   display: flex;
   flex-direction: column;
   max-height: 150px;
   overflow-y: auto;
-  border: 1px solid $border-color;
-  border-radius: 4px;
 }
 
 .user-modal__user-item {

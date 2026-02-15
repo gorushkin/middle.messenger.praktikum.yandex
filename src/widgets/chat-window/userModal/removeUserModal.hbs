@@ -3,11 +3,13 @@
     {{title}}
   </h2>
   <div class="user-modal__form">
-    {{#if loginInput}}
-      {{{loginInput}}}
-    {{/if}}
-    <div class="user-modal__users-list">
-      {{{usersList}}}
+    <div class="user-modal__list-section">
+      <h3 class="user-modal__list-title">
+        Пользователи чата
+      </h3>
+      <div class="user-modal__users-list">
+        {{{chatUsersList}}}
+      </div>
     </div>
     <div class="user-modal__actions">
       {{{cancelButton}}}

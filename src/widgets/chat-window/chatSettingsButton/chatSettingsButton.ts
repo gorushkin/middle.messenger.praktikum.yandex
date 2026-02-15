@@ -40,7 +40,6 @@ export class ChatSettingsButton extends Block {
       placeholder: "Логин пользователя",
       buttonText: "Добавить",
       buttonVariant: "primary",
-      showSearch: true,
       onClose: () => this.addUserModal.hide(),
     });
 

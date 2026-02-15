@@ -5,7 +5,7 @@ import type { User } from "../../../entities/user/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
 import { store } from "../../../libs/store";
 
-import template from "./userModal.hbs?raw";
+import template from "./removeUserModal.hbs?raw";
 
 import "./style.scss";
 
@@ -47,7 +47,7 @@ export class RemoveUserModalContent extends Block<RemoveUserModalContentProps> {
       },
     });
 
-    const usersList = new SearchUsersListForCurrentChat({
+    const chatUsersList = new SearchUsersListForCurrentChat({
       className: "user-modal__user-item",
       showFullName: false,
       onUserClick: (user) => this.handleRemoveUser(user),
@@ -57,10 +57,9 @@ export class RemoveUserModalContent extends Block<RemoveUserModalContentProps> {
       template,
       {
         title,
-        loginInput: null,
         submitButton,
         cancelButton,
-        usersList,
+        chatUsersList,
       },
       true,
     );
