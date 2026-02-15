@@ -1,4 +1,4 @@
-import { chatsApi, type ChatData } from "../../../api";
+import { chatsApi } from "../../../api";
 import { IconButton } from "../../../components/iconButton";
 import { Image } from "../../../components/image";
 import { Modal } from "../../../components/modal";
@@ -108,9 +108,9 @@ export class ChatSettingsButton extends Block {
   }
 
   private async handleDeleteChat() {
-    const selectedChat = store.get<ChatData>("selectedChat", null);
+    const selectedChat = store.get("selectedChat", null);
 
-    if (!selectedChat) {
+    if (!selectedChat || !("title" in selectedChat)) {
       console.error("No chat selected");
       return;
     }

@@ -1,4 +1,4 @@
-@import "../../../../variables.scss";
+@import "../../../../variables";
 
 .message {
   display: flex;
@@ -15,7 +15,7 @@
   .message__content {
     background-color: $button-primary-background;
     color: $button-primary-color;
-    border-radius: 12px 12px 0 12px;
+    border-radius: 12px 12px 0;
   }
 }
 
@@ -32,8 +32,7 @@
 
 .message__content {
   padding: 10px 14px;
-  word-wrap: break-word;
-  word-break: break-word;
+  overflow-wrap: break-word;
   font-size: 14px;
   line-height: 1.4;
 }
@@ -50,6 +49,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

@@ -1,6 +1,7 @@
 import { isPlainObject } from "./isPlainObject";
 
 /* eslint-disable no-unused-vars */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type PlainObject<T = any> = {
   [k in string]: T;
 };

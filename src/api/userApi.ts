@@ -35,7 +35,7 @@ class UserAPI {
       store.set("user", response.data);
       router.go("/profile");
     } else {
-      const user = store.get<UserProfile>("user", null);
+      const user = store.get("user", null);
       store.set("user", null);
       store.set("user", user);
     }
@@ -56,13 +56,15 @@ class UserAPI {
   async updateAvatar(file: File) {
     const formData = new FormData();
     formData.append("avatar", file);
-    const response = await this.api.put("/profile/avatar", { body: formData });
+    const response = await this.api.put<UserProfile>("/profile/avatar", {
+      body: formData,
+    });
 
     if (response.ok) {
       store.set("user", response.data);
       router.go("/profile");
     } else {
-      const user = store.get<UserProfile>("user", null);
+      const user = store.get("user", null);
       store.set("user", null);
       store.set("user", user);
     }

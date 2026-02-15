@@ -59,31 +59,29 @@ class MessagesApi {
 
   // Message handlers
   private handleTextMessage(message: TextMessage) {
-    const history = store.get<TextMessage[]>("messagesHistory") ?? [];
+    const history = store.get("messagesHistory", []);
     store.set("messagesHistory", [...history, message]);
   }
 
   private handleFileMessage(message: FileMessage) {
-    console.log("MessagesApi: handleFileMessage", message);
+    console.info("MessagesApi: handleFileMessage", message);
   }
 
   private handleStickerMessage(message: StickerMessage) {
-    console.log("MessagesApi: handleStickerMessage", message);
+    console.info("MessagesApi: handleStickerMessage", message);
   }
 
   private handleOldMessages(messages: GetOldMessagesResponse) {
-    // console.log("MessagesApi: handleOldMessages", messages);
-    // const history = store.get<TextMessage[]>("messagesHistory") ?? [];
     const sortedMessages = messages.sort(dateComparer);
     store.set("messagesHistory", sortedMessages);
   }
 
   private handlePong(message: PongMessage) {
-    console.log("MessagesApi: handlePong", message);
+    console.info("MessagesApi: handlePong", message);
   }
 
   private handleUserConnected(message: UserConnectedMessage) {
-    console.log("MessagesApi: handleUserConnected", message);
+    console.info("MessagesApi: handleUserConnected", message);
   }
 }
 

@@ -19,7 +19,7 @@ class MessageList extends Block<MessagesListProps> {
   private messageComponentsMap: Map<string, Message> = new Map();
 
   constructor() {
-    const user = store.get<UserProfile>("user", null);
+    const user = store.get("user", null);
 
     super(template, { messages: [], user }, true);
 

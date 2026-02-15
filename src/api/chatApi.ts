@@ -68,7 +68,7 @@ class ChatsAPI {
   }
 
   async getChatToken() {
-    const url = "/token/" + store.get<ChatData>("selectedChat", null)?.id;
+    const url = "/token/" + store.get("selectedChat", null)?.id;
 
     const response = await this.chatsAPI.post<{ token: string }, string>(url);
 
@@ -117,6 +117,11 @@ class ChatsAPI {
       console.error("Failed to get chat users:", response.error);
       store.set("chatUsers", []);
     }
+  }
+
+  async selectChat(chatData: ChatData) {
+    await this.getChatToken();
+    await this.getChatUsers(chatData.id);
   }
 }
 

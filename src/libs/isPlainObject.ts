@@ -1,3 +1,5 @@
+import type { Indexed } from "./store";
+
 export const isPlainObject = (v: unknown): v is Indexed =>
   typeof v === "object" &&
   v !== null &&

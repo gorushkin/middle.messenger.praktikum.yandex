@@ -1,8 +1,6 @@
-import type { ChatData } from "../../api";
 import { messagesApi } from "../../api/messagesApi";
 import type { FormValidator } from "../../components/form";
 import { Form } from "../../components/form/form";
-import type { UserProfile } from "../../entities/user";
 import { Block, type PropsAndChildren } from "../../libs/block";
 import { withChatToken } from "../../libs/connect";
 import { store } from "../../libs/store";
@@ -88,9 +86,9 @@ export class ChatWindow extends Block<ChatWindowProps> {
   }
 
   private connect() {
-    const userId = store.get<UserProfile>("user", null)?.id || -1;
-    const chatId = store.get<ChatData>("selectedChat", null)?.id || -1;
-    const token = store.get<string>("chatToken");
+    const userId = store.get("user", null)?.id || -1;
+    const chatId = store.get("selectedChat", null)?.id || -1;
+    const token = store.get("chatToken");
 
     if (!token) {
       console.error("No chat token available");

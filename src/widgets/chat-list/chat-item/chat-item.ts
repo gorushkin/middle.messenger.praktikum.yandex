@@ -33,8 +33,7 @@ export class ChatItem extends Block<ChatItemProps> {
 
             store.set("selectedChat", chatData);
 
-            await chatsApi.getChatToken();
-            await chatsApi.getChatUsers(chatData.id);
+            await chatsApi.selectChat(chatData);
           },
         },
       },

@@ -1,4 +1,4 @@
-import { chatsApi, userApi, type ChatData } from "../../../api";
+import { chatsApi, userApi } from "../../../api";
 import { Button } from "../../../components/button";
 import { Input } from "../../../components/input";
 import {
@@ -100,7 +100,7 @@ export class AddUserModalContent extends Block<AddUserModalContentProps> {
   }
 
   private handleAddUser(user: User) {
-    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
+    const selectedUsers = store.get("selectedChatUsers", []);
 
     if (!selectedUsers.find((u) => u.id === user.id)) {
       store.set("selectedChatUsers", [...selectedUsers, user]);
@@ -111,14 +111,14 @@ export class AddUserModalContent extends Block<AddUserModalContentProps> {
   }
 
   private async handleSubmit(onClose?: () => void) {
-    const selectedChat = store.get<ChatData>("selectedChat", null);
+    const selectedChat = store.get("selectedChat", null);
 
     if (!selectedChat) {
       console.error("No chat selected");
       return;
     }
 
-    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
+    const selectedUsers = store.get("selectedChatUsers", []);
 
     await chatsApi.addUsersToChat(
       selectedChat.id,
