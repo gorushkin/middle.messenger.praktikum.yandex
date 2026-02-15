@@ -17,7 +17,7 @@ type ChatsPageProps = {
 class ChatsPage extends Block<ChatsPageProps> {
   api = chatsApi;
 
-  constructor() {
+  constructor(params: ChatsPageProps) {
     const chatListHeader = new Link({
       href: "/profile",
       content: `<span>
@@ -30,7 +30,7 @@ class ChatsPage extends Block<ChatsPageProps> {
     super(
       template,
       {
-        selectedChatId: -1,
+        selectedChatId: params.selectedChatId ?? -1,
         chatList: new ChatList({
           chatListHeader,
         }),
