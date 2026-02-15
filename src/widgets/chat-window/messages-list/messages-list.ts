@@ -14,7 +14,7 @@ type MessagesListProps = {
   user?: UserProfile | null;
 };
 
-class MessageList extends Block<MessagesListProps> {
+export class MessageList extends Block<MessagesListProps> {
   userId: number;
   private messageComponentsMap: Map<string, Message> = new Map();
 

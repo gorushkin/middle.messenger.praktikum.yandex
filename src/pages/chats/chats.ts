@@ -50,7 +50,7 @@ class ChatsPage extends Block<ChatsPageProps> {
 export class ChatPageLayout extends MainLayout {
   constructor() {
     super({
-      content: new (withSelectedChat(ChatsPage))(),
+      content: new (withSelectedChat(ChatsPage))({}),
     });
   }
 }

@@ -2,11 +2,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Block } from "./block";
 import { isEqual } from "./isEqual";
-import { store, STORE_EVENTS, type Indexed } from "./store";
+import { store, STORE_EVENTS, type Indexed, type AppState } from "./store";
 
 export const connect = <T extends new (...args: any[]) => Block>(
   Component: T,
-  mapStateToProps: (state: Indexed) => Indexed,
+  mapStateToProps: (state: AppState) => Indexed,
 ): T => {
   return class extends Component {
     private prevMappedState: Indexed = {};
@@ -43,7 +43,7 @@ export const withSelectedChat = <T extends new (...args: any[]) => Block>(
 ): T =>
   connect(Component, (state) => {
     // console.log("state: ", state.selectedChat.id);
-    const selectedChatId = (state.selectedChat as { id?: string })?.id ?? -1;
+    const selectedChatId = (state.selectedChat as { id?: number })?.id ?? -1;
 
     return {
       selectedChatId,
