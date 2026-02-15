@@ -53,6 +53,20 @@ class ChatsAPI {
     store.set("searchUsers", []);
   }
 
+  async deleteUsersFromChat(selectedChatId: number, users: number[]) {
+    const body = {
+      users,
+      chatId: selectedChatId,
+    };
+
+    await this.chatsAPI.delete("/users", {
+      body,
+    });
+
+    store.set("selectedChatUsers", []);
+    store.set("searchUsers", []);
+  }
+
   async getChatToken() {
     const url = "/token/" + store.get<ChatData>("selectedChat", null)?.id;
 
@@ -98,10 +112,10 @@ class ChatsAPI {
     const response = await this.chatsAPI.get<User[], string>(url);
 
     if (response.ok) {
-      store.set("selectedChatUsers", response.data);
+      store.set("searchForExistingChat", response.data);
     } else {
       console.error("Failed to get chat users:", response.error);
-      store.set("selectedChatUsers", []);
+      store.set("searchForExistingChat", []);
     }
   }
 }

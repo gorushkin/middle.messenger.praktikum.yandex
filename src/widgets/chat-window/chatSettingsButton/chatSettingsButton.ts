@@ -142,13 +142,34 @@ export class ChatSettingsButton extends Block {
     this.addUserModal.hide();
   }
 
-  private async handleRemoveUsersSubmit() {
-    // await chatsApi.addUsersToChat();
-    this.addUserModal.hide();
+  private handleRemoveUser(user: User) {
+    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
+
+    if (!selectedUsers.find((u) => u.id === user.id)) {
+      store.set("selectedChatUsers", [...selectedUsers, user]);
+    } else {
+      const filtered = selectedUsers.filter((u) => u.id !== user.id);
+      store.set("selectedChatUsers", filtered);
+    }
   }
 
-  private handleRemoveUser(user: User) {
-    console.info("Удалить пользователя:", user);
+  async handleRemoveUsersSubmit() {
+    const selectedChat = store.get<ChatData>("selectedChat", null);
+
+    if (!selectedChat) {
+      console.error("No chat selected");
+      return;
+    }
+
+    const selectedUsers = store.get<User[]>("selectedChatUsers") || [];
+
+    await chatsApi.deleteUsersFromChat(
+      selectedChat.id,
+      selectedUsers.map((user) => user.id),
+    );
+
+    await chatsApi.getChatUsers(selectedChat.id);
+
     this.removeUserModal.hide();
   }
 
