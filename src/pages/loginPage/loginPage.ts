@@ -29,7 +29,7 @@ class LoginForm extends Form<LoginFormData> {
         className: "primary login-form__button",
       }),
       new Link({
-        href: "/signup",
+        href: "/sign-up",
         content: "Нет аккаунта? Регистрация",
         className: "login-form__link",
       }),
@@ -77,8 +77,11 @@ class LoginPage extends Block {
 
 export class LoginPageLayout extends MainLayout {
   constructor() {
-    super({
-      content: new LoginPage(),
-    });
+    super(
+      {
+        content: new LoginPage(),
+      },
+      false,
+    );
   }
 }

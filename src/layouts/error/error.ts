@@ -10,7 +10,7 @@ export class ErrorLayout extends Block {
     const propsWithButton = {
       ...propsAndChildren,
       errorBackLinkText: new Link({
-        href: "/chat",
+        href: "/messenger",
         content: "Назад к чатам",
         className: "error__link",
       }),

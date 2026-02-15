@@ -19,7 +19,7 @@ class ChatsPage extends Block<ChatsPageProps> {
 
   constructor(params: ChatsPageProps) {
     const chatListHeader = new Link({
-      href: "/profile",
+      href: "/settings",
       content: `<span>
                    Профиль
       <img src="/arrow_right.svg" alt="Arrow Icon" />

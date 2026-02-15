@@ -39,12 +39,12 @@ export class ProfileView extends Block<ProfileViewProps> {
         userFields,
         actions: [
           new Link({
-            href: "/profile/edit-data",
+            href: "/settings/edit-data",
             content: "Изменить данные",
             className: "profile__link-edit",
           }),
           new Link({
-            href: "/profile/edit-password",
+            href: "/settings/edit-password",
             content: "Изменить пароль",
             className: "profile__link-edit",
           }),

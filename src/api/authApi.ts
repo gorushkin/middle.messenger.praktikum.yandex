@@ -33,10 +33,10 @@ class AuthAPI {
     });
 
     if (response.ok) {
-      router.go("/chat");
+      router.go("/messenger");
     } else {
       if (response.error.reason === USER_ALREADY_IN_SYSTEM_REASON) {
-        router.go("/chat");
+        router.go("/messenger");
         return;
       }
       console.error("Login failed:", response.error);
@@ -48,6 +48,10 @@ class AuthAPI {
 
     if (response.ok) {
       store.set("user", response.data);
+
+      if (!isRoutePrivate) {
+        router.go("/messenger");
+      }
     } else {
       store.set("user", null);
 
@@ -63,7 +67,7 @@ class AuthAPI {
     });
 
     if (response.ok) {
-      router.go("/chat");
+      router.go("/messenger");
     } else {
       console.error("Signup failed:", response.error);
     }

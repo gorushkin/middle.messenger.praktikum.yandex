@@ -33,7 +33,7 @@ class UserAPI {
 
     if (response.ok) {
       store.set("user", response.data);
-      router.go("/profile");
+      router.go("/settings");
     } else {
       const user = store.get("user", null);
       store.set("user", null);
@@ -47,7 +47,7 @@ class UserAPI {
     });
 
     if (response.ok) {
-      router.go("/profile");
+      router.go("/settings");
     } else {
       console.error("Failed to update password");
     }
@@ -62,7 +62,7 @@ class UserAPI {
 
     if (response.ok) {
       store.set("user", response.data);
-      router.go("/profile");
+      router.go("/settings");
     } else {
       const user = store.get("user", null);
       store.set("user", null);
