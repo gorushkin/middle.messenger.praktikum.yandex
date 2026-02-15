@@ -1,4 +1,4 @@
-@import "../../variables";
+@use "/src/variables.scss" as *;
 
 .search-input {
   width: 100%;

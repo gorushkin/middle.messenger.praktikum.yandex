@@ -1,3 +1,5 @@
+@use "/src/variables.scss" as *;
+
 .chat-settings-popup {
   display: flex;
   flex-direction: column;
@@ -11,10 +13,10 @@
   font-size: 14px;
 
   &:hover {
-    background: rgb(0, 0, 0, 0.05);
+    background: $bg-hover-subtle;
   }
 
   &--danger {
-    color: #d32f2f;
+    color: $color-danger;
   }
 }

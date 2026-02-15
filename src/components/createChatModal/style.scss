@@ -1,7 +1,7 @@
-@import "../../variables";
+@use "/src/variables.scss" as *;
 
 .create-chat-modal {
-  background: white;
+  background: $bg-white;
   border-radius: 12px;
   padding: 24px;
   max-width: 400px;

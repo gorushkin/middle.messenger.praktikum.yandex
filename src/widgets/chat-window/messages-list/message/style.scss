@@ -1,4 +1,4 @@
-@import "../../../../variables";
+@use "/src/variables.scss" as *;
 
 .message {
   display: flex;

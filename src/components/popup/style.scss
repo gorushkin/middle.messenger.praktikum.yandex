@@ -1,10 +1,12 @@
+@use "/src/variables.scss" as *;
+
 .popup {
   position: absolute;
   display: none;
   z-index: 1000;
-  background: white;
+  background: $bg-white;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgb(0, 0, 0, 0.15);
+  box-shadow: $shadow-sm;
   min-width: 150px;
 
   &--visible {

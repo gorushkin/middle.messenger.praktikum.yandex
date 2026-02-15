@@ -10,8 +10,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgb(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: $text-light;
+  background-color: $bg-dark;
 
   font-synthesis: none;
   text-rendering: optimizelegibility;
@@ -34,7 +34,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   height: 100%;
-  background: #fff;
+  background: $bg-white;
   color: $text-primary;
 }
 
