@@ -78,8 +78,8 @@ class AuthAPI {
 
   async logout() {
     store.reset();
-    await this.authAPI.post("/logout");
     await chatService.disconnect();
+    await this.authAPI.post("/logout");
 
     router.go(AppRoutes.Login);
   }

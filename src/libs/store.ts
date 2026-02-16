@@ -102,11 +102,11 @@ class Store extends EventBus {
 
   constructor(initial: Indexed = {}) {
     super();
-    this.state = initial;
+    this.state = structuredClone(initial);
   }
 
   public reset(initial: Indexed = {}) {
-    this.state = initial;
+    this.state = structuredClone(initial);
   }
 
   public getState() {
