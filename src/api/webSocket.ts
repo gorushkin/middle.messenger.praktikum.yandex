@@ -131,4 +131,11 @@ export class WebSocketClient {
   sendPing() {
     this.send({ type: "ping" });
   }
+
+  closeConnection() {
+    if (this.ws) {
+      this.ws.close();
+      this.ws = null;
+    }
+  }
 }

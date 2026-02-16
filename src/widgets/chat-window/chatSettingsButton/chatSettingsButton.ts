@@ -126,7 +126,6 @@ export class ChatSettingsButton extends Block {
     try {
       await chatsApi.deleteChat(selectedChat.id);
       this.popup.hide();
-      store.set("selectedChat", { id: -1 });
       await chatsApi.fetchChats();
     } catch (error) {
       console.error("Error deleting chat:", error);

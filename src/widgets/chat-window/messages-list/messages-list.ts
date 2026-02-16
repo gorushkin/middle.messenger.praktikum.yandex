@@ -12,6 +12,7 @@ import "./style.scss";
 type MessagesListProps = {
   messages?: TextMessage[];
   user?: UserProfile | null;
+  currentChatId?: number;
 };
 
 export class MessageList extends Block<MessagesListProps> {
@@ -103,20 +104,22 @@ export class MessageList extends Block<MessagesListProps> {
       { user: newProps.user },
     );
 
+    const chatIdChanged = !isEqual(
+      { currentChatId: oldProps.currentChatId },
+      { currentChatId: newProps.currentChatId },
+    );
+
     if (userChanged && newProps.user) {
       this.userId = newProps.user.id;
       this.replaceAllMessages(newProps.messages || [], this.userId);
       return super.componentDidUpdate(oldProps, newProps);
     }
 
-    if (messagesChanged) {
-      const oldLength = oldProps.messages?.length || 0;
-      const newLength = newProps.messages?.length || 0;
-
-      if (newLength > oldLength) {
-        this.updateMessages(newProps.messages || [], this.userId);
-      } else {
+    if (messagesChanged || chatIdChanged) {
+      if (chatIdChanged) {
         this.replaceAllMessages(newProps.messages || [], this.userId);
+      } else {
+        this.updateMessages(newProps.messages || [], this.userId);
       }
     }
 

@@ -1,4 +1,4 @@
-import { messagesApi } from "../../api/messagesApi";
+import { chatService } from "../../api/messagesApi";
 import type { FormValidator } from "../../components/form";
 import { Form } from "../../components/form/form";
 import { Block, type PropsAndChildren } from "../../libs/block";
@@ -35,7 +35,6 @@ type ChatFormValues = {
 };
 
 class ChatForm extends Form<ChatFormValues> {
-  messagesApi = messagesApi;
   constructor() {
     const fields = new ChatFormFields();
     const formContent = new ChatFormWrapper({ fields });
@@ -43,7 +42,7 @@ class ChatForm extends Form<ChatFormValues> {
     super({
       formContent,
       onSubmit: (value) => {
-        messagesApi.sendMessage(value.message);
+        chatService.sendMessage(value.message);
       },
     });
 
@@ -100,7 +99,7 @@ export class ChatWindow extends Block<ChatWindowProps> {
       return;
     }
 
-    messagesApi.connect(userId, chatId, token);
+    chatService.addChat(userId, chatId, token);
   }
 }
 

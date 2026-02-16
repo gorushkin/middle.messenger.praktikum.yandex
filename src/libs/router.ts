@@ -1,3 +1,5 @@
+import type { AppRoute } from "../main";
+
 import { Route, type BlockConstructor } from "./route";
 
 export const LINK_DATA_ATTR = "spa-link";
@@ -20,7 +22,7 @@ export class Router {
     return this;
   }
 
-  use(pathname: string, block: BlockConstructor) {
+  use(pathname: AppRoute, block: BlockConstructor) {
     const route = new Route(pathname, block, { rootQuery: this._rootQuery });
 
     this.routes.push(route);
@@ -33,12 +35,12 @@ export class Router {
     }
 
     this.addListeners();
-    this._onRoute(window.location.pathname);
+    this._onRoute(window.location.pathname as AppRoute);
   }
 
   private addListeners() {
     window.onpopstate = (() => {
-      this._onRoute(window.location.pathname);
+      this._onRoute(window.location.pathname as AppRoute);
     }).bind(this);
 
     document.addEventListener("click", (e) => {
@@ -59,12 +61,12 @@ export class Router {
           return;
         }
 
-        this.go(href);
+        this.go(href as AppRoute);
       }
     });
   }
 
-  private _onRoute(pathname: string) {
+  private _onRoute(pathname: AppRoute) {
     const route = this.getRoute(pathname);
 
     if (!route) {
@@ -83,7 +85,7 @@ export class Router {
     route.render();
   }
 
-  go(pathname: string) {
+  go(pathname: AppRoute) {
     this.history.pushState({}, "", pathname);
     this._onRoute(pathname);
   }

@@ -42,7 +42,6 @@ export const withSelectedChat = <T extends new (...args: any[]) => Block>(
   Component: T,
 ): T =>
   connect(Component, (state) => {
-    // console.log("state: ", state.selectedChat.id);
     const selectedChatId = (state.selectedChat as { id?: number })?.id ?? -1;
 
     return {
@@ -122,7 +121,8 @@ export const withMessages = <T extends new (...args: any[]) => Block>(
   Component: T,
 ): T =>
   connect(Component, (state) => {
-    const messages = state.messagesHistory || [];
+    const currentChatId = (state.selectedChat as { id?: number })?.id ?? -1;
+    const messages = state.messagesByChatId?.[currentChatId] ?? [];
 
     return {
       messages,
@@ -132,10 +132,16 @@ export const withMessages = <T extends new (...args: any[]) => Block>(
 export const withMessagesAndUser = <T extends new (...args: any[]) => Block>(
   Component: T,
 ): T =>
-  connect(Component, (state) => ({
-    messages: state.messagesHistory || [],
-    user: state.user,
-  }));
+  connect(Component, (state) => {
+    const currentChatId = (state.selectedChat as { id?: number })?.id ?? -1;
+    const messages = state.messagesByChatId?.[currentChatId] ?? [];
+
+    return {
+      messages,
+      user: state.user,
+      currentChatId,
+    };
+  });
 
 export const withChatToken = <T extends new (...args: any[]) => Block>(
   Component: T,

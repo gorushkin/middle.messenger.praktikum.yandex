@@ -18,9 +18,10 @@ export interface AppState {
   chatUsers: User[];
   selectedChatUsers: User[];
   searchUsers: UserProfile[];
-  messagesHistory: (TextMessage | HistoricalMessage)[];
   searchForNewChat: UserProfile[];
   searchForExistingChat: UserProfile[];
+
+  messagesByChatId: Record<number, (TextMessage | HistoricalMessage)[]>;
 }
 
 function set(object: unknown, path: string, value: unknown): unknown {
@@ -80,8 +81,33 @@ export const STORE_EVENTS = {
   UPDATED: "updated",
 };
 
+const initialState: AppState = {
+  user: null,
+  chats: [],
+  selectedChat: null,
+
+  chatToken: null,
+  chatUsers: [],
+  selectedChatUsers: [],
+  searchUsers: [],
+
+  searchForNewChat: [],
+  searchForExistingChat: [],
+
+  messagesByChatId: {},
+};
+
 class Store extends EventBus {
   private state: Indexed = {};
+
+  constructor(initial: Indexed = {}) {
+    super();
+    this.state = initial;
+  }
+
+  public reset(initial: Indexed = {}) {
+    this.state = initial;
+  }
 
   public getState() {
     return this.state;
@@ -152,7 +178,33 @@ class TypedStore<T> {
   public off(event: string, callback: () => void): void {
     this.store.off(event, callback);
   }
+
+  public reset() {
+    this.store.reset(initialState as unknown as Indexed);
+  }
 }
 
-const storeInstance = new Store();
+const storeInstance = new Store(initialState as unknown as Indexed);
 export const store = new TypedStore<AppState>(storeInstance);
+
+type Msg = TextMessage | HistoricalMessage;
+
+class MessagesStore extends TypedStore<AppState> {
+  setMessages(chatId: number, messages: Msg[]) {
+    const prev = store.get("messagesByChatId", {});
+    store.set("messagesByChatId", { ...prev, [chatId]: messages });
+  }
+
+  addMessage(chatId: number, message: Msg) {
+    const map = store.get("messagesByChatId", {}) as Record<number, Msg[]>;
+    const prev = map[chatId] ?? [];
+    store.set("messagesByChatId", { ...map, [chatId]: [...prev, message] });
+  }
+
+  getMessages(chatId: number): Msg[] {
+    const map = store.get("messagesByChatId", {}) as Record<number, Msg[]>;
+    return map[chatId] ?? [];
+  }
+}
+
+export const messagesStore = new MessagesStore(storeInstance);

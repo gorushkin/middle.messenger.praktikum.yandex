@@ -2,6 +2,9 @@ import type { UserProfile } from "../entities/user/user";
 import { router } from "../libs";
 import { HTTPTransport } from "../libs/fetcher";
 import { store } from "../libs/store";
+import { AppRoutes } from "../main";
+
+import { chatService } from "./messagesApi";
 
 const AUTH_ENDPOINT = "/auth";
 
@@ -33,10 +36,10 @@ class AuthAPI {
     });
 
     if (response.ok) {
-      router.go("/messenger");
+      router.go(AppRoutes.Messenger);
     } else {
       if (response.error.reason === USER_ALREADY_IN_SYSTEM_REASON) {
-        router.go("/messenger");
+        router.go(AppRoutes.Messenger);
         return;
       }
       console.error("Login failed:", response.error);
@@ -50,13 +53,13 @@ class AuthAPI {
       store.set("user", response.data);
 
       if (!isRoutePrivate) {
-        router.go("/messenger");
+        router.go(AppRoutes.Messenger);
       }
     } else {
       store.set("user", null);
 
       if (isRoutePrivate) {
-        router.go("/login");
+        router.go(AppRoutes.Login);
       }
     }
   }
@@ -67,16 +70,18 @@ class AuthAPI {
     });
 
     if (response.ok) {
-      router.go("/messenger");
+      router.go(AppRoutes.Messenger);
     } else {
       console.error("Signup failed:", response.error);
     }
   }
 
   async logout() {
+    store.reset();
     await this.authAPI.post("/logout");
+    await chatService.disconnect();
 
-    router.go("/login");
+    router.go(AppRoutes.Login);
   }
 }
 

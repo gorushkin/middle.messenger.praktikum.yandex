@@ -2,6 +2,7 @@ import type { UserProfile } from "../entities/user";
 import { router } from "../libs";
 import { HTTPTransport } from "../libs/fetcher";
 import { store } from "../libs/store";
+import { AppRoutes } from "../main";
 
 const AUTH_ENDPOINT = "/user";
 
@@ -33,7 +34,7 @@ class UserAPI {
 
     if (response.ok) {
       store.set("user", response.data);
-      router.go("/settings");
+      router.go(AppRoutes.Settings);
     } else {
       const user = store.get("user", null);
       store.set("user", null);
@@ -47,7 +48,7 @@ class UserAPI {
     });
 
     if (response.ok) {
-      router.go("/settings");
+      router.go(AppRoutes.Settings);
     } else {
       console.error("Failed to update password");
     }

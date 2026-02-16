@@ -2,6 +2,8 @@ import type { User } from "../entities/user/user";
 import { HTTPTransport } from "../libs/fetcher";
 import { store } from "../libs/store";
 
+import { chatService } from "./messagesApi";
+
 const CHATS_ENDPOINT = "/chats";
 
 type Id = number;
@@ -101,6 +103,8 @@ class ChatsAPI {
 
     if (response.ok) {
       await this.fetchChats();
+      store.set("selectedChat", { id: -1 });
+      chatService.removeChat(chatId);
     } else {
       console.error("Failed to delete chat:", response.error);
     }
