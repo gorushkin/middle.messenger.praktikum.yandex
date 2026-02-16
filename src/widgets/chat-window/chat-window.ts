@@ -41,8 +41,12 @@ class ChatForm extends Form<ChatFormValues> {
 
     super({
       formContent,
-      onSubmit: (value) => {
-        chatService.sendMessage(value.message);
+      onSubmit: async (value) => {
+        await chatService.sendMessage(value.message);
+
+        fields.fields.forEach((item) => {
+          item.reset();
+        });
       },
     });
 
