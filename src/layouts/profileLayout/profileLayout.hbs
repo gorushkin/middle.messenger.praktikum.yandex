@@ -1,12 +1,8 @@
-{{#> mainLayout}}
 <div class="profile">
   <div class="profile__sidebar">
-    {{#> link href="/chat" className="profile__back-link"}}
-      <div class="profile__back-icon">
-        <img src="/back_arrow.svg" alt="Arrow Icon" />
-      </div>
-    {{/link}}
+    {{{backButton}}}
   </div>
-  {{> @partial-block }}
+  <div class="profile__content {{className}}">
+    {{{profileContent}}}
+  </div>
 </div>
-{{/mainLayout}}

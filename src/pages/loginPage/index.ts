@@ -1,1 +1,1 @@
-export { renderLoginPage } from "./loginPage";
+export { LoginPageLayout } from "./loginPage";

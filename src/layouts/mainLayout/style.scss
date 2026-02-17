@@ -16,8 +16,8 @@
   padding: 8px 16px;
   font-size: 14px;
   border: none;
-  background: $button-primary-background;
-  color: $button-primary-color;
+  background: $button-primary-background !important;
+  color: $button-primary-color !important;
   border-radius: 4px;
   cursor: pointer;
 }

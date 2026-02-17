@@ -1,0 +1,22 @@
+@use "/src/variables.scss" as *;
+
+.chat-settings-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 200px;
+}
+
+.chat-settings-popup__button {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 14px;
+
+  &:hover {
+    background: $bg-hover-subtle;
+  }
+
+  &--danger {
+    color: $color-danger;
+  }
+}

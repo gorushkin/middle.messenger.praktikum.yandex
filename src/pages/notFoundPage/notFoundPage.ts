@@ -1,8 +1,14 @@
-import Handlebars from "handlebars";
+import { ErrorLayout } from "../../layouts/error";
+import { MainLayout } from "../../layouts/mainLayout";
 
-import NotFoundPageTemplate from "./notFoundPage.hbs?raw";
-
-export const renderNotFoundPage = (): string => {
-  const template = Handlebars.compile(NotFoundPageTemplate);
-  return template({});
-};
+export class NotFoundPageLayout extends MainLayout {
+  constructor() {
+    super({
+      content: new ErrorLayout({
+        errorTitle: "404",
+        errorDescription: "Страница не найдена",
+        errorBackLinkText: "Назад к чатам",
+      }),
+    });
+  }
+}

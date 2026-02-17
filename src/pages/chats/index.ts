@@ -1,1 +1,1 @@
-export { renderChatsPage } from "./chats";
+export { ChatPageLayout } from "./chats";

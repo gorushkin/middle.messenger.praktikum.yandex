@@ -1,11 +1,16 @@
-{{#> mainLayout}}
-
 <div class="chats">
   <div class="chats__chat-list-wrapper">
-    {{> chatList }}
+    {{{chatList}}}
   </div>
   <div class="chats__chat-window-wrapper">
-    {{> chatWindow }}
+    {{#if (eq selectedChatId -1)}}
+      <div class="chats__empty-state">
+        <p class="chats__empty-text">
+          Выберите чат для начала общения
+        </p>
+      </div>
+    {{else}}
+      {{{chatWindow}}}
+    {{/if}}
   </div>
 </div>
-{{/mainLayout}}

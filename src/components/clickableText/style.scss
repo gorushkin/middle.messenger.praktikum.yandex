@@ -1,0 +1,20 @@
+@use "/src/variables.scss" as *;
+
+.clickable-text {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+
+  &:hover {
+    background-color: $button-primary-background;
+  }
+
+  &:active {
+    background-color: $button-primary-background;
+  }
+}

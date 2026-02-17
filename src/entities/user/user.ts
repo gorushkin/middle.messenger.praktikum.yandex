@@ -1,10 +1,21 @@
 export type UserProfile = {
-  email: string;
-  login: string;
+  id: number;
   first_name: string;
   second_name: string;
-  display_name: string;
+  display_name: string | null;
+  login: string;
+  avatar: string | null;
+  email: string;
   phone: string;
+};
+
+export type User = {
+  id: number;
+  first_name: string;
+  second_name: string;
+  display_name: string | null;
+  login: string;
+  avatar: string | null;
 };
 
 export type Password = {
@@ -13,22 +24,13 @@ export type Password = {
   password: string;
 };
 
-export const mockUserProfile: UserProfile = {
-  email: "pochta@yandex.ru",
-  login: "ivanivanov",
-  first_name: "Иван",
-  second_name: "Иванов",
-  display_name: "Иван",
-  phone: "+7 (909) 967 30 30",
-};
-
 export const mockPassword: Password = {
   oldPassword: "old_password",
   newPassword: "new_password",
   password: "password",
 };
 
-export type UserProfileFields = keyof UserProfile;
+export type UserProfileFields = keyof Omit<UserProfile, "id" | "avatar">;
 export type UserPasswordFields = keyof Password;
 
 export const userDataFields: Record<

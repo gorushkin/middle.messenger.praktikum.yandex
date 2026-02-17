@@ -1,1 +1,1 @@
-export { renderProfileEditPasswordPage } from "./profileEditPasswordPage";
+export { ProfileEditPasswordPageLayout } from "./profileEditPasswordPage";

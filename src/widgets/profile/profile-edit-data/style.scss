@@ -1,12 +1,13 @@
 @use "/src/variables.scss" as *;
 
 .profile__content-edit {
+  .profile__inner-edit {
+    width: 100%;
+  }
+
   .profile__info-actions {
     display: flex;
     flex-direction: column;
-    max-width: 800px;
-    margin: 0 auto;
-    align-self: auto;
-    width: auto !important;
+    align-items: center;
   }
 }

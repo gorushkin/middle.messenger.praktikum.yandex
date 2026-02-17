@@ -1,0 +1,88 @@
+import type { UserProfile } from "../entities/user/user";
+import { router } from "../libs";
+import { HTTPTransport } from "../libs/fetcher";
+import { store } from "../libs/store";
+import { AppRoutes } from "../main";
+
+import { chatService } from "./messagesApi";
+
+const AUTH_ENDPOINT = "/auth";
+
+export type LoginDataRequest = {
+  login: string;
+  password: string;
+};
+
+export type SignupDataRequest = {
+  login: string;
+  password: string;
+  first_name: string;
+  second_name: string;
+  email: string;
+  phone: string;
+};
+
+const USER_ALREADY_IN_SYSTEM_REASON = "User already in system";
+
+class AuthAPI {
+  private authAPI = new HTTPTransport(AUTH_ENDPOINT);
+
+  async login(body: LoginDataRequest) {
+    const response = await this.authAPI.post<
+      string,
+      { reason: typeof USER_ALREADY_IN_SYSTEM_REASON }
+    >("/signin", {
+      body,
+    });
+
+    if (response.ok) {
+      router.go(AppRoutes.Messenger);
+    } else {
+      if (response.error.reason === USER_ALREADY_IN_SYSTEM_REASON) {
+        router.go(AppRoutes.Messenger);
+        return;
+      }
+      console.error("Login failed:", response.error);
+    }
+  }
+
+  async getUser(isRoutePrivate = true) {
+    const response = await this.authAPI.get<UserProfile>("/user");
+
+    if (response.ok) {
+      store.set("user", response.data);
+
+      if (!isRoutePrivate) {
+        router.go(AppRoutes.Messenger);
+      }
+    } else {
+      store.set("user", null);
+
+      if (isRoutePrivate) {
+        router.go(AppRoutes.Login);
+      }
+    }
+  }
+
+  async signup(body: SignupDataRequest) {
+    const response = await this.authAPI.post("/signup", {
+      body,
+    });
+
+    if (response.ok) {
+      router.go(AppRoutes.Messenger);
+    } else {
+      console.error("Signup failed:", response.error);
+    }
+  }
+
+  async logout() {
+    store.reset();
+    await chatService.disconnect();
+    await this.authAPI.post("/logout");
+
+    router.go(AppRoutes.Login);
+  }
+}
+
+export const authApi = new AuthAPI();

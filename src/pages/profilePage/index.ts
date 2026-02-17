@@ -1,1 +1,1 @@
-export { renderProfilePage } from "./profilePage";
+export { ProfilePageLayout } from "./profilePage";

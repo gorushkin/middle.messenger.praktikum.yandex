@@ -1,7 +1,26 @@
-import Handlebars from "handlebars";
+import { Block } from "../../libs/block";
 
-import Link from "./link.hbs?raw";
+import LinkTemplate from "./link.hbs?raw";
 
 import "./style.scss";
 
-Handlebars.registerPartial("link", Link);
+type LinkProps = {
+  href?: string;
+  content?: string;
+  className?: string;
+};
+
+export class Link extends Block {
+  constructor(props: LinkProps = {}) {
+    const { href = "#", content = "Link", className = "" } = props;
+    super(
+      LinkTemplate,
+      {
+        href,
+        content,
+        className,
+      },
+      true
+    );
+  }
+}
