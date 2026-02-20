@@ -1,3 +1,4 @@
+import { authApi } from "../../api";
 import { Button } from "../../components/button";
 import { Form } from "../../components/form";
 import { Link } from "../../components/link";
@@ -18,8 +19,19 @@ import {
   secondNameValidator,
 } from "./validators";
 
+type SignUpFormData = {
+  login: string;
+  password: string;
+  first_name: string;
+  second_name: string;
+  email: string;
+  phone: string;
+  password_confirm: string;
+};
+
 // TODO: refactor duplicate code with LoginPage
-class SignUpForm extends Form {
+class SignUpForm extends Form<SignUpFormData> {
+  api = authApi;
   constructor() {
     const fields = new SignUpFormFields();
 
@@ -43,6 +55,9 @@ class SignUpForm extends Form {
 
     super({
       formContent,
+      onSubmit: (values: SignUpFormData) => {
+        this.handleSubmit(values);
+      },
     });
 
     this.addValidators({
@@ -57,6 +72,10 @@ class SignUpForm extends Form {
 
     fields.setValidator(this.formValidator);
   }
+
+  handleSubmit(values: SignUpFormData) {
+    this.api.signup(values);
+  }
 }
 
 class SignUpPage extends Block {
@@ -69,11 +88,18 @@ class SignUpPage extends Block {
           form: new SignUpForm(),
         }),
       },
-      true
+      true,
     );
   }
 }
 
-export const signUpPage = new MainLayout({
-  content: new SignUpPage(),
-});
+export class SignUpPageLayout extends MainLayout {
+  constructor() {
+    super(
+      {
+        content: new SignUpPage(),
+      },
+      false,
+    );
+  }
+}

@@ -1,5 +1,6 @@
 import { Link } from "../../components/link";
 import { Block, type PropsAndChildren } from "../../libs/block";
+import { AppRoutes } from "../../main";
 
 import template from "./profileLayout.hbs?raw";
 import "./style.scss";
@@ -9,7 +10,7 @@ export class ProfileLayout extends Block {
     const propsWithButton = {
       ...propsAndChildren,
       backButton: new Link({
-        href: "/",
+        href: AppRoutes.Messenger,
         content: `<div class="profile__back-icon">
         <img src="/back_arrow.svg" alt="Arrow Icon" />
       </div>`,

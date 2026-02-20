@@ -1,1 +1,1 @@
-export { profileEditPasswordPage } from "./profileEditPasswordPage";
+export { ProfileEditPasswordPageLayout } from "./profileEditPasswordPage";

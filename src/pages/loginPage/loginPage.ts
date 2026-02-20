@@ -1,3 +1,4 @@
+import { authApi } from "../../api";
 import { Button } from "../../components/button";
 import { Form } from "../../components/form";
 import { Link } from "../../components/link";
@@ -9,9 +10,15 @@ import { Block } from "../../libs/block";
 import { LoginFormFields } from "./fields";
 import template from "./loginPage.hbs?raw";
 import "./style.scss";
-import { loginValidator, passwordValidator } from "./validators";
+import { stringValidator } from "./validators";
 
-class LoginForm extends Form {
+type LoginFormData = {
+  login: string;
+  password: string;
+};
+
+class LoginForm extends Form<LoginFormData> {
+  api = authApi;
   constructor() {
     const fields = new LoginFormFields();
 
@@ -22,7 +29,7 @@ class LoginForm extends Form {
         className: "primary login-form__button",
       }),
       new Link({
-        href: "/signup",
+        href: "/sign-up",
         content: "Нет аккаунта? Регистрация",
         className: "login-form__link",
       }),
@@ -35,14 +42,21 @@ class LoginForm extends Form {
 
     super({
       formContent,
+      onSubmit: (values: LoginFormData) => {
+        this.handleSubmit(values);
+      },
     });
 
     this.addValidators({
-      login: (value: string) => loginValidator(value),
-      password: (value: string) => passwordValidator(value),
+      login: (value: string) => stringValidator(value),
+      password: (value: string) => stringValidator(value),
     });
 
     fields.setValidator(this.formValidator);
+  }
+
+  handleSubmit(values: LoginFormData) {
+    this.api.login(values);
   }
 }
 
@@ -56,11 +70,18 @@ class LoginPage extends Block {
           form: new LoginForm(),
         }),
       },
-      true
+      true,
     );
   }
 }
 
-export const loginPage = new MainLayout({
-  content: new LoginPage(),
-});
+export class LoginPageLayout extends MainLayout {
+  constructor() {
+    super(
+      {
+        content: new LoginPage(),
+      },
+      false,
+    );
+  }
+}

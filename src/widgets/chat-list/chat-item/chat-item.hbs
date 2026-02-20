@@ -1,19 +1,21 @@
-<div class="chat-item">
+<button class="chat-item {{#if this.isActive}}chat-item--active{{/if}}">
   <div class="chat-item__avatar"></div>
   <div class="chat-item__content">
     <span class="chat-item__title">
-  {{name}}
+      {{this.title}}
     </span>
     <span class="chat-item__last-message">
-      {{lastMessage}}
+      {{this.last_message.user.login}}
     </span>
   </div>
   <div class="chat-item__info">
     <span class="chat-item__time">
-      {{time}}
+      {{formatDate this.last_message.time}}
     </span>
-    <span class="chat-item__unread-count">
-      {{count}}
-    </span>
+    {{#if (gt this.unread_count 0)}}
+      <span class="chat-item__unread-count">
+        {{this.unread_count}}
+      </span>
+    {{/if}}
   </div>
-</div>
+</button>

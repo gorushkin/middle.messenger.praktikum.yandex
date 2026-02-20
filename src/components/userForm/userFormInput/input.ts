@@ -16,13 +16,14 @@ export class UserFormInput extends UserFormField {
         placeholder: propsAndChildren?.placeholder || "",
         id: propsAndChildren?.id || "",
         className: "input",
+        value: propsAndChildren?.value || "",
       },
       {
         onBlur: (e) => {
           const target = e.target as HTMLInputElement;
           this.validate(target.value);
         },
-      }
+      },
     );
 
     super({ input, ...propsAndChildren });

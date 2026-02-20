@@ -1,41 +1,55 @@
+import { userApi, type UpdateUserPasswordRequest } from "../../api";
 import { Button } from "../../components/button";
-import { ProfileInput } from "../../components/profile-input";
-import { mockPassword } from "../../entities/user";
+import { Form } from "../../components/form";
 import { MainLayout } from "../../layouts/mainLayout";
 import { ProfileLayout } from "../../layouts/profileLayout";
 import { Block } from "../../libs/block";
-import { mapPasswordToTemplateData } from "../../libs/mapProfileToTemplateData";
 import { ProfileViewEditPassword } from "../../widgets/profile/profile-edit-password";
 
 import template from "./profileEditPassword.hbs?raw";
 
-class ProfileEditPasswordPage extends Block {
-  constructor() {
-    const mappedData = mapPasswordToTemplateData(mockPassword).map(
-      (field) =>
-        new ProfileInput({
-          ...field,
-          isEditing: true,
-        })
-    );
-
+class ProfileEditPasswordFormContent extends Block {
+  constructor(formId: string) {
     super(template, {
       profileContent: new ProfileViewEditPassword({
-        password: mockPassword,
-        fields: mappedData,
         saveButton: new Button({
           className: "primary profile__button",
           type: "submit",
           text: "Сохранить",
+          formId,
         }),
       }),
     });
   }
 }
 
-export const profileEditPasswordPage = new MainLayout({
-  content: new ProfileLayout({
-    profileContent: new ProfileEditPasswordPage(),
-    className: "profile__content-edit",
-  }),
-});
+// TODO: refactor duplicate code with ProfileEditDataForm
+// TODO: add validations
+class ProfileEditPasswordForm extends Form<UpdateUserPasswordRequest> {
+  constructor() {
+    const id = crypto.randomUUID();
+    const formContent = new ProfileEditPasswordFormContent(id);
+
+    const onSubmit = async (values: UpdateUserPasswordRequest) => {
+      await userApi.updatePassword(values);
+    };
+
+    super({
+      formContent,
+      onSubmit,
+      id,
+      className: "profile__content",
+    });
+  }
+}
+
+export class ProfileEditPasswordPageLayout extends MainLayout {
+  constructor() {
+    super({
+      content: new ProfileLayout({
+        profileContent: new ProfileEditPasswordForm(),
+        className: "profile__content-edit",
+      }),
+    });
+  }
+}

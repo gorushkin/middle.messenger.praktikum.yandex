@@ -1,4 +1,8 @@
 .messages-list {
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  gap: 4px;
 }

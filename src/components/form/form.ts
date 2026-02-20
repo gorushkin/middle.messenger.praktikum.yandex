@@ -3,28 +3,43 @@ import { Block, InputBlock } from "../../libs/block";
 import template from "./form.hbs?raw";
 import { FormValidator, type Validator } from "./fromValidator";
 
-export class Form extends Block {
+export class Form<
+  T extends Record<string, string> = { [key: string]: string },
+> extends Block {
   formValidator: FormValidator = new FormValidator();
-  constructor(params: { formContent: Block }) {
-    const { formContent } = params;
+  constructor(params: {
+    formContent: Block;
+    // eslint-disable-next-line no-unused-vars
+    onSubmit?: (values: T) => void | Promise<void>;
+    id?: string;
+    className?: string;
+  }) {
+    const { formContent, onSubmit, id, className } = params;
 
-    const formPropsWithEvents = {
-      formContent,
-      events: {
-        submit: (e: Event) => {
-          e.preventDefault();
-          const form = e.target as HTMLFormElement;
-          const values = this.getFormData(form);
-          this.formValidator.setValues(values);
-          this.onSubmit();
-          console.info(values);
+    super(
+      template,
+      {
+        formContent,
+        events: {
+          submit: async (e: Event) => {
+            e.preventDefault();
+            const form = e.target as HTMLFormElement;
+            const values = this.getFormData(form);
+            this.formValidator.setValues(values);
+            this.onSubmit();
+            if (onSubmit && this.formValidator.isFormValid()) {
+              await onSubmit(values);
+            }
+          },
         },
+        id,
+        className,
       },
-    };
-    super(template, formPropsWithEvents, true);
+      true,
+    );
   }
 
-  getFormData = (form: HTMLFormElement): { [key: string]: string } => {
+  getFormData = (form: HTMLFormElement): T => {
     const formData = new FormData(form);
     const data: { [key: string]: string } = {};
 
@@ -32,7 +47,7 @@ export class Form extends Block {
       data[key] = value.toString();
     }
 
-    return data;
+    return data as T;
   };
 
   onSubmit() {

@@ -1,1 +1,1 @@
-export { signUpPage } from "./signUpPage";
+export { SignUpPageLayout } from "./signUpPage";

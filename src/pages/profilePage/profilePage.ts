@@ -1,28 +1,16 @@
 import { Button } from "../../components/button";
-import { ProfileInput } from "../../components/profile-input";
-import { mockUserProfile } from "../../entities/user";
 import { MainLayout } from "../../layouts/mainLayout";
 import { ProfileLayout } from "../../layouts/profileLayout";
 import { Block } from "../../libs/block";
-import { mapProfileToTemplateData } from "../../libs/mapProfileToTemplateData";
+import { withUser } from "../../libs/connect";
 import { ProfileView } from "../../widgets/profile/profile-view";
 
 import template from "./profilePage.hbs?raw";
 
-class ProfileEditDataPage extends Block {
+class ProfilePageContent extends Block {
   constructor() {
-    const mappedData = mapProfileToTemplateData(mockUserProfile).map(
-      (field) =>
-        new ProfileInput({
-          ...field,
-          isEditing: true,
-        })
-    );
-
     super(template, {
-      profileContent: new ProfileView({
-        user: mockUserProfile,
-        userFields: mappedData,
+      profileContent: new (withUser(ProfileView))({
         saveButton: new Button({
           className: "primary profile__button",
           type: "submit",
@@ -33,8 +21,12 @@ class ProfileEditDataPage extends Block {
   }
 }
 
-export const profilePage = new MainLayout({
-  content: new ProfileLayout({
-    profileContent: new ProfileEditDataPage(),
-  }),
-});
+export class ProfilePageLayout extends MainLayout {
+  constructor() {
+    super({
+      content: new ProfileLayout({
+        profileContent: new ProfilePageContent(),
+      }),
+    });
+  }
+}

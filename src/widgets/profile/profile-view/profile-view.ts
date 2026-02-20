@@ -1,35 +1,97 @@
+import { authApi } from "../../../api";
+import { Button } from "../../../components/button";
 import { Link } from "../../../components/link";
+import { ProfileInput } from "../../../components/profile-input";
 import { ProfileAvatar } from "../../../components/profileAvatar";
+import type { UserProfile } from "../../../entities/user";
 import { Block, type PropsAndChildren } from "../../../libs/block";
+import { mapProfileToTemplateData } from "../../../libs/mapProfileToTemplateData";
 
 import template from "./profile-view.hbs?raw";
 
 import "./style.scss";
 import "../style.scss";
 
-export class ProfileView extends Block {
-  constructor(propsAndChildren: PropsAndChildren) {
-    const propsWithAvatar = {
-      ...propsAndChildren,
-      profileAvatar: new ProfileAvatar(),
-      actions: [
-        new Link({
-          href: "/profile-edit-data",
-          content: "Изменить данные",
-          className: "profile__link-edit",
+type ProfileViewProps = {
+  user?: UserProfile;
+};
+
+export class ProfileView extends Block<ProfileViewProps> {
+  constructor(propsAndChildren: PropsAndChildren<ProfileViewProps>) {
+    const userFields = propsAndChildren.user
+      ? propsAndChildren.user
+        ? mapProfileToTemplateData(propsAndChildren.user).map((field) => {
+            return new ProfileInput({
+              ...field,
+              isEditing: false,
+            });
+          })
+        : []
+      : [];
+
+    super(
+      template,
+      {
+        ...propsAndChildren,
+        profileAvatar: new ProfileAvatar({
+          imageUrl: propsAndChildren.user?.avatar || "",
         }),
-        new Link({
-          href: "/profile-edit-password",
-          content: "Изменить пароль",
-          className: "profile__link-edit",
-        }),
-        new Link({
-          href: "/login",
-          content: "Выйти",
-          className: "profile__link-edit",
-        }),
-      ],
-    };
-    super(template, propsWithAvatar, true);
+        userFields,
+        actions: [
+          new Link({
+            href: "/settings/edit-data",
+            content: "Изменить данные",
+            className: "profile__link-edit",
+          }),
+          new Link({
+            href: "/settings/edit-password",
+            content: "Изменить пароль",
+            className: "profile__link-edit",
+          }),
+          new Button({
+            text: "Выйти",
+            variant: "link",
+            className: "profile__link-edit",
+            type: "button",
+            events: {
+              click: () => {
+                authApi.logout();
+              },
+            },
+          }),
+        ],
+      },
+      true,
+    );
+  }
+
+  private getUserFields(user: UserProfile | null) {
+    const userFields = user
+      ? mapProfileToTemplateData(user).map((field) => {
+          return new ProfileInput({
+            ...field,
+            isEditing: false,
+          });
+        })
+      : [];
+
+    return userFields;
+  }
+
+  componentDidUpdate(
+    oldProps: PropsAndChildren<ProfileViewProps>,
+    newProps: PropsAndChildren<ProfileViewProps>,
+  ): boolean {
+    const itemsChanged = oldProps.user !== newProps.user;
+
+    if (itemsChanged && newProps.user) {
+      this.children.userFields = this.getUserFields(newProps.user);
+
+      this.children.profileAvatar = new ProfileAvatar({
+        imageUrl: newProps.user.avatar || "",
+      });
+    }
+
+    return super.componentDidUpdate(oldProps, newProps);
   }
 }

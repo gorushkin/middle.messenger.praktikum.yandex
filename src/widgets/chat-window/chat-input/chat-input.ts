@@ -7,6 +7,8 @@ const inputClassname = "chat-input__wrapper";
 const inputErrorClassname = "chat-input__wrapper chat-input__wrapper--invalid";
 
 export class ChatFormInput extends InputBlock {
+  input: Input;
+
   constructor(propsAndChildren?: PropsAndChildren) {
     const input = new Input(
       {
@@ -19,11 +21,9 @@ export class ChatFormInput extends InputBlock {
       {
         onBlur: (e) => {
           const target = e.target as HTMLInputElement;
-
           this.validate(target.value);
         },
-        debug: "input in ChatFormInput",
-      }
+      },
     );
 
     super(`<div class="{{className}}">{{{input}}}</div>`, {
@@ -32,6 +32,12 @@ export class ChatFormInput extends InputBlock {
     });
 
     this.name = String(propsAndChildren?.name || "");
+
+    this.input = input;
+  }
+
+  reset() {
+    this.input.reset();
   }
 
   validate(value: string): void {

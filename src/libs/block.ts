@@ -12,13 +12,13 @@ type Children = {
 };
 
 export type PropsAndChildren<
-  P extends Record<string, unknown> = Record<string, unknown>
+  P extends Record<string, unknown> = Record<string, unknown>,
 > = Partial<P> & {
   [key: string]: Block | Block[] | unknown;
 };
 
 export class Block<
-  P extends Record<string, unknown> = Record<string, unknown>
+  P extends Record<string, unknown> = Record<string, unknown>,
 > {
   static EVENTS = {
     INIT: "init",
@@ -33,16 +33,13 @@ export class Block<
 
   template: string;
 
-  compiler = Handlebars.compile;
-
   _id: string | null;
 
   children: Children = {};
-
   constructor(
     template: string = "",
     propsAndChildren: PropsAndChildren<P> = {} as PropsAndChildren<P>,
-    withInternalID = false
+    withInternalID = false,
   ) {
     const eventBus = new EventBus();
     this.template = template;
@@ -70,7 +67,9 @@ export class Block<
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (
         value instanceof Block ||
-        (Array.isArray(value) && value.every((v) => v instanceof Block))
+        (Array.isArray(value) &&
+          value.length > 0 &&
+          value.every((v) => v instanceof Block))
       ) {
         children[key] = value;
       } else {
@@ -89,7 +88,7 @@ export class Block<
       Block.EVENTS.FLOW_CDU,
       (oldProps: unknown, newProps: unknown) => {
         this._componentDidUpdate(oldProps as Props<P>, newProps as Props<P>);
-      }
+      },
     );
   }
 
@@ -214,7 +213,7 @@ export class Block<
     Object.entries(this.children).forEach(([key, child]) => {
       if (Array.isArray(child)) {
         propsAndStubs[key] = child.map(
-          (item: Block) => `<div data-id="${item._id}"></div>`
+          (item: Block) => `<div data-id="${item._id}"></div>`,
         );
       } else {
         propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
@@ -262,7 +261,7 @@ export class InputBlock extends Block {
   constructor(
     template: string = "",
     propsAndChildren: PropsAndChildren = {} as PropsAndChildren,
-    withInternalID = false
+    withInternalID = false,
   ) {
     super(template, propsAndChildren, withInternalID);
     this.name = String(propsAndChildren.name || "");

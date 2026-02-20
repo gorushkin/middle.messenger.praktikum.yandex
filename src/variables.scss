@@ -1,19 +1,33 @@
-// Colors
-$text-primary: #1e1e1e;
+$color-primary: #3369f3;
+$color-white: #fff;
+$color-black: #1e1e1e;
+$color-danger: #d32f2f;
+$text-primary: $color-black;
 $text-secondary: #999;
-$alert-color: #ff2f2f;
+$text-light: rgb(255, 255, 255, 0.87);
+$bg-white: $color-white;
+$bg-dark: #242424;
+$bg-sidebar: #fbfbfb;
+$bg-hover: #f5f5f5;
+$bg-hover-subtle: rgb(0, 0, 0, 0.05);
+$bg-input: #efefef;
+$bg-active-chat: #e4edfd;
 $border-color: #eaeaea;
-$side-bar-background: #fbfbfb;
-$link-color: #3369f3;
-
-// Input
-$input-primary: #1e1e1e;
-$input-secondary: #999;
-$input-border: #3369f3;
-$input-background: #efefef;
-
-// Button
-$button-primary-color: #fff;
-$button-primary-background: #3369f3;
-$button-secondary-color: #3369f3;
-$button-secondary-background: #fff;
+$border-color-light: #ccc;
+$overlay-dark: rgb(0, 0, 0, 0.5);
+$shadow-sm: 0 4px 12px rgb(0, 0, 0, 0.15);
+$shadow-md: 0 8px 32px rgb(0, 0, 0, 0.2);
+$shadow-light: 0 0 10px rgb(0, 0, 0, 0.12);
+$alert-color: $color-danger;
+$link-color: $color-primary;
+$hover-bg: $bg-hover;
+$side-bar-background: $bg-sidebar;
+$input-primary: $text-primary;
+$input-secondary: $text-secondary;
+$input-border: $color-primary;
+$input-background: $bg-input;
+$button-primary-color: $color-white;
+$button-primary-background: $color-primary;
+$button-secondary-color: $color-primary;
+$button-secondary-background: $color-white;
+$active-chat-background: $bg-active-chat;

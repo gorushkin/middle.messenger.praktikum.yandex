@@ -41,10 +41,6 @@ export const ROUTES = [
   },
 ];
 
-const routes = ROUTES.map(
-  (route) => new Link({ href: route.path, content: route.title })
-);
-
 class RootPage extends Block {
   constructor(routes: Link[]) {
     super(
@@ -52,11 +48,19 @@ class RootPage extends Block {
       {
         routes,
       },
-      true
+      true,
     );
   }
 }
 
-export const rootPage = new MainLayout({
-  content: new RootPage(routes),
-});
+export class RootPageLayout extends MainLayout {
+  constructor() {
+    const routes = ROUTES.map(
+      (route) => new Link({ href: route.path, content: route.title }),
+    );
+
+    super({
+      content: new RootPage(routes),
+    });
+  }
+}

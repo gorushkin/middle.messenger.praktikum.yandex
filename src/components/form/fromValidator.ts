@@ -27,16 +27,6 @@ export class FormValidator {
     }
   }
 
-  // validateValues(values: { [key: string]: string }): boolean {
-  //   this.values = values;
-  //   for (const key of this.keys) {
-  //     if (!values[key] || values[key].trim().length === 0) {
-  //       return false;
-  //     }
-  //   }
-  //   return true;
-  // }
-
   validateField(key: string, value: string): ValidationResult {
     const validator = this.validators[key];
 
@@ -55,7 +45,9 @@ export class FormValidator {
 
       const result = this.validateField(key, value);
 
-      errors[key] = result;
+      if (!result.isValid) {
+        errors[key] = result;
+      }
     }
 
     return errors;
@@ -63,5 +55,10 @@ export class FormValidator {
 
   setValues(values: { [key: string]: string }) {
     this.values = values;
+  }
+
+  isFormValid(): boolean {
+    const errors = this.getErrors();
+    return Object.keys(errors).length === 0;
   }
 }

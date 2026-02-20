@@ -1,10 +1,6 @@
-export {
-  mockUserProfile,
-  mockPassword,
-  userDataFields,
-  userPasswordFields,
-} from "./user";
+export { mockPassword, userDataFields, userPasswordFields } from "./user";
 export type {
+  User,
   UserProfile,
   UserProfileFields,
   Password,

@@ -1,31 +1,40 @@
-// import "./components/form/input/input";
-// import "./components/form/formField/formField";
-// import "./components/form/form/form";
-// import "./components/button/button";
-// import "./components/linkOld/link";
-// import "./components/profileAvatar/profileAvatar";
-// import "./layouts/formLayout/formLayout";
-// import "./layouts/error/error";
-// import "./layouts/mainLayout/mainLayout";
-// import "./layouts/profileLayout/profileLayout";
-// import "./widgets/chat-list/chat-list/chat-list";
-// import "./widgets/chat-list/chat-item/chat-item";
-// import "./widgets/chat-list/chat-list-items/chat-list-items";
-// import "./widgets/chat-window/chat-window";
-// import "./widgets/chat-window/chat-header/chat-header";
-// import "./widgets/chat-window/messages-list/messages-list";
-// import "./widgets/chat-window/chat-input/chat-input";
-// import "./widgets/profile/profile-view/profile-view";
-// import "./widgets/profile/profile-edit-data/profile-edit-data";
-// import "./widgets/profile/profile-edit-password/profile-edit-password";
-// import "./components/profile-input/profile-input";
-
+import "./libs/handlebarsHelpers";
+import { router } from "./libs/";
+import { ChatPageLayout } from "./pages/chats";
+import { ErrorPageLayout } from "./pages/errorPage";
+import { LoginPageLayout } from "./pages/loginPage";
+import { NotFoundPageLayout } from "./pages/notFoundPage";
+import { ProfileEditDataPageLayout } from "./pages/profileEditDataPage";
+import { ProfileEditPasswordPageLayout } from "./pages/profileEditPasswordPage";
+import { ProfilePageLayout } from "./pages/profilePage";
+import { SignUpPageLayout } from "./pages/signUpPage";
 import "./style.scss";
-import "./variables.scss";
-import { application } from "./app";
 
-document.addEventListener("DOMContentLoaded", () => {
-  history.replaceState({ spa: true }, "", location.pathname);
+export const AppRoutes = {
+  Root: "/",
+  SignUp: "/sign-up",
+  Messenger: "/messenger",
+  Settings: "/settings",
+  SettingsEditData: "/settings/edit-data",
+  SettingsEditPassword: "/settings/edit-password",
+  Error404: "/404",
+  Error500: "/500",
+  Login: "/login",
+  Any: "/*",
+} as const;
 
-  application.render();
-});
+export type AppRoute = (typeof AppRoutes)[keyof typeof AppRoutes];
+
+router
+  .setRootQuery("app")
+  .use(AppRoutes.Root, LoginPageLayout)
+  .use(AppRoutes.Login, LoginPageLayout)
+  .use(AppRoutes.SignUp, SignUpPageLayout)
+  .use(AppRoutes.Messenger, ChatPageLayout)
+  .use(AppRoutes.Settings, ProfilePageLayout)
+  .use(AppRoutes.SettingsEditData, ProfileEditDataPageLayout)
+  .use(AppRoutes.SettingsEditPassword, ProfileEditPasswordPageLayout)
+  .use(AppRoutes.Error500, ErrorPageLayout)
+  .use(AppRoutes.Error404, NotFoundPageLayout)
+  .use(AppRoutes.Any, NotFoundPageLayout)
+  .start();

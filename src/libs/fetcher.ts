@@ -1,3 +1,5 @@
+import { getFullUrl } from "../config/config";
+
 const METHODS = {
   GET: "GET",
   POST: "POST",
@@ -11,11 +13,12 @@ type PlainObject<T = unknown> = {
   [key: string]: T;
 };
 
-interface RequestOptions {
+interface RequestOptions<B = unknown> {
   data?: PlainObject;
   headers?: Record<string, string>;
   method?: HTTPMethod;
   timeout?: number;
+  body?: B;
 }
 
 function queryStringify(data: PlainObject): string {
@@ -37,63 +40,82 @@ const isDataEmpty = (data?: PlainObject): boolean => {
   return false;
 };
 
-type HTTPTransportMethod = (
-  // eslint-disable-next-line no-unused-vars
-  url: string,
-  // eslint-disable-next-line no-unused-vars
-  options?: RequestOptions
-) => Promise<XMLHttpRequest>;
+type Response<T = unknown, E = string> =
+  | { ok: true; data: T }
+  | { ok: false; error: E };
 
 export class HTTPTransport {
-  get: HTTPTransportMethod = (url, options = {}) => {
+  private url = "";
+
+  constructor(url: string) {
+    this.url = url;
+  }
+
+  getFullUrl(url: string): string {
+    return getFullUrl(this.url + url);
+  }
+  get = <T = unknown, E = string>(
+    url: string,
+    options: RequestOptions = {},
+  ): Promise<Response<T, E>> => {
     let updatedUrl = url;
 
     if (options.data && !isDataEmpty(options.data)) {
       updatedUrl = url + queryStringify(options.data);
     }
 
-    return this.request(
-      updatedUrl,
+    return this.request<T, E>(
+      this.getFullUrl(updatedUrl),
       { ...options, method: METHODS.GET },
-      options.timeout
+      options.timeout,
     );
   };
 
-  post: HTTPTransportMethod = (url, options = {}) => {
-    return this.request(
-      url,
+  post = async <T = unknown, E = string>(
+    url: string,
+    options: RequestOptions = {},
+  ): Promise<Response<T, E>> => {
+    return await this.request<T, E>(
+      this.getFullUrl(url),
       { ...options, method: METHODS.POST },
-      options.timeout
+      options.timeout,
     );
   };
 
-  put: HTTPTransportMethod = (url, options = {}) => {
+  put = async <T = unknown, E = string>(
+    url: string,
+    options: RequestOptions = {},
+  ): Promise<Response<T, E>> => {
     return this.request(
-      url,
+      this.getFullUrl(url),
       { ...options, method: METHODS.PUT },
-      options.timeout
+      options.timeout,
     );
   };
 
-  delete: HTTPTransportMethod = (url, options = {}) => {
+  delete = async <T = unknown, E = string>(
+    url: string,
+    options: RequestOptions = {},
+  ): Promise<Response<T, E>> => {
     return this.request(
-      url,
+      this.getFullUrl(url),
       { ...options, method: METHODS.DELETE },
-      options.timeout
+      options.timeout,
     );
   };
 
-  request(
+  async request<T, E>(
     url: string,
     options: RequestOptions,
-    timeout: number = 5000
-  ): Promise<XMLHttpRequest> {
-    const { method = METHODS.GET, data, headers = {} } = options;
+    timeout: number = 5000,
+  ): Promise<Response<T, E>> {
+    const { method = METHODS.GET, body, headers = {} } = options;
 
     const xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
     xhr.timeout = timeout;
 
-    return new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       xhr.open(method, url);
 
       xhr.onload = () => resolve(xhr);
@@ -101,15 +123,37 @@ export class HTTPTransport {
       xhr.onabort = reject;
       xhr.ontimeout = reject;
 
+      const isFormData = body instanceof FormData;
+
+      if (!isFormData) {
+        xhr.setRequestHeader("Content-Type", "application/json");
+      }
+
       Object.entries(headers).forEach(([key, value]: [string, string]) => {
         xhr.setRequestHeader(key, value);
       });
 
-      if (method === METHODS.GET || !data) {
+      if (method === METHODS.GET || !body) {
         xhr.send();
       } else {
-        xhr.send(JSON.stringify(data));
+        xhr.send(isFormData ? body : JSON.stringify(body));
       }
     });
+
+    try {
+      const xhr = (await promise) as XMLHttpRequest;
+
+      if (xhr.status >= 400) {
+        throw JSON.parse(xhr.response) as E;
+      }
+
+      try {
+        return { ok: true, data: JSON.parse(xhr.response) as T };
+      } catch {
+        return { ok: true, data: xhr.response as T };
+      }
+    } catch (error) {
+      return { ok: false, error: error as E };
+    }
   }
 }

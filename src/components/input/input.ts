@@ -2,7 +2,11 @@ import { Block, type PropsAndChildren } from "../../libs/block";
 
 import template from "./input.hbs?raw";
 
-export class Input extends Block {
+type InputProps = {
+  value?: string;
+};
+
+export class Input extends Block<InputProps> {
   // eslint-disable-next-line no-unused-vars
   validation: ((value: string) => boolean) | null = null;
   constructor(
@@ -15,7 +19,7 @@ export class Input extends Block {
       // eslint-disable-next-line no-unused-vars
       validation?: (value: string) => boolean;
       debug?: string;
-    } = { onChange: () => {}, onBlur: () => {} }
+    } = { onChange: () => {}, onBlur: () => {} },
   ) {
     super(
       template,
@@ -35,8 +39,23 @@ export class Input extends Block {
           },
         },
       },
-      true
+      true,
     );
     this.validation = params.validation ?? null;
+  }
+
+  reset() {
+    this.setProps({ value: "" });
+  }
+
+  componentDidUpdate(
+    oldProps: PropsAndChildren<InputProps>,
+    newProps: PropsAndChildren<InputProps>,
+  ) {
+    if (newProps.value === "") {
+      return true;
+    }
+
+    return super.componentDidUpdate(oldProps, newProps);
   }
 }
