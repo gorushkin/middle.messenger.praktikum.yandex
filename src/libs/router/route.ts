@@ -1,4 +1,4 @@
-import type { Block } from "./block";
+import type { Block } from "../block.ts";
 
 export type BlockConstructor = new () => Block;
 
@@ -53,6 +53,10 @@ export class Route {
       return true;
     }
     return isEqual(pathname, this._pathname);
+  }
+
+  get pathname() {
+    return this._pathname;
   }
 
   render() {
