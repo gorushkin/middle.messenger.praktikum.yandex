@@ -1,5 +1,5 @@
 import { userApi } from "../../api";
-import { getFullUrl } from "../../config/config";
+import { getFullUrl } from "../../config/config.ts";
 import { Block } from "../../libs/block";
 import { Image } from "../image";
 

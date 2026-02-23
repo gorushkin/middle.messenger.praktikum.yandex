@@ -1,4 +1,4 @@
-import { getFullUrl } from "../config/config";
+import { getFullUrl } from "../../config/config.ts";
 
 const METHODS = {
   GET: "GET",
