@@ -1,2 +1,2 @@
-export { Block, InputBlock } from "./block";
-export type { PropsAndChildren } from "./block";
+export { Block, InputBlock } from "./block.ts";
+export type { PropsAndChildren } from "./block.ts";

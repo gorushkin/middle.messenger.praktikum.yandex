@@ -4,7 +4,7 @@ import sinon, { type SinonSpy } from "sinon";
 import { JSDOM } from "jsdom";
 
 import { Router } from "./router.ts";
-import { Block } from "../block";
+import { Block } from "../block/index.ts";
 import { Route } from "./route.ts";
 
 const Routes = {
