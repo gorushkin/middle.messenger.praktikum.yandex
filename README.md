@@ -1,4 +1,4 @@
-# Messenger (Sprint 3)
+# Messenger (Sprint 4)
 
 Учебный проект в рамках курса «Мидл фронтенд-разработчик» от Яндекс Практикума.  
 Проект представляет собой полнофункциональный мессенджер с real-time общением, реализованный с использованием **TypeScript**, **Handlebars** и **Vite**.
@@ -25,6 +25,11 @@
 - **WebSocket**: real-time обмен сообщениями
 - **Store**: централизованное управление состоянием приложения
 - **Защита роутов**: проверка авторизации пользователя
+
+### Sprint 4
+- **Тесты**: unit-тесты для базовых модулей (Block, Router, Fetcher) на `mocha` + `chai` + `jsdom` + `sinon`
+- **Pre-commit проверка**: `husky` + `lint-staged` запускают ESLint и Stylelint перед коммитом
+- **Vite plugin**: `vite-plugin-checker` добавлен для проверки типизации во время разработки
 
 ## Архитектура
 
@@ -90,6 +95,7 @@
 - Handlebars
 - SCSS
 - Vite
+- vite-plugin-checker
 - WebSocket
 - History API
 
@@ -111,3 +117,20 @@ npm run dev
 ```bash
 npm run build
 ```
+
+
+Запуск тестов
+```bash
+npm run test
+```
+
+
+Линтинг вручную
+```bash
+npm run lint
+```
+
+
+Pre-commit
+- Хуки ставятся автоматически через `npm install` (скрипт `prepare`);
+- Перед коммитом выполняется `npx lint-staged`, который гоняет ESLint и Stylelint для изменённых файлов.
