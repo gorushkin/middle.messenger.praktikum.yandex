@@ -51,6 +51,6 @@
     "*.{scss,css}": "stylelint --fix"
   },
   "engines": {
-    "node": ">=20.19"
+    "node": ">=24.19"
   }
 }
