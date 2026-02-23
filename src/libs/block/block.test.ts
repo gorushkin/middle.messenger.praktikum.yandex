@@ -96,8 +96,7 @@ describe("Block", () => {
 
   it("should trigger init method on block creation", () => {
     const initSpy = sinon.spy(TestBlock.prototype, "init");
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-    const block = new TestBlock();
+    new TestBlock();
 
     expect(initSpy.calledOnce).to.be.true;
     initSpy.restore();
