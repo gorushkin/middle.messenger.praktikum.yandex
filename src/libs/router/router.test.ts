@@ -1,11 +1,12 @@
 import { expect } from "chai";
-import { beforeEach, describe, it } from "mocha";
-import sinon, { type SinonSpy } from "sinon";
 import { JSDOM } from "jsdom";
+import { beforeEach, describe, it, afterEach } from "mocha";
+import sinon, { type SinonSpy } from "sinon";
 
-import { Router } from "./router.ts";
 import { Block } from "../block/index.ts";
+
 import { Route } from "./route.ts";
+import { Router } from "./router.ts";
 
 const Routes = {
   SignIn: "/",
@@ -36,7 +37,9 @@ describe("Router", () => {
       },
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).window = window as unknown as Window & typeof globalThis;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).document = window.document;
 
     router = new Router("root");
@@ -77,7 +80,7 @@ describe("Router", () => {
     router.use(Routes.SignIn, MockBlock);
     router.start();
 
-    expect(() => router.go("/missing" as any)).to.throw(
+    expect(() => router.go("/missing")).to.throw(
       "Not found route is not defined",
     );
   });

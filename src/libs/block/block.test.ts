@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
+import { JSDOM } from "jsdom";
 import { before, after, beforeEach, describe, it } from "mocha";
 import sinon from "sinon";
-import { JSDOM } from "jsdom";
+
 import { Block, type PropsAndChildren } from "../block/block.ts";
 
 const PARENT_BLOCK_ID = "PARENT_BLOCK_ID";
@@ -34,28 +36,6 @@ class TestChildBlock extends Block {
   }
 }
 
-class TestBlockWithDidMount extends Block {
-  constructor(params: PropsAndChildren = {}) {
-    super(`<div data-id="${PARENT_BLOCK_ID}">{{text}}</div>`, {
-      text: PARENT_BLOCK_ID,
-      ...params,
-    });
-  }
-
-  componentDidMount() {}
-}
-
-class TestParentBlockWithDidMount extends Block {
-  constructor(params: PropsAndChildren = {}) {
-    super(`<div data-id="${PARENT_BLOCK_ID}">{{{child}}}</div>`, {
-      child: params.child,
-      ...params,
-    });
-  }
-
-  componentDidMount() {}
-}
-
 const getIdElement = (id: string): Element | null => {
   const el = document.querySelector(`[data-id="${id}"]`);
   return el || null;
@@ -65,16 +45,24 @@ describe("Block", () => {
   before(() => {
     const { window } = new JSDOM("<!doctype html><html><body></body></html>");
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).window = window as unknown as Window & typeof globalThis;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).document = window.document;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).DocumentFragment = window.DocumentFragment;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).HTMLElement = window.HTMLElement;
   });
 
   after(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).window = undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).document = undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).DocumentFragment = undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).HTMLElement = undefined;
   });
 
@@ -103,11 +91,12 @@ describe("Block", () => {
     expect(parentEl).to.not.be.null;
     expect(childEl).to.not.be.null;
     expect(childEl?.textContent).to.equal("Child Block");
-    expect(parentEl?.contains(childEl!)).to.equal(true);
+    expect(parentEl?.contains(childEl)).to.equal(true);
   });
 
   it("should trigger init method on block creation", () => {
     const initSpy = sinon.spy(TestBlock.prototype, "init");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     const block = new TestBlock();
 
     expect(initSpy.calledOnce).to.be.true;
@@ -115,6 +104,7 @@ describe("Block", () => {
   });
 
   it("re-renders and updates content when setProps is called", () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const renderSpy = sinon.spy(TestBlock.prototype as any, "_render");
     const block = new TestBlock({ text: "Initial" });
 

@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
+import { beforeEach, describe, it, afterEach } from "mocha";
 
 import { baseUrl } from "../../config/config.ts";
+
 import { HTTPTransport } from "./fetcher.ts";
 
 type LoadHandler = () => void;
@@ -110,7 +113,7 @@ describe("HTTPTransport", () => {
     expect(response).to.deep.equal({ ok: true, data: {} });
   });
 
-  it.only("omits content-type when FormData is used", async () => {
+  it("omits content-type when FormData is used", async () => {
     const formData = new FormData();
     formData.append("avatar", "file");
 
