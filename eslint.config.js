@@ -1,7 +1,6 @@
 import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import importPlugin from "eslint-plugin-import";
 
 export default tseslint.config(
   { ignores: ["dist", "node_modules", "*.config.js", "*.config.ts"] },
@@ -21,7 +20,6 @@ export default tseslint.config(
     },
     plugins: {
       "@typescript-eslint": tseslint.plugin,
-      import: importPlugin,
     },
     rules: {
       "@typescript-eslint/no-unused-vars": [
@@ -77,5 +75,5 @@ export default tseslint.config(
       "prefer-const": "error",
       "no-var": "error",
     },
-  }
+  },
 );
