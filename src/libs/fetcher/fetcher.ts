@@ -7,8 +7,6 @@ const METHODS = {
   DELETE: "DELETE",
 } as const;
 
-type HTTPMethod = (typeof METHODS)[keyof typeof METHODS];
-
 type PlainObject<T = unknown> = {
   [key: string]: T;
 };
@@ -16,7 +14,7 @@ type PlainObject<T = unknown> = {
 interface RequestOptions<B = unknown> {
   data?: PlainObject;
   headers?: Record<string, string>;
-  method?: HTTPMethod;
+  method?: (typeof METHODS)[keyof typeof METHODS];
   timeout?: number;
   body?: B;
 }
@@ -40,6 +38,13 @@ const isDataEmpty = (data?: PlainObject): boolean => {
   return false;
 };
 
+type HTTPMethod = <T = unknown, E = string>(
+  // eslint-disable-next-line no-unused-vars
+  url: string,
+  // eslint-disable-next-line no-unused-vars
+  options?: RequestOptions,
+) => Promise<Response<T, E>>;
+
 type Response<T = unknown, E = string> =
   | { ok: true; data: T }
   | { ok: false; error: E };
@@ -54,38 +59,29 @@ export class HTTPTransport {
   getFullUrl(url: string): string {
     return getFullUrl(this.url + url);
   }
-  get = <T = unknown, E = string>(
-    url: string,
-    options: RequestOptions = {},
-  ): Promise<Response<T, E>> => {
+  get: HTTPMethod = (url, options = {}) => {
     let updatedUrl = url;
 
     if (options.data && !isDataEmpty(options.data)) {
       updatedUrl = url + queryStringify(options.data);
     }
 
-    return this.request<T, E>(
+    return this.request(
       this.getFullUrl(updatedUrl),
       { ...options, method: METHODS.GET },
       options.timeout,
     );
   };
 
-  post = async <T = unknown, E = string>(
-    url: string,
-    options: RequestOptions = {},
-  ): Promise<Response<T, E>> => {
-    return await this.request<T, E>(
+  post: HTTPMethod = async (url, options = {}) => {
+    return await this.request(
       this.getFullUrl(url),
       { ...options, method: METHODS.POST },
       options.timeout,
     );
   };
 
-  put = async <T = unknown, E = string>(
-    url: string,
-    options: RequestOptions = {},
-  ): Promise<Response<T, E>> => {
+  put: HTTPMethod = async (url, options = {}) => {
     return this.request(
       this.getFullUrl(url),
       { ...options, method: METHODS.PUT },
@@ -93,10 +89,7 @@ export class HTTPTransport {
     );
   };
 
-  delete = async <T = unknown, E = string>(
-    url: string,
-    options: RequestOptions = {},
-  ): Promise<Response<T, E>> => {
+  delete: HTTPMethod = async (url, options = {}) => {
     return this.request(
       this.getFullUrl(url),
       { ...options, method: METHODS.DELETE },
