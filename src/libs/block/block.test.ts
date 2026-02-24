@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
 import { JSDOM } from "jsdom";
-import { before, after, beforeEach, describe, it } from "mocha";
+import { before, beforeEach, describe, it } from "mocha";
 import sinon from "sinon";
 
 import { Block, type PropsAndChildren } from "../block/block.ts";
@@ -45,25 +45,9 @@ describe("Block", () => {
   before(() => {
     const { window } = new JSDOM("<!doctype html><html><body></body></html>");
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global as any).window = window as unknown as Window & typeof globalThis;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global as any).document = window.document;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global as any).DocumentFragment = window.DocumentFragment;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global as any).HTMLElement = window.HTMLElement;
-  });
-
-  after(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global as any).window = undefined;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global as any).document = undefined;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global as any).DocumentFragment = undefined;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global as any).HTMLElement = undefined;
+    (global as unknown as { window: Window & typeof globalThis }).window =
+      window as unknown as Window & typeof globalThis;
+    (global as unknown as { document: Document }).document = window.document;
   });
 
   beforeEach(() => {
@@ -103,8 +87,10 @@ describe("Block", () => {
   });
 
   it("re-renders and updates content when setProps is called", () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const renderSpy = sinon.spy(TestBlock.prototype as any, "_render");
+    const renderSpy = sinon.spy<TestBlock, "_render">(
+      TestBlock.prototype,
+      "_render",
+    );
     const block = new TestBlock({ text: "Initial" });
 
     document.body.appendChild(block.getContent());

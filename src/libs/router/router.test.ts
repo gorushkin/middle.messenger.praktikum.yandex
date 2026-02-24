@@ -37,10 +37,9 @@ describe("Router", () => {
       },
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global as any).window = window as unknown as Window & typeof globalThis;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (global as any).document = window.document;
+    (global as unknown as { window: Window & typeof globalThis }).window =
+      window as unknown as Window & typeof globalThis;
+    (global as unknown as { document: Document }).document = window.document;
 
     router = new Router("root");
 
