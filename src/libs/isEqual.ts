@@ -1,8 +1,7 @@
 import { isPlainObject } from "./isPlainObject";
 
-/* eslint-disable no-unused-vars */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type PlainObject<T = any> = {
+type PlainObject<T = unknown> = {
+  // eslint-disable-next-line no-unused-vars
   [k in string]: T;
 };
 
@@ -22,7 +21,7 @@ export const isEqual = (lhs: PlainObject, rhs: PlainObject) => {
   for (const [key, value] of Object.entries(lhs)) {
     const rightValue = rhs[key];
     if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
-      if (isEqual(value, rightValue)) {
+      if (isEqual(value as PlainObject, rightValue as PlainObject)) {
         continue;
       }
       return false;

@@ -1,2 +1,2 @@
-export { Form } from "./form";
+export { Form } from "./form.ts";
 export { FormValidator } from "./fromValidator";
