@@ -6,6 +6,7 @@ import template from "./chatSettingsPopupContent.hbs?raw";
 type ChatSettingsPopupContentProps = {
   onAddUserClick: () => void;
   onRemoveUserClick: () => void;
+  onUpdateChatImageClick: () => void;
   onDeleteChatClick: () => void;
 };
 
@@ -13,8 +14,12 @@ export class ChatSettingsPopupContent extends Block<ChatSettingsPopupContentProp
   constructor(
     propsAndChildren: PropsAndChildren<ChatSettingsPopupContentProps>,
   ) {
-    const { onAddUserClick, onRemoveUserClick, onDeleteChatClick } =
-      propsAndChildren;
+    const {
+      onAddUserClick,
+      onRemoveUserClick,
+      onUpdateChatImageClick,
+      onDeleteChatClick,
+    } = propsAndChildren;
 
     const addUserButton = new Button({
       text: "Добавить пользователя",
@@ -41,6 +46,18 @@ export class ChatSettingsPopupContent extends Block<ChatSettingsPopupContentProp
       },
     });
 
+    const updateChatImageButton = new Button({
+      text: "Изменить изображение чата",
+      type: "button",
+      variant: "link",
+      className: "chat-settings-popup__button",
+      events: {
+        click: () => {
+          onUpdateChatImageClick?.();
+        },
+      },
+    });
+
     const deleteChatButton = new Button({
       text: "Удалить чат",
       type: "button",
@@ -61,6 +78,7 @@ export class ChatSettingsPopupContent extends Block<ChatSettingsPopupContentProp
         addUserButton,
         removeUserButton,
         deleteChatButton,
+        updateChatImageButton,
       },
       true,
     );

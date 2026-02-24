@@ -1,4 +1,5 @@
 import { chatsApi, type ChatData } from "../../../api/chatApi";
+import { ImageWithDefault } from "../../../components/image/image";
 import { Block } from "../../../libs/block";
 import { store } from "../../../libs/store";
 
@@ -14,10 +15,17 @@ type ChatItemProps = ChatData & {
 export class ChatItem extends Block<ChatItemProps> {
   id: number;
   constructor(chat: ChatData) {
+    const chatAvatar = new ImageWithDefault({
+      src: chat.avatar ?? "",
+      alt: "Chat avatar",
+      className: "chat-item__avatar",
+    });
+
     super(
       template,
       {
         ...chat,
+        chatAvatar,
         isActive: false,
         selectedChatId: -1,
         events: {
@@ -31,6 +39,7 @@ export class ChatItem extends Block<ChatItemProps> {
               created_by: this.props.created_by,
             };
 
+            store.set("selectedChat", null);
             store.set("selectedChat", chatData);
 
             await chatsApi.selectChat(chatData);

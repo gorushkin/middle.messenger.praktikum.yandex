@@ -8,6 +8,7 @@ import { withChatUsers } from "../../../libs/connect";
 import { store } from "../../../libs/store";
 import { AddUserModalContent } from "../userModal/addUserModalContent";
 import { RemoveUserModalContent } from "../userModal/removeUserModalContent";
+import { ConnectedChatImageModal } from "../userModal/updateChatAvatarModalContent";
 
 import template from "./chatSettingsButton.hbs?raw";
 import { ChatSettingsPopupContent } from "./chatSettingsPopupContent";
@@ -20,6 +21,7 @@ export class ChatSettingsButton extends Block {
   private popup: Popup;
   private addUserModal: Modal;
   private removeUserModal: Modal;
+  private updateChatImageModal: Modal;
 
   constructor(propsAndChildren: PropsAndChildren) {
     const icon = new Image({
@@ -60,8 +62,18 @@ export class ChatSettingsButton extends Block {
       isVisible: false,
     });
 
+    const updateChatImageModalContent = new ConnectedChatImageModal({
+      onClose: () => this.updateChatImageModal.hide(),
+    });
+
+    const updateChatImageModal = new Modal({
+      content: updateChatImageModalContent,
+      isVisible: false,
+    });
+
     const popupContent = new ChatSettingsPopupContent({
       onAddUserClick: () => this.openAddUserModal(),
+      onUpdateChatImageClick: () => this.openUpdateChatImageModal(),
       onRemoveUserClick: () => this.openRemoveUserModal(),
       onDeleteChatClick: () => this.handleDeleteChat(),
     });
@@ -84,12 +96,20 @@ export class ChatSettingsButton extends Block {
 
     super(
       template,
-      { ...propsAndChildren, button, popup, addUserModal, removeUserModal },
+      {
+        ...propsAndChildren,
+        button,
+        popup,
+        addUserModal,
+        removeUserModal,
+        updateChatImageModal,
+      },
       true,
     );
     this.popup = popup;
     this.addUserModal = addUserModal;
     this.removeUserModal = removeUserModal;
+    this.updateChatImageModal = updateChatImageModal;
   }
 
   private handleButtonClick(e: Event) {
@@ -105,6 +125,11 @@ export class ChatSettingsButton extends Block {
   private openRemoveUserModal() {
     this.popup.hide();
     this.removeUserModal.show();
+  }
+
+  private openUpdateChatImageModal() {
+    this.popup.hide();
+    this.updateChatImageModal.show();
   }
 
   private async handleDeleteChat() {
