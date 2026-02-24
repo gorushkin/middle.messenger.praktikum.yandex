@@ -12,7 +12,8 @@
     "lint": "eslint . && stylelint \"**/*.scss\"",
     "lint:fix": "eslint . --fix && stylelint \"**/*.scss\" --fix",
     "reset": "rm -rf dist && rm -rf node_modules && rm package-lock.json && npm install && npm start",
-    "test": "mocha -r ts-node/register src/**/*.test.ts"
+    "test": "mocha -r ts-node/register src/**/*.test.ts",
+    "pre-commit": "lint-staged && npm test"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
