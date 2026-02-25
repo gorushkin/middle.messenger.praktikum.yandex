@@ -38,24 +38,6 @@ export default tseslint.config(
       "no-debugger": "error",
       "prefer-const": "error",
       "no-var": "error",
-
-      "import/order": [
-        "error",
-        {
-          groups: [
-            "builtin",
-            "external",
-            "internal",
-            "parent",
-            "sibling",
-            "index",
-          ],
-          "newlines-between": "always",
-          alphabetize: { order: "asc", caseInsensitive: true },
-        },
-      ],
-      "import/no-duplicates": "error",
-      "import/newline-after-import": "error",
     },
   },
   {
