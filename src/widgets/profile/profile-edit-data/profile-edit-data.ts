@@ -25,7 +25,10 @@ export class ProfileViewEditData extends Block<ProfileViewEditDataProps> {
 
     const propsWithAvatar = {
       ...propsAndChildren,
-      profileAvatar: new ProfileAvatar({ isEditable: true }),
+      profileAvatar: new ProfileAvatar({
+        isEditable: true,
+        imageUrl: propsAndChildren.user?.avatar || "",
+      }),
       userFields,
     };
     super(template, propsWithAvatar, true);

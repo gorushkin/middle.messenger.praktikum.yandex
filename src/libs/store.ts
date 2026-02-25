@@ -36,8 +36,9 @@ function set(object: unknown, path: string, value: unknown): unknown {
       }
 
       try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        if ((rhs[p] as any).constructor === Object) {
+        if (
+          (rhs[p] as unknown as Record<string, unknown>).constructor === Object
+        ) {
           rhs[p] = merge(lhs[p] as Indexed, rhs[p] as Indexed);
         } else {
           lhs[p] = rhs[p];

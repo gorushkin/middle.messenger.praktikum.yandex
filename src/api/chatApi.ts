@@ -127,6 +127,34 @@ class ChatsAPI {
     await this.getChatToken();
     await this.getChatUsers(chatData.id);
   }
+
+  async updateChatAvatar(file: File) {
+    const chatId = store.get("selectedChat", null)?.id;
+
+    if (!chatId) {
+      console.error("No chat selected");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("chatId", chatId.toString());
+    formData.append("avatar", file);
+
+    const response = await this.chatsAPI.put<ChatData>("/avatar", {
+      body: formData,
+    });
+
+    if (response.ok) {
+      store.set("selectedChat", response.data);
+      const chats = store.get("chats", []) as ChatData[];
+      const updatedChats = chats.map((chat) =>
+        chat.id === response.data.id ? response.data : chat,
+      );
+      store.set("chats", updatedChats);
+    } else {
+      console.error("Failed to update chat avatar:", response.error);
+    }
+  }
 }
 
 export const chatsApi = new ChatsAPI();

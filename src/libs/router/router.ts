@@ -1,6 +1,4 @@
-import type { AppRoute } from "../main";
-
-import { Route, type BlockConstructor } from "./route";
+import { Route, type BlockConstructor } from "./route.ts";
 
 export const LINK_DATA_ATTR = "spa-link";
 
@@ -17,12 +15,16 @@ export class Router {
     this._rootQuery = rootQuery || "";
   }
 
+  get currentRoutePath() {
+    return this._currentRoute?.pathname ?? null;
+  }
+
   setRootQuery(rootQuery: string) {
     this._rootQuery = rootQuery;
     return this;
   }
 
-  use(pathname: AppRoute, block: BlockConstructor) {
+  use(pathname: string, block: BlockConstructor) {
     const route = new Route(pathname, block, { rootQuery: this._rootQuery });
 
     this.routes.push(route);
@@ -35,12 +37,12 @@ export class Router {
     }
 
     this.addListeners();
-    this._onRoute(window.location.pathname as AppRoute);
+    this._onRoute(window.location.pathname);
   }
 
   private addListeners() {
     window.onpopstate = (() => {
-      this._onRoute(window.location.pathname as AppRoute);
+      this._onRoute(window.location.pathname);
     }).bind(this);
 
     document.addEventListener("click", (e) => {
@@ -61,12 +63,12 @@ export class Router {
           return;
         }
 
-        this.go(href as AppRoute);
+        this.go(href);
       }
     });
   }
 
-  private _onRoute(pathname: AppRoute) {
+  private _onRoute(pathname: string) {
     const route = this.getRoute(pathname);
 
     if (!route) {
@@ -85,7 +87,7 @@ export class Router {
     route.render();
   }
 
-  go(pathname: AppRoute) {
+  go(pathname: string) {
     this.history.pushState({}, "", pathname);
     this._onRoute(pathname);
   }
@@ -102,5 +104,3 @@ export class Router {
     return this.routes.find((route) => route.match(pathname));
   }
 }
-
-export const router = new Router();

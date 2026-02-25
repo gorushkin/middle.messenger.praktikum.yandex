@@ -1,9 +1,8 @@
 import Handlebars from "handlebars";
 import { v4 as makeUUID } from "uuid";
 
-import type { FormValidator } from "../components/form";
-
-import { EventBus } from "./eventBus";
+import type { FormValidator } from "../../components/form/index.ts";
+import { EventBus } from "../eventBus.ts";
 
 type Props<T extends Record<string, unknown> = Record<string, unknown>> = T;
 

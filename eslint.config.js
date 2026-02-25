@@ -1,7 +1,6 @@
 import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import importPlugin from "eslint-plugin-import";
 
 export default tseslint.config(
   { ignores: ["dist", "node_modules", "*.config.js", "*.config.ts"] },
@@ -21,7 +20,6 @@ export default tseslint.config(
     },
     plugins: {
       "@typescript-eslint": tseslint.plugin,
-      import: importPlugin,
     },
     rules: {
       "@typescript-eslint/no-unused-vars": [
@@ -40,24 +38,6 @@ export default tseslint.config(
       "no-debugger": "error",
       "prefer-const": "error",
       "no-var": "error",
-
-      "import/order": [
-        "error",
-        {
-          groups: [
-            "builtin",
-            "external",
-            "internal",
-            "parent",
-            "sibling",
-            "index",
-          ],
-          "newlines-between": "always",
-          alphabetize: { order: "asc", caseInsensitive: true },
-        },
-      ],
-      "import/no-duplicates": "error",
-      "import/newline-after-import": "error",
     },
   },
   {
@@ -77,5 +57,5 @@ export default tseslint.config(
       "prefer-const": "error",
       "no-var": "error",
     },
-  }
+  },
 );
